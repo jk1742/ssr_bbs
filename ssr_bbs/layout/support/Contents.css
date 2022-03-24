@@ -1,0 +1,35 @@
+.supports-text{
+  opacity: 0.5;
+  mix-blend-mode: darken;
+  font-size: 2vh;
+  padding-top: 4vh;
+  color:black;
+  text-align: center;
+}
+.support-contents{
+  opacity: 1;
+  text-align: center;
+  padding-top: 5vh;
+  display: inline-block;
+  /* float: left;
+  display: inline-block; */
+}
+span.supports-text a {
+  margin: 0 5px;
+  cursor: pointer;
+}
+.tag-bracket {
+  display: inline-block;
+}
+.tag-bracket > div {
+  text-align: center;
+  vertical-align: middle;
+  float: left;
+  display: inline-block;
+}
+.tag-bracket > img {
+  vertical-align: middle;
+  text-align: center;
+  float: left;
+  display: inline-block;
+}

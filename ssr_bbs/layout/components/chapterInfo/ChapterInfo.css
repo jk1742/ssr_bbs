@@ -1,0 +1,9 @@
+div.chapter-info {
+  display: block;
+}
+
+div.chapter-info span {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(178, 34, 34);
+}

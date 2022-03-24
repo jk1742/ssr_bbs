@@ -1,0 +1,74 @@
+button.btnAnimate {
+  margin: 0 1vw 0 1vw;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 6px 16px 6px 22px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+button.btnAnimate:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+button.btnAnimate > span svg {
+  padding-right: 0.5vw;
+}
+button.btnAnimate  > span  {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+button.btnAnimate:hover  > span {
+  padding-right: 25px;
+}
+button.btnAnimate  > span:after {
+  font-size: 17px;
+  content: ' \271A';
+  position: absolute;
+  opacity: 0;
+  top: -2px;
+  right: -20px;
+  transition: 0.5s;
+}
+button.btnAnimate:hover  > span:after {
+  opacity: 1;
+  right: 0;
+}
+button.btnAnimate  > span > span {
+  display: none;
+  transition: 0.5s;
+}
+button.btnAnimate:hover  > span > span {
+  display: inline-block;
+}
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+.animate-flicker {
+   -webkit-animation: flickerAnimation .8s 5;
+   -moz-animation: flickerAnimation .8s 5;
+   -o-animation: flickerAnimation .8s 5;
+    animation: flickerAnimation .8s 5;
+}

@@ -1,0 +1,25 @@
+div.cmd-play-ctrl{
+  display: inline-block;
+  margin: 0px 16px 0px 16px;
+}
+div.cmd-play-ctrl button {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  background: #333;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 17px;
+  width: 30px;
+  border-style: none;
+  cursor: pointer;
+  padding-top: 2px;
+  margin: 8px 0px 7px 16px;
+}
+div.cmd-play-ctrl button:hover {
+  color: white;
+}
+div.cmd-play-ctrl button.active {
+  color: #2196F3;
+}

@@ -1,0 +1,36 @@
+div.cmd-sys-formal{
+  display: inline-block;
+  margin: 0px 16px 0px 16px;
+}
+div.cmd-sys-formal button {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  background: #333;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 1.2em;
+  width: 30px;
+  border-style: none;
+  cursor: pointer;
+  margin: 8px 0px 7px 16px;
+}
+div.cmd-sys-formal button:hover {
+  color: white;
+}
+div.cmd-sys-formal button.active {
+  color: white;
+}
+div.cmd-sys-formal button span.badge {
+  position: absolute;
+  top: -9px;
+  right: -10px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+div.cmd-sys-formal button.alert {color:#f44336}
+div.cmd-sys-formal button.success {color: #04AA6D;}
+div.cmd-sys-formal button.info {color: #2196F3;}
+div.cmd-sys-formal button.warning {color: #ff9800;}

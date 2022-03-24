@@ -1,0 +1,19 @@
+ul.PositionInfo {
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  list-style-type: none;
+}
+ul.PositionInfo li {
+  float: left;
+}
+ul.PositionInfo li > span {
+  margin-right: 16px;
+  color: #ccc;
+}
+ul.PositionInfo li > span > span {
+  margin-right: 5px;
+  font-weight: bold;
+  color: #ccc;
+}
