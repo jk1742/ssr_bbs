@@ -7,16 +7,16 @@ const ProgressBarController   = function(progressBarHandler) {
   // private variable & mapping ////////////////////////////////////////////////
   const me                    = this;
   const adPlate               = this.lastChild;
-  const tempalte              = this.firstChild;
-  const coffee                = tempalte.childNodes[0].firstChild;
-  const paypalme              = tempalte.childNodes[1].firstChild;
-  const ads                   = tempalte.childNodes[2].firstChild;
-  const progressLabel         = tempalte.childNodes[3].firstChild;
-  const progressBar           = tempalte.childNodes[4].firstChild;
-  const subLabel              = tempalte.childNodes[5].firstChild;
-  const subValue              = tempalte.childNodes[6];
-  const secondLabel           = tempalte.childNodes[7].firstChild;
-  const secondValue           = tempalte.childNodes[8].firstChild;
+  const template              = this.firstChild;
+  const coffee                = template.childNodes[0].firstChild;
+  const paypalme              = template.childNodes[1].firstChild;
+  const ads                   = template.childNodes[2].firstChild;
+  const progressLabel         = template.childNodes[3].firstChild;
+  const progressBar           = template.childNodes[4].firstChild;
+  const subLabel              = template.childNodes[5].firstChild;
+  const subValue              = template.childNodes[6];
+  const secondLabel           = template.childNodes[7].firstChild;
+  const secondValue           = template.childNodes[8].firstChild;
   let   adSwitch              = false;
 
   // Privilige Static Functions ////////////////////////////////////////////////

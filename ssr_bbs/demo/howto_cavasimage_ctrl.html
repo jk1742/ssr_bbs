@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <!-- <canvas id="canvas" width="300" height="300"></canvas> -->
+    <script>
+      const {body} = document
+
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      canvas.width = canvas.height = 100
+
+      const tempImg = document.createElement('img')
+      tempImg.addEventListener('load', onTempImageLoad)
+      tempImg.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><style>em{color:red;}</style><em>I</em> lick <span>cheese</span></div></foreignObject></svg>')
+
+      const targetImg = document.createElement('img')
+      body.appendChild(targetImg)
+
+      function onTempImageLoad(e){
+        ctx.drawImage(e.target, 0, 0)
+        targetImg.src = canvas.toDataURL()
+      }
+      //https://chichi-story.tistory.com/11
+      //https://web.archive.org/web/20181006205840/https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas
+
+      // https://stackoverflow.com/questions/10721884/render-html-to-an-image
+      // All the answers here use third party libraries while rendering HTML to an image can be relatively simple in pure Javascript. There is was even an article about it on the canvas section on MDN.
+      //
+      // The trick is this:
+      //
+      // create an SVG with a foreignObject node containing your XHTML
+      // set the src of an image to the data url of that SVG
+      // drawImage onto the canvas
+      // set canvas data to target image.src
+
+      //Some things to note
+
+      // The HTML inside the SVG has to be XHTML
+      // For security reasons the SVG as data url of an image acts as an isolated CSS scope for the HTML since no external sources can be loaded. So a Google font for instance has to be inlined using a tool like this one.
+      // Even when the HTML inside the SVG exceeds the size of the image it wil draw onto the canvas correctly. But the actual height cannot be measured from that image. A fixed height solution will work just fine but dynamic height will require a bit more work. The best is to render the SVG data into an iframe (for isolated CSS scope) and use the resulting size for the canvas.
+    </script>
+  </body>
+</html>

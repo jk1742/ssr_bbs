@@ -10,10 +10,10 @@ const BlurFilterController   = function (blurFilterHandler) {
   const me                  = this;
   const filterClass         = this.firstChild.id;
   const blur                = me.firstChild.firstChild;
-  
-  // Privilige Static Functions ////////////////////////////////////////////////
 
-  // Access Contorl: getter & setter ///////////////////////////////////////////
+  // Privilege Static Functions ////////////////////////////////////////////////
+
+  // Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     filterClass: {
       get: () => filterClass,

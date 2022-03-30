@@ -10,7 +10,7 @@ const ApplyPanelController   = function (applyPanelhandler) {
 
   // private variable //////////////////////////////////////////////////////////
   let   btnVaccine;
-  let   btnHospotal;
+  let   btnHospital;
   let   btnMask;
   let   btnDistance;
   let   btnLockdown;
@@ -57,7 +57,7 @@ const ApplyPanelController   = function (applyPanelhandler) {
     onclick_btn: (e) => applyPanelhandler.onclick_btnLockdown(e),
   });
   template.appendChild(new BtnAnimate('MultiEditor-ApplyPanel-Hospital','fas fa-procedures','Hospital'));
-  btnHospotal = $SR.View('MultiEditor-ApplyPanel-Hospital').inject(BtnAnimateController, {
+  btnHospital = $SR.View('MultiEditor-ApplyPanel-Hospital').inject(BtnAnimateController, {
     onclick_btn: (e) => applyPanelhandler.onclick_btnHospital(e),
   });
   template.appendChild(new BtnAnimate('MultiEditor-ApplyPanel-Vaccine','fas fa-syringe','Vaccine'));

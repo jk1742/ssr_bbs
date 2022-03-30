@@ -1,6 +1,5 @@
 import '/layout/components/messageBox/MessageBox.css';
 
-
 /***
  * block:  focusView
  ***/

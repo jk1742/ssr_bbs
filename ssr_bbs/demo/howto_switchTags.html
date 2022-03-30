@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <style>
+    aside {
+      background: #fe9;
+      border-radius: 1em;
+      display: inline-block;
+      padding: 1em;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+        <div id="FeaturedContent0">
+            텍스트 1
+        </div>
+        <div id="FeaturedContent1">
+            텍스트 2
+        </div>
+        <div id="FeaturedContent2">
+            텍스트 3
+        </div>
+        <div id="FeaturedContent3">
+            텍스트 4
+        </div>
+        <div id="FeaturedContent4">
+            텍스트 5
+        </div>
+    </div>
+    <div  id="action">
+      <button>action 1</button>
+      <button>action 2</button>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+    const InstructController   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const me          = this;
+      const btn1        = me.childNodes[1];
+      const btn2        = me.childNodes[3];
+      const content = document.getElementById('main');
+      const array = content.getElementsByTagName('div');
+      btn1.onclick = (e) => {
+        console.log('me.onclick1');
+        let content = document.getElementById('FeaturedContent1');
+        let parent = content.parentNode;
+        parent.insertBefore(content, parent.firstChild);
+      }
+      btn2.onclick = (e) => {
+        console.log('me.onclick2');
+        array[0].textContent = '텍스트 1';
+        array[1].textContent = '텍스트 2';
+      }
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('action').inject( InstructController, {});
+
+    </script>
+  </body>
+</html>

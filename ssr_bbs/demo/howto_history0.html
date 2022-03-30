@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <div id="instruct1">
+      <button>backward</button><button>save</button><button>forward</button>
+      <form>
+        <textarea></textarea>
+      </form>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+    const InstructController   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const me                = this;
+
+      // Event handler /////////////////////////////////////////////////////////////
+      me.onclick = (e) => {
+      }
+
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+        // play: {
+        //   get: function() {
+        //     return play;
+        //   },
+        //   configurable: true
+        // }
+      });
+
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+        // offPlay(){
+        //   play.style.visibility = "hidden";
+        // }
+      });
+
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('instruct1').inject( InstructController, {}, 'test');
+
+    window.onpopstate = function(event) {
+      console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+    };
+    history.pushState({page: 1}, "title 1", "?page=1");
+    history.pushState({page: 2}, "title 2", "?page=2");
+    history.replaceState({page: 3}, "title 3", "?page=3");
+    history.
+    // history.back(); // Logs "location: http://example.com/example.html?page=1, state: {"page":1}"
+    // history.back(); // Logs "location: http://example.com/example.html, state: null"
+    // history.go(2);  // Logs "location: http://example.com/example.html?page=3, state: {"page":3}"
+
+    </script>
+  </body>
+</html>

@@ -7,7 +7,7 @@ import '/static/css/style.css';
 
 /**
  * task
- *
+ * <i class="fa-solid fa-chart-tree-map"></i>
  * 협력사 정보
  * ## 협력사 정보등록
  * ## 담당자 등록
@@ -31,39 +31,27 @@ import '/static/css/style.css';
 
 // import utility
 import { Logger }  from '/class/Logger';
+import { NavBar } from '/layout/components/navBar/NavBar';
 
-// import class object
-function component() {
-  const element = document.createElement('div');
-  const btn_mod_load = document.createElement('button');
-  btn_mod_load.innerHTML = 'load';
+import { NavBarController    } from '/layout/components/navBar/NavBarController';
 
-  const btn_mod_run = document.createElement('button');
-  btn_mod_run.innerHTML = 'run';
+const navBar    = new NavBar('NavBar');
 
-  const y = element.getBoundingClientRect().top + window.scrollY;
-  const br = document.createElement('br');
+document.body.appendChild(navBar);
 
-  element.innerHTML = _.join(['Hello', 'webpack', y], ' ');
-  // element.id = 'main_frame';
-  element.appendChild(br);
-  element.appendChild(btn_mod_load);
-  element.appendChild(btn_mod_run);
+let que = [];
 
-  let que = [];
-  // Note that because a network request is involved, some indication
-  // of loading would need to be shown in a production-level site/app.
-  btn_mod_load.onclick = () => import(/* webpackChunkName: "print" */ './demo').then(module => {
+let topMenu        = $SR.View('NavBar').inject(NavBarController, {
+
+  onclick_menu  :(e)  => import(/* webpackChunkName: "print" */ './demo').then(module => {
     const script = module.default;
     que.push(script);
-  });
-
-  btn_mod_run.onclick = () => {
+    console.log('click menu',que.length);
+  }),
+  onclick_load  :(e)  => {
     que[0]();
-    console.log('hello btn_mod_run');
-  }
-  return element;
-}
+    console.log('click load');
+ },
 
-document.body.appendChild(component());
+});
 

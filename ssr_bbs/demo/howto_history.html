@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <div id="instruct1">
+      <button>backward</button><button>save</button><button>forward</button>
+      <form>
+        <textarea></textarea>
+      </form>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+
+    let Store = (function(){
+      let   instance;
+      const GLOBAL      = 'GLOBAL';
+      const StoreClass = function(sw) {
+        let   carriage  = new DocumentFragment();
+        let   setGlobal = false;
+        Object.defineProperties(carriage, {
+          onStoreItemAppended: {
+            set: function(fx) {
+              if(setGlobal) window.addEventListener('onStoreItemAppended', e => fx(e));
+              else carriage.addEventListener('onStoreItemAppended', e => fx(e));
+            },
+            configurable: true,
+          },
+          setGlobal: {
+            set: function(o) {
+              setGlobal= o;
+            },
+            get: () => setGlobal,
+            configurable: true,
+          }
+        });
+        Object.assign(carriage, {
+          append(name, obj){
+            if(setGlobal){
+              window.dispatchEvent(new CustomEvent('onStoreItemAppended', { bubbles: true, detail: { text: () => name } }));
+              localStorage.setItem(GLOBAL + '$' + name, JSON.stringify(obj));
+            } else {
+              carriage.dispatchEvent(new CustomEvent('onStoreItemAppended', { bubbles: true, detail: { text: () => name } }));
+              localStorage.setItem('LOCAL$' + name, JSON.stringify(obj));
+            }
+          },
+          call(name){
+            if(setGlobal){
+              return JSON.parse(localStorage.getItem(GLOBAL + '$' + name));
+            } else {
+              return JSON.parse(localStorage.getItem('LOCAL$' + name));
+            }
+          }
+        });
+        return carriage;
+      }
+      // return closure
+      return {
+        getInstance: function(_global){
+          if (instance == null) {
+            instance = new StoreClass();
+            if('undefined' !== typeof _global) instance.setGlobal = (_global.toUpperCase() === GLOBAL);
+            localStorage.clear();
+            instance.constructor = null;
+          }
+          if('undefined' !== typeof _global) instance.setGlobal = (_global.toUpperCase() === GLOBAL);
+          return instance;
+        }
+      };
+    })();
+
+
+    const History = function(_name, _data) {
+      let   store         = Store.getInstance();
+      let   _private      = {};
+      _private.index      = 0;
+      _private.name       = ('undefined' !== typeof _name) ? _name:'history';
+      _private.history    = [];
+      if('undefined' !== typeof _data) _private = _data;
+      Object.defineProperties(this, {
+        onHistoryItemAppended: {
+          set: function(fx) {
+            store.addEventListener('onStoreItemAppended', e => fx(e));
+          },
+          configurable: true,
+        }
+      });
+      Object.assign(this, {
+        append(obj){
+          _private.history.push(obj);
+          _private.index = _private.history.length -1;
+          store.append(_private.name, _private);
+        },
+        clear(){
+          _private.history = [];
+          _private.index = 0;
+        },
+        cur(){
+          console.log('store:', store.call(_private.name));
+          return _private.history[_private.index];
+        },
+        next(){
+          let  carriage = _private.history;
+          if (0 > _private.index) _private.index = 0;
+          _private.index += 1;
+          store.append(_private.name, _private);
+          return (carriage !== null && _private.index < carriage.length) ? {value: carriage[_private.index], done: false} : {done: true};
+        },
+        pre(){
+          let  carriage = _private.history;
+          if (_private.history.length-1 < _private.index) _private.index = _private.history.length-1;
+          _private.index -= 1;
+          store.append(_private.name, _private);
+          return (carriage !== null &&  0 <= _private.index) ? {value: carriage[_private.index], done: false} : {done: true};
+        }
+      });
+      return this;
+    }
+
+    const InstructController   = function(instructHandler, k) {
+
+      // mapping ///////////////////////////////////////////////////////////////////
+      const backward                = this.childNodes[1];
+      const save                    = this.childNodes[2];
+      const forward                 = this.childNodes[3];
+      const textarea                = this.childNodes[5].childNodes[1];
+      const history                 = new History('InstructController');
+
+      // Event handler /////////////////////////////////////////////////////////////
+      backward.onclick = (e) => {
+        let obj = history.pre();
+        if(!obj.done){
+          textarea.value = obj.value;
+        }
+        history.cur();
+      }
+      save.onclick = (e) => {
+        history.append(textarea.value);
+      }
+      forward.onclick = (e) => {
+        let obj = history.next();
+        if(!obj.done){
+          textarea.value = obj.value;
+        }
+        history.cur();
+      }
+      history.onHistoryItemAppended = (e) => {
+        console.log('history.onHistoryItemAppended:',e.detail.text());
+      }
+
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+        // play: {
+        //   get: function() {
+        //     return play;
+        //   },
+        //   configurable: true
+        // }
+      });
+
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+        // offPlay(){
+        //   play.style.visibility = "hidden";
+        // }
+      });
+
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('instruct1').inject( InstructController, {}, 'test');
+
+    let sett = new History('test');
+
+    sett.append('test');
+
+    </script>
+  </body>
+</html>

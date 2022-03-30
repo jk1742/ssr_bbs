@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <p id="instruct"><button>click to start the animation</button></p>
+
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          console.log('test', dom.hasController, Controller.name);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+    const InstructController   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const play          = this.firstChild
+
+      // Event handler /////////////////////////////////////////////////////////////
+      play.onclick = (e) => {
+        console.log(e,'InstructController', k);
+      }
+
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+        play: {
+          get: function() {
+            return play;
+          },
+          configurable: true
+        }
+      });
+
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+        // offPlay(){
+        //   play.style.visibility = "hidden";
+        // }
+      });
+
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    let test = new View('instruct').inject( InstructController, {}, 'test');
+    let test1 = new View('instruct').inject( InstructController, {}, 'hello');
+    //test.inject( InstructController, {});
+    console.log('test', test);
+
+    </script>
+  </body>
+</html>

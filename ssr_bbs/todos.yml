@@ -1,0 +1,40 @@
+---
+TODO:
+  - 1:
+      name: FRAME SET
+      content: ~
+        능동 프레임셋 구축 / 메모리 관리 가능
+      step 1: 상단 메뉴바 구성 - 초벌                     # 완료
+      step 2: 상단 메뉴바 위치 조정
+              css 조정
+      step 3: 상단 세부 메뉴 구성
+      step 4: 상단 세부 메뉴 위치 조정
+      step 5: 메뉴바 세부 메뉴 연결
+      step 6: 메뉴 서브페이지 샘플 구성
+      step 7: 멀티 프레임셋 구성
+
+  - 2:
+      name: 협력사 정보
+      status:
+      step 1: 샘플 페이지 구성
+      step 2: 페이지 구성
+      step 3: 프레임셋 연결
+      content: >
+
+  - 3:
+      name: 원산지 확인서
+      step 1: 샘플 페이지 구성
+      step 2: 페이지 구성
+      step 3: 프레임셋 연결
+      status:
+      content: >
+
+
+  - 4:
+      name: 공지사항
+      step 1: 샘플 페이지 구성
+      step 2: 페이지 구성
+      step 3: 프레임셋 연결
+      status:
+      content: >
+

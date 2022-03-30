@@ -6,13 +6,13 @@ import { MessageElementController } from '/layout/components/messageBox/MessageE
 // Describe EntryList Class below
 const MessageBoxController   = function (messageBoxHandler) {
 
-  // private variable //////////////////////////////////////////////////////////
+  // private variable
 
-  // mapping ///////////////////////////////////////////////////////////////////
+  // mapping
   let template          = this;
   let arrayItems        = [];
 
-  // Privilige Static Functions ////////////////////////////////////////////////
+  // Privilege Static Functions ////////////////////////////////////////////////
   const deleteDom = function(id){
     const selectedDom = document.getElementById(id);
     //delay
@@ -32,7 +32,7 @@ const MessageBoxController   = function (messageBoxHandler) {
     });
   }
 
-  // Access Contorl: getter & setter ///////////////////////////////////////////
+  // Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     stackSize: {
       get: function() {

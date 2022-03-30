@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <div id="instruct1">
+      <button>append</button>
+      <button>call</button>
+      <form>
+        <textarea></textarea>
+      </form>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          //console.log('test', dom.hasController, Controller.name);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+    // ActiveNameVolatileState
+    const ActiveNameVolatileState= (function(){
+      let   instance = {};
+      const StateClass = function(name) {
+        let   carriage  = new DocumentFragment();
+        let   data      = {};
+        const eventName = name + 'onStateChanged';
+        Object.defineProperty(carriage, eventName, {
+          set: function(fx) {
+            carriage.addEventListener(eventName, e => fx(e));
+          },
+          configurable: true
+        });
+        Object.assign(carriage, {
+          store(name, obj){
+            data[name] = JSON.stringify(obj);
+            carriage.dispatchEvent(new CustomEvent(eventName, { bubbles: true, detail: { getStateName: () => name } }));
+          },
+          call(name){
+            return JSON.parse(data[name]);
+          }
+        });
+        return carriage;
+      }
+      // return closure
+      return {
+        getInstance: function(name){
+          if (instance[name] == null) {
+            instance[name] = new StateClass(name);
+            instance.constructor = null;
+          }
+          console.log('VolatileState.instance',instance );
+          return instance[name];
+        }
+      };
+    })()
+
+    // ActiveNameVolatileState
+    const VolatileState= (function(){
+      let   instance = {};
+      const StateClass = function() {
+        let   carriage  = new DocumentFragment();
+        let   data      = {};
+        Object.defineProperties(carriage, {
+          onStateChanged: {
+            set: function(fx) {
+              carriage.addEventListener('onStateChanged', e => fx(e));
+            },
+            configurable: true,
+          }
+        });
+        Object.assign(carriage, {
+          store(name, obj){
+            data[name] = JSON.stringify(obj);
+            carriage.dispatchEvent(new CustomEvent('onStateChanged', { bubbles: true, detail: { getStateName: () => name } }));
+          },
+          call(name){
+            return JSON.parse(data[name]);
+          }
+        });
+        return carriage;
+      }
+      // return closure
+      return {
+        getInstance: function(name){
+          if (instance[name] == null) {
+            instance[name] = new StateClass();
+            instance.constructor = null;
+          }
+          console.log('VolatileState.instance',instance );
+          return instance[name];
+        }
+      };
+    })()
+
+    const InstructController   = function(instructHandler, k) {
+
+      // mapping ///////////////////////////////////////////////////////////////////
+      const appendprogress          = this.childNodes[1];
+      const callprogress            = this.childNodes[3];
+      const textarea                = this.childNodes[5].childNodes[1];
+      const state                   = VolatileState.getInstance('hello');
+
+      // Event handler /////////////////////////////////////////////////////////////
+      appendprogress.onclick = (e) => {
+        state.store('test', textarea.value);
+        //console.log('InstructController/appendprogress');
+      }
+      callprogress.onclick = (e) => {
+        //console.log('InstructController/callprogress:');
+        textarea.value = state.call('test');
+      }
+      // store.onStoreItemAppended = (e) => {
+      //   console.log('onStoreItemAppended:', e);
+      // };
+
+      //window.addEventListener('onStoreItemAppended', e => console.log('event widow'));
+
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+        // play: {
+        //   get: function() {
+        //     return play;
+        //   },
+        //   configurable: true
+        // }
+      });
+
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+        // offPlay(){
+        //   play.style.visibility = "hidden";
+        // }
+      });
+
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('instruct1').inject( InstructController, {}, 'test');
+
+    let sett = VolatileState.getInstance('auxiliary');
+    // sett.onStoreItemAppended = (e) => {
+    //   console.log('out/onStoreItemAppended:', e);
+    // };
+    // sett.append('test', 'this is grobal')
+    </script>
+  </body>
+</html>
