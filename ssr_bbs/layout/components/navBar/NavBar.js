@@ -17,7 +17,12 @@ const NavBar   = function(id, styles) {
         </div>
       </div>
       <div class="nav-bar-center">
-        2
+        <div class="command-list">
+        <ul class="command-list-contents">
+          <li><button alt="menu"><i class="fas fa-tachometer-alt"></i></button></li>
+          <li><button alt="load"><i class="fas fa-tachometer-alt"></i></button></li>
+        </ul>
+      </div>
       </div>
       <div class="nav-bar-right">
         3

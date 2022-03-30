@@ -16,11 +16,14 @@
 .nav-bar .nav-bar-center {
   position: absolute;
   top: 50%;
-  left: 10%;
+  left: 15%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.nav-bar .nav-bar-center ul li{
   background-color: chocolate;
 }
+
 .nav-bar .nav-bar-right {
   position: absolute;
   top: 50%;
