@@ -45,13 +45,14 @@ let topMenu        = $SR.View('NavBar').inject(NavBarController, {
 
   onclick_menu  :(e)  => import(/* webpackChunkName: "print" */ './demo').then(module => {
     const script = module.default;
+    // stack script
     que.push(script);
-    console.log('click menu',que.length);
-  }),
-  onclick_load  :(e)  => {
-    que[0]();
-    console.log('click load');
- },
+    // get que seq number
+    console.log('click menu', que.length);
+    const queSeq = que.length -1
+    // extract tab info
+    topMenu.addTab(queSeq);
+  })
 
 });
 
