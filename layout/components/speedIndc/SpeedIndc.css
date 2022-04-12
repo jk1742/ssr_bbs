@@ -1,0 +1,76 @@
+
+div.speed-indicator{
+  display: inline-block;
+  margin: 0px 16px 0px 16px;
+}
+
+div.speed-indicator a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 8px 8px;
+  margin: 0px 4px 0px 4px;
+  font-weight: bold;
+  font-size: 17px;
+  width: 30px;
+  cursor: pointer;
+}
+div.speed-indicator a:hover {
+  font-weight: bold;
+  color: white;
+}
+div.speed-indicator a.active {
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  color: white;
+}
+
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+div.speed-indicator a span{
+  position: relative;
+  transition: 0.5s;
+}
+div.speed-indicator a span:after {
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  width: 48px;
+  height: 38px;
+  font-size: 17px;
+  content: ' ';
+  position: absolute;
+  opacity: 0;
+  top: -10px;
+  right: -20px;
+  transition: 0.5s;
+}
+div.speed-indicator a:hover span:after {
+  opacity: 1;
+  transition: 0.5s;
+  animation:spin 4s linear infinite;
+}
+
+div.speed-indicator button {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  background: #333;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 17px;
+  width: 30px;
+  border-style: none;
+  cursor: pointer;
+  padding-top: 2px;
+  margin: 8px 0px 7px 16px;
+}
+div.speed-indicator button:hover {
+  color: white;
+}
+div.speed-indicator button.active {
+  color: #2196F3;
+}

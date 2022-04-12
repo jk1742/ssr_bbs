@@ -1,0 +1,32 @@
+.command-list{
+  display: block;
+  height: 7vh;
+  line-height: 7vh;
+}
+ul.command-list-contents {
+  margin: auto;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  list-style-type: none;
+}
+ul.command-list-contents li {
+  float: left;
+}
+ul.command-list-contents li span{
+  padding-right: 30px;
+}
+ul.command-list-contents li button {
+  margin-right: 16px;
+  font-size: 16px;
+  background-color: #333;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+ul.command-list-contents li button:hover {
+  color: white;
+}
+ul.command-list-contents li button.active {
+  color: #4CAF50;
+}

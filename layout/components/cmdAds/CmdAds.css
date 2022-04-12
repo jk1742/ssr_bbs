@@ -1,0 +1,34 @@
+div.cmd-ads{
+  display: inline-block;
+  margin: 0px 16px 0px 16px;
+}
+div.cmd-ads button {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  background: #333;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  font-size: 17px;
+  width: 30px;
+  border-style: none;
+  cursor: pointer;
+  padding-top: 2px;
+  margin: 8px 0px 7px 16px;
+}
+div.cmd-ads button:hover {
+  color: white;
+}
+div.cmd-ads button.active {
+  color: #2196F3;
+}
+
+div.cmd-ads div.cmd-ads-panel {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  bottom: 4.5vh;
+  margin-left: 2.5vw;
+  z-index: 5;
+}

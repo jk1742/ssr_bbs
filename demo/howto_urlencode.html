@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <style>
+    aside {
+      background: #fe9;
+      border-radius: 1em;
+      display: inline-block;
+      padding: 1em;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="instruct1">
+      <aside>
+        <input type="text" name="" value="">
+        <p>Double click to resize this object.</p>
+      </aside>
+    </div>
+
+    <span id="eventTest"></span>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          //console.log('test', dom.hasController, Controller.name);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+    const InstructController   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const me          = this;
+      const sub         = me.childNodes[1].childNodes[1];
+      const msg         = me.childNodes[1].childNodes[3];
+      let   sw          = false;
+      let   test        = 'webisfree';
+      console.log(sub, msg);
+      me.onclick = (e) => {
+        if(sw){
+          sw            = false;
+          msg.innerHTML = atob(msg.innerHTML);
+        } else {
+          sw            = true;
+          msg.innerHTML = btoa(sub.value);
+        }
+        console.log('me.onclick', msg);
+      }
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+    new View('instruct1').inject( InstructController, {});
+
+    console.log();
+
+    </script>
+  </body>
+</html>

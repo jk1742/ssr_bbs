@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <div id="instruct1">
+      <button>append</button>
+      <button>call</button>
+      <form>
+        <textarea></textarea>
+      </form>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          //console.log('test', dom.hasController, Controller.name);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+    // const form = document.querySelector('form');
+    // const textarea = document.querySelector('textarea');
+    //
+    // const eventAwesome = new CustomEvent('awesome', {
+    //   bubbles: true,
+    //   detail: { text: () => textarea.value }
+    // });
+    // // form 엘리먼트는 커스텀 "awesome" 이벤트를 리슨한 후 전달된 text() 메소드의 결과를 콘솔에 출력합니다
+    // form.addEventListener('awesome', e => console.log(e.detail.text()));
+    //
+    // // 사용자가 입력한대로, form 내의 textarea 는 이벤트를 디스패치/트리거하여 시작점으로 사용합니다
+    // textarea.addEventListener('input', e => e.target.dispatchEvent(eventAwesome));
+
+    let Store = (function(){
+      let   instance;
+      const GLOBAL      = 'GLOBAL';
+      const StoreClass = function(sw) {
+        let   carriage  = new DocumentFragment();
+        let   setGlobal = false;
+        Object.defineProperties(carriage, {
+          onStoreItemAppended: {
+            set: function(fx) {
+              if(setGlobal) window.addEventListener('onStoreItemAppended', e => fx(e));
+              else carriage.addEventListener('onStoreItemAppended', e => fx(e));
+            },
+            configurable: true,
+          },
+          setGlobal: {
+            set: function(o) {
+              setGlobal= o;
+            },
+            get: () => setGlobal,
+            configurable: true,
+          }
+        });
+        Object.assign(carriage, {
+          append(name, obj){
+            if(setGlobal){
+              window.dispatchEvent(new CustomEvent('onStoreItemAppended', { bubbles: true, detail: { text: () => name } }));
+              localStorage.setItem(GLOBAL + '$' + name, JSON.stringify(obj));
+            } else {
+              carriage.dispatchEvent(new CustomEvent('onStoreItemAppended', { bubbles: true, detail: { text: () => name } }));
+              localStorage.setItem('LOCAL$' + name, JSON.stringify(obj));
+            }
+          },
+          call(name){
+            if(setGlobal){
+              return JSON.parse(localStorage.getItem(GLOBAL + '$' + name));
+            } else {
+              return JSON.parse(localStorage.getItem('LOCAL$' + name));
+            }
+          }
+        });
+        return carriage;
+      }
+      // return closure
+      return {
+        getInstance: function(_global){
+          if (instance == null) {
+            instance = new StoreClass();
+            if('undefined' !== typeof _global) instance.setGlobal = (_global.toUpperCase() === GLOBAL);
+            localStorage.clear();
+            instance.constructor = null;
+          }
+          if('undefined' !== typeof _global) instance.setGlobal = (_global.toUpperCase() === GLOBAL);
+          return instance;
+        }
+      };
+    })();
+
+    let test = Store.getInstance();
+    let test2 = Store.getInstance();
+
+
+    const InstructController   = function(instructHandler, k) {
+
+      // mapping ///////////////////////////////////////////////////////////////////
+      const appendprogress          = this.childNodes[1];
+      const callprogress            = this.childNodes[3];
+      const textarea                = this.childNodes[5].childNodes[1];
+      const store                   = Store.getInstance();
+
+      // Event handler /////////////////////////////////////////////////////////////
+      appendprogress.onclick = (e) => {
+        store.append('test', textarea.value);
+        //console.log('InstructController/appendprogress');
+      }
+      callprogress.onclick = (e) => {
+        //console.log('InstructController/callprogress:');
+        textarea.value = store.call('test');
+      }
+      // store.onStoreItemAppended = (e) => {
+      //   console.log('onStoreItemAppended:', e);
+      // };
+
+      //window.addEventListener('onStoreItemAppended', e => console.log('event widow'));
+
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+        // play: {
+        //   get: function() {
+        //     return play;
+        //   },
+        //   configurable: true
+        // }
+      });
+
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+        // offPlay(){
+        //   play.style.visibility = "hidden";
+        // }
+      });
+
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('instruct1').inject( InstructController, {}, 'test');
+
+    let sett = Store.getInstance();
+    sett.onStoreItemAppended = (e) => {
+      console.log('out/onStoreItemAppended:', e);
+    };
+    sett.append('test', 'this is grobal')
+    </script>
+  </body>
+</html>

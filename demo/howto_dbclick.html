@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <style>
+    aside {
+      background: #fe9;
+      border-radius: 1em;
+      display: inline-block;
+      padding: 1em;
+      transform: scale(.9);
+      transform-origin: 0 0;
+      transition: transform .6s;
+      user-select: none;
+    }
+
+    .large {
+      transform: scale(1.3);
+    }
+    </style>
+  </head>
+  <body>
+    <aside>
+      <h3>My Card</h3>
+      <p>Double click to resize this object.</p>
+    </aside>
+
+    <!-- script -->
+    <script>
+      const card = document.querySelector('aside');
+
+      card.addEventListener('dblclick', function (e) {
+        card.classList.toggle('large');
+      });
+    </script>
+  </body>
+</html>

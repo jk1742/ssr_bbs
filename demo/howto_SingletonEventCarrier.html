@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+  </head>
+  <body>
+    <div id="instruct1">
+      <button>append</button>
+      <button>call</button>
+      <form>
+        <textarea></textarea>
+      </form>
+      <span></span>
+    </div>
+    <p>
+    </p>
+    <div id="instruct2">
+      <button>append</button>
+      <button>call</button>
+      <form>
+        <textarea></textarea>
+      </form>
+      <span></span>
+    </div>
+    <script>
+    const View = function(id){
+      let dom           = document.getElementById(id);
+      let hasContoller  = '';
+      Object.defineProperties(dom, {
+        hasController: {
+          get: function() {
+            return hasContoller;
+          },
+          configurable: true, // !important: if user want reuse then this option must to be true
+        }
+      });
+      Object.assign(dom, {
+        inject: function (Controller, Handler){
+          // double inject check
+          if(dom.hasController !== '') throw new Error(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+          //console.log('test', dom.hasController, Controller.name);
+          // trasfer params
+          let args  = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          hasContoller = Controller.name;
+          return (function(dom, Handler){
+            return Controller.call(dom, Handler, ...args);
+          })(dom, Handler, ...args);
+        },
+      });
+      return dom;
+    }
+
+
+    // EventCarrier
+    const EventCarrier = (function(){
+      let   instance = {};
+      const SingletonEventClass = function() {
+        let   carriage  = new DocumentFragment();
+        let   data      = {};
+        Object.defineProperties(carriage, {
+          onEventEmitted: {
+            set: function(fx) {
+              carriage.addEventListener('onEventEmitted', e => fx(e));
+            },
+            configurable: true,
+          }
+        });
+        Object.assign(carriage, {
+          emit(name, obj){
+            data[name] = JSON.stringify(obj);
+            carriage.dispatchEvent(new CustomEvent('onEventEmitted', { bubbles: true, detail: {
+               getEventName: () => name,
+               getContents: () => JSON.parse(data[name])
+             }}));
+          },
+          recall(name){
+            console.log(data);
+            return JSON.parse(data[name]);
+          }
+        });
+        return carriage;
+      }
+      // return closure
+      return {
+        getInstance: function(name){
+          if (instance[name] == null) {
+            instance[name] = new SingletonEventClass(name);
+            instance.constructor = null;
+          }
+          return instance[name];
+        },
+        lookOver: function(){
+          return instance;
+        }
+      };
+    })();
+
+    const InstructController   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const appendprogress          = this.childNodes[1];
+      const callprogress            = this.childNodes[3];
+      const textarea                = this.childNodes[5].childNodes[1];
+      const span                    = this.childNodes[7];
+      const eventHello              = EventCarrier.getInstance('hello');
+      // Event handler /////////////////////////////////////////////////////////////
+      appendprogress.onclick = (e) => {
+        eventHello.emit('test', textarea.value);
+        //console.log('InstructController/appendprogress');
+      }
+      callprogress.onclick = (e) => {
+        //console.log('InstructController/callprogress:');
+        textarea.value = eventHello.recall('test');
+      }
+      eventHello.onEventEmitted = (e) => {
+         console.log('onEventEmitted:', e);
+         span.innerHTML = e.detail.getContents();
+      };
+      textarea.oninput = (e) => {
+        eventHello.emit('test', textarea.value);
+      }
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+      });
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+      });
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    const Instruct2Controller   = function(instructHandler, k) {
+      // mapping ///////////////////////////////////////////////////////////////////
+      const appendprogress          = this.childNodes[1];
+      const callprogress            = this.childNodes[3];
+      const textarea                = this.childNodes[5].childNodes[1];
+      const span                    = this.childNodes[7];
+      const eventHello              = EventCarrier.getInstance('billbo');
+      // Event handler /////////////////////////////////////////////////////////////
+      appendprogress.onclick = (e) => {
+        eventHello.emit('test', textarea.value);
+        //console.log('InstructController/appendprogress');
+      }
+      callprogress.onclick = (e) => {
+        //console.log('InstructController/callprogress:');
+        textarea.value = eventHello.recall('test');
+        console.log(EventCarrier.lookOver());
+      }
+      eventHello.onEventEmitted = (e) => {
+         console.log('onEventEmitted:', e);
+         span.innerHTML = e.detail.getContents();
+      };
+      textarea.oninput = (e) => {
+        eventHello.emit('test', textarea.value);
+      }
+      // Access Contorl: getter & setter ///////////////////////////////////////////
+      Object.defineProperties(this, {
+      });
+      // Access control: public functions //////////////////////////////////////////
+      Object.assign(this, {
+      });
+      // End of Structure //////////////////////////////////////////////////////////
+      return this;
+    }
+
+    new View('instruct1').inject( InstructController, {});
+    new View('instruct2').inject( Instruct2Controller, {});
+
+    </script>
+  </body>
+</html>

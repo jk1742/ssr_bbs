@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <style>
+    /* #relocateTest{
+      position: absolute;
+      top: 20px;
+    } */
+    .content_fade-out {
+      animation: fadeout 3s;
+      -moz-animation: fadeout 3s; /* Firefox */
+      -webkit-animation: fadeout 3s; /* Safari and Chrome */
+      -o-animation: fadeout 3s; /* Opera */
+      animation-fill-mode: forwards;
+    }
+    .content_fade-in {
+      animation: fadein 3s;
+      -moz-animation: fadein 3s; /* Firefox */
+      -webkit-animation: fadein 3s; /* Safari and Chrome */
+      -o-animation: fadein 3s; /* Opera */
+      animation-fill-mode: forwards;
+    }
+    @keyframes fadeout {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    </style>
+  </head>
+  <body>
+    <!-- contents -->
+    <button id="btnFadein">fadein</button>
+    <button id="btnFadeout">fadeout</button>
+    <div id="relocateTest">
+      <div style="padding:20px;background:orange; width:90vw;">
+        <div style="padding:5px;background:azure;">
+          My content
+        </div>
+      </div>
+    </div>
+    <div>Other content</div>
+
+    <!-- script -->
+    <script>
+      const dom = document.getElementById('relocateTest');
+
+      const btnFadein = document.getElementById('btnFadein');
+      btnFadein.onclick = (e) => {
+        dom.className = 'content_fade-in';
+        console.log('fadeOut');
+      }
+      const btnFadeout = document.getElementById('btnFadeout');
+      btnFadeout.onclick = (e) => {
+        dom.className = 'content_fade-out';
+        console.log('fadeOut');
+      }
+    </script>
+  </body>
+</html>

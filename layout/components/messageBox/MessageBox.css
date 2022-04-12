@@ -1,0 +1,31 @@
+div.msgBox-overlay {
+  position: absolute;
+  background-color: rgba(0,0,0,0.5);
+  overflow-y: auto;
+  z-index: 2;
+  cursor: pointer;
+}
+div.msgBox-overlay-alert {
+  margin: 10px 10px 10px 10px;
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+div.msgBox-overlay-alert.success {background-color: #04AA6D;}
+div.msgBox-overlay-alert.info {background-color: #2196F3;}
+div.msgBox-overlay-alert.warning {background-color: #ff9800;}
+
+div.msgBox-overlay span.msgBox-overlay-closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+div.msgBox-overlay span.msgBox-overlay-closebtn:hover {
+  color: black;
+}

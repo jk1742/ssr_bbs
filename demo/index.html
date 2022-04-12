@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <p id="instruct"><button>click to start the animation</button></p>
+    <p id="SomeElementYouWantToAnimate">SomeElementYouWantToAnimate</p>
+    <script>
+    const framesPerSecond = 10;
+    let animateID;
+    let timeoutID;
+    let start = null;
+
+    function animate(timestamp) {
+      timeoutID = setTimeout(function() {
+        if (!start) start = timestamp;
+        let progress = timestamp - start;
+        if (isNaN(progress)) progress = 0;
+        if (progress < 10000) {
+          animateID = requestAnimationFrame(animate);
+          console.log('logic check animateID:',animateID);
+        }
+        // animating/drawing code goes here
+        console.log('setTimeout::timestamp:',timestamp, progress);
+      }, 10000 / framesPerSecond);
+    }
+
+    animate();
+
+    let instruct = document.getElementById( "instruct" );
+    instruct.onclick = function() {
+        console.log("stop animateID:",animateID);
+        clearTimeout(timeoutID);
+        cancelAnimationFrame(animateID);
+    };
+
+
+    </script>
+  </body>
+</html>

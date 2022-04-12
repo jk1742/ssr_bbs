@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <style>
+    /* #relocateTest{
+      position: absolute;
+      top: 20px;
+    } */
+    .frame-action_leave-left {
+      animation-name:frame-action_leave-left;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_insert-left {
+      animation-name:frame-action_insert-left;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_insert-right {
+      animation-name:frame-action_insert-right;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_leave-right {
+      animation-name:frame-action_leave-right;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_insert-bottom {
+      animation-name:frame-action_insert-bottom;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_leave-bottom {
+      animation-name:frame-action_leave-bottom;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_insert-top {
+      animation-name:frame-action_insert-top;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    .frame-action_leave-top {
+      animation-name:frame-action_leave-top;
+      animation-duration:1s;
+      animation-fill-mode: forwards;
+    }
+    @keyframes frame-action_insert-top {
+      from {
+        opacity: 0;
+        margin-top: -100%;
+        height: 0;
+      }
+      to {
+        opacity: 1;
+        margin-left: 0%;
+      }
+    }
+    @keyframes frame-action_leave-top {
+        from {
+            opacity: 1;
+            margin-left: 0%;
+        }
+        to {
+            opacity: 0;
+            margin-top: -100%;
+            height: 0;
+        }
+    }
+    @keyframes frame-action_insert-bottom {
+      from {
+        opacity: 0;
+        margin-top: 100%;
+        height: 0;
+      }
+      to {
+        opacity: 1;
+        margin-left: 0%;
+      }
+    }
+    @keyframes frame-action_leave-bottom {
+        from {
+            opacity: 1;
+            margin-left: 0%;
+        }
+        to {
+            opacity: 0;
+            margin-top: 100%;
+            height: 0;
+        }
+    }
+    @keyframes frame-action_insert-right {
+      from {
+        opacity: 0;
+        margin-left: 200%;
+        /* height: 0; */
+      }
+      to {
+        opacity: 1;
+        margin-left: 0%;
+      }
+    }
+    @keyframes frame-action_leave-right {
+        from {
+            opacity: 1;
+            margin-left: 0%;
+        }
+        to {
+            opacity: 0;
+            margin-left: 200%;
+            /* height: 0; */
+        }
+    }
+
+    @keyframes frame-action_insert-left {
+        from {
+          opacity: 0;
+          margin-left: -100%;
+          /* height: 0; */
+        }
+        to {
+          opacity: 1;
+          margin-left: 0%;
+        }
+    }
+    @keyframes frame-action_leave-left {
+        from {
+            opacity: 1;
+            margin-left: 0%;
+        }
+        to {
+            opacity: 0;
+            margin-left: -100%;
+            /* height: 0; */
+        }
+    }
+
+    </style>
+  </head>
+  <body>
+    <!-- contents -->
+    <button id="btnFadeinleft">fadein left</button>
+    <button id="btnFadeOutleft">fadeOut left</button>
+    <button id="btnFadeOutright">fadeOut right</button>
+    <button id="btnFadeinright">fadein right</button>
+    <button id="btnFadeinbottom">fadein bottom</button>
+    <div id="relocateTest">
+      <div style="padding:20px;background:orange; width:90vw;">
+        <div style="padding:5px;background:azure;">
+          My content
+        </div>
+      </div>
+    </div>
+    <div>Other content</div>
+
+    <!-- script -->
+    <script>
+      const dom = document.getElementById('relocateTest');
+
+      const btnFadeinleft = document.getElementById('btnFadeinleft');
+      btnFadeinleft.onclick = (e) => {
+        dom.className = 'frame-action_insert-left';
+        console.log('fadeIn');
+      }
+
+      const btnFadeOutleft = document.getElementById('btnFadeOutleft');
+      btnFadeOutleft.onclick = (e) => {
+        dom.className = 'frame-action_leave-left'
+        console.log('fadeOut');
+      }
+
+      const btnFadeOutright = document.getElementById('btnFadeOutright');
+      btnFadeOutright.onclick = (e) => {
+        dom.className = 'frame-action_leave-right'
+        console.log('fadeOut');
+      }
+
+      const btnFadeinright = document.getElementById('btnFadeinright');
+      btnFadeinright.onclick = (e) => {
+        dom.className = 'frame-action_insert-right'
+        console.log('fadeIn');
+      }
+
+      const btnFadeinbottom = document.getElementById('btnFadeinbottom');
+      btnFadeinbottom.onclick = (e) => {
+        dom.className = 'frame-action_insert-bottom'
+        console.log('fadeIn');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+.statistics {
+  display: block;
+  height: 7vh;
+  line-height: 7vh;
+  font-size: 16px;
+  background-color: #333;
+  color: #ccc;
+  position: relative;
+}
+.statistics>button{
+  font-size: 16px;
+  color: #ccc;
+  background-color: #333;
+  cursor: pointer;
+  border: none;
+}
+.statistics>button:hover{
+  color: white;
+}
+.statistics>button>span {
+  margin-left: 10px;
+  font-family: 'jost';
+}
+.statistics>div.statistics-contents {
+  display: none;
+  position: fixed;
+  min-width: 160px;
+  bottom: 6vh;
+  /* border: 1px solid red; */
+  z-index: 3;
+  width: 95vw;
+  left: 2.5vw;
+  height: 60px;
+}
+div.statistics-contents>div{
+  display:block;
+}
+.statistics-contents-tag {
+  width: 13.5vw;
+  color: firebrick;
+  float: left;
+}
+.statistics-contents-tag>span{
+  margin-right: 7px;
+}

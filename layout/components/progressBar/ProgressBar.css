@@ -1,0 +1,60 @@
+.progress-bar{
+  display: block;
+  height: 7vh;
+  line-height: 7vh;
+  margin: 0px 16px 0px 16px;
+}
+ul.progress-bar-list {
+  margin: auto;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  list-style-type: none;
+}
+ul.progress-bar-list li {
+  float: left;
+  margin-right: 10px;
+}
+ul.progress-bar-list li button {
+  margin-right: 16px;
+  font-size: 20px;
+  background-color: #333;
+  color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+ul.progress-bar-list li button:hover {
+  color: white;
+}
+ul.progress-bar-list li button.active {
+  color: #4CAF50;
+}
+
+div.progress-bar div.progress-bar-ads {
+  display: none;
+  position: fixed;
+  min-width: 14vw;
+  bottom: 9vh;
+  height: 82vh;
+  margin-left: .5vw;
+  z-index: 5;
+  background-color: black;
+}
+div.progress-bar-ads .cursor {
+  cursor: pointer;
+}
+div.progress-bar-ads .close {
+  color: white;
+  position: absolute;
+  top: -25px;
+  right: 4px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+div.progress-bar-ads .close:hover,
+div.progress-bar-ads .close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}

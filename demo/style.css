@@ -1,0 +1,11 @@
+#instruct {
+    position: absolute;
+    top: 2em;
+}
+div {
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: #FF6600;
+}
