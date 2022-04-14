@@ -1,13 +1,14 @@
 /***
- * block:  NavTabController control buttons
+ * block:  MenuController
  ***/
 // Describe constant Class below
-const NavTabController   = function(navTabHandler) {
+const MenuController   = function(menuHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
+  const me                    = this;
   const _private              = {};
-  const item                  = this.childNodes[0];
-  const close                 = this.childNodes[1];
+  const close                 = this.firstChild;
+  // console.log('MenuController', close);
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
@@ -22,38 +23,34 @@ const NavTabController   = function(navTabHandler) {
   }
 
   //* Access Control: getter & setter ///////////////////////////////////////////
+  // store in private
   Object.defineProperties(this, {
-    articleId:{
-      set:(str) => {_private.articleId = str},
-      get:() => _private.articleId,
-      enumerable:true
-    }
+    // articleId:{
+    //   set:(str) => {_private.articleId = str},
+    //   get:() => _private.articleId,
+    //   enumerable:true
+    // }
   });
 
-  //* Access control: Public functions //////////////////////////////////////////
+  // Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
-    // setViewFilter(arr){
-    //   let carriage = ['None'].concat(arr);
-    //   viewerSelect.generateList(carriage);
-    // },
-    // trigger_onclickViewer(){
-    //   viewerIcon.onclick();
-    // },
+    open(){
+      console.log('MenuController-open', this);
+      this.style.height = '250px';
+    },
     // setTooltipAdd(msg, outline, color, opacity, width, height){
     //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
     // }
   });
 
-  //* Event handler ///////////////////////////////////////////////////////////
+  //* Event handler
   // register menu event
-  item.onclick = (e) => {
-    if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
-  }
   close.onclick = (e) => {
-    if('undefined' !== typeof navTabHandler.onclick_close) navTabHandler.onclick_close(e);
+    this.style.height = '0px';
+    if ('undefined' !== typeof menuHandler.onclick_close) menuHandler.onclick_close(e);
   }
 
-  //* inject controller ///////////////////////////////////////////////////////
+  //* inject controller /////////////////////////////////////////////////////////
   // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
   //   update_selectedValue(e, value, id){
   //     viewerFilterDisease = value;
@@ -61,12 +58,12 @@ const NavTabController   = function(navTabHandler) {
   //   }
   // });
 
-  //* Lazy Initialization /////////////////////////////////////////////////////
+  //* Lazy Initialization ///////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
 
-  //* End of Structure ////////////////////////////////////////////////////////
+  //* End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {
-  NavTabController
+  MenuController
 };

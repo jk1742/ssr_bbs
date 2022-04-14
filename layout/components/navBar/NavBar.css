@@ -5,11 +5,13 @@
   background-color: #333;
   z-index: 10;
   position: relative;
+  transition: margin-top .5s;
 }
 .nav-bar .nav-bar-frame {
   margin: 0;
   position: absolute;
   top: 50%;
+  width:100%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }

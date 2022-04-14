@@ -9,18 +9,17 @@ import { NavTabController } from "/layout/components/navBar/NavTabController";
 const NavBarController   = function(navBarHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
-  const me                    = this;
-  const template              = me.firstChild;
+  const template              = this.firstChild;
   const navFrame              = template.firstChild.firstChild;
   const menu                  = navFrame.childNodes[0].firstChild;
-
+  const FOCUS                 = 'top-tab-activated';
   //* Privilege Static Functions //////////////////////////////////////////////
   const focusRemove  = function(){
-    // const array = [select, selectSq];
-    console.log(navFrame);
-    // array.forEach(function(e){
-    //   e.classList.remove(FOCUS_CLASS);
-    // });
+    const array = [...navFrame.getElementsByTagName('li')];
+    array.splice(0,1);
+    array.forEach(function(e){
+      e.classList.remove(FOCUS);
+    });
   };
   const getPositionInfo = function(e, t){
     return {
@@ -62,10 +61,15 @@ const NavBarController   = function(navBarHandler) {
       tab = $SR.View(tab.id).inject(NavTabController, {
         onclick_item  :(e) => {
           focusRemove();
-          console.log("clicked item " + tab.articleId);
+          tab.classList.add(FOCUS);
+          //console.log("tab :" + tab.id);
+          //console.log("tab a :" + tab.articleId);
         },
         onclick_close :(e) => {
-          console.log("clicked close " + tab.id);
+          //console.log("close tab :" + tab.id);
+          //console.log("tab a :" + tab.articleId);
+          tab.remove();
+          article.remove();
         },
       });
       // set index
@@ -79,9 +83,12 @@ const NavBarController   = function(navBarHandler) {
       //  yes then show and focus
       //  no then just add contents
     },
-    // setTooltipAdd(msg, outline, color, opacity, width, height){
-    //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
-    // },
+    shiftDown(){
+      this.style.marginTop = "250px";
+    },
+    shiftUp() {
+      this.style.marginTop = "0px";
+    }
 
   });
 
