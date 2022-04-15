@@ -4,11 +4,10 @@
 // Describe constant Class below
 const SampleController   = function(sampleHandler) {
 
-  //? private variable & mapping ////////////////////////////////////////////////
-  const me                    = this;
+  //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
 
-  //? Privilege Static Functions ////////////////////////////////////////////////
+  //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
     return {
       left  : t.left,
@@ -20,7 +19,7 @@ const SampleController   = function(sampleHandler) {
     }
   }
 
-  //? Access Control: getter & setter ///////////////////////////////////////////
+  //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     // articleId:{
     //   set:(str) => {_private.articleId = str},
@@ -43,13 +42,13 @@ const SampleController   = function(sampleHandler) {
     // }
   });
 
-  //? Event handler
+  //* Event handler
   // register menu event
   // item.onclick = (e) => {
   //   if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
   // }
 
-  //? inject controller /////////////////////////////////////////////////////////
+  //* inject controller /////////////////////////////////////////////////////////
   // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
   //   update_selectedValue(e, value, id){
   //     viewerFilterDisease = value;
@@ -57,10 +56,10 @@ const SampleController   = function(sampleHandler) {
   //   }
   // });
 
-  //? Lazy Initialization ///////////////////////////////////////////////////////
+  //* Lazy Initialization ///////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
 
-  //? End of Structure //////////////////////////////////////////////////////////
+  //* End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

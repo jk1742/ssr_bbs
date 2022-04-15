@@ -62,12 +62,8 @@ const NavBarController   = function(navBarHandler) {
         onclick_item  :(e) => {
           focusRemove();
           tab.classList.add(FOCUS);
-          //console.log("tab :" + tab.id);
-          //console.log("tab a :" + tab.articleId);
         },
         onclick_close :(e) => {
-          //console.log("close tab :" + tab.id);
-          //console.log("tab a :" + tab.articleId);
           tab.remove();
           article.remove();
         },

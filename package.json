@@ -12,15 +12,13 @@
   "license": "ISC",
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@hint/configuration-web-recommended": "^8.2.7",
-    "css-loader": "^5.0.2",
-    "eslint": "^8.11.0",
+    "css-loader": "^5.2.7",
+    "eslint": "^8.13.0",
     "file-loader": "^6.2.0",
-    "hint": "^6.1.10",
     "style-loader": "^2.0.0",
-    "webpack": "^5.28.0",
-    "webpack-cli": "^4.1.0",
-    "webpack-dev-server": "^4.7.4"
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
     "axios": "^0.21.1",

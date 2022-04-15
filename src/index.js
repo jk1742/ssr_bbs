@@ -30,26 +30,20 @@ import { MenuController     } from '/layout/components/menu/MenuController';
 window.onload = function () {
   favicon();
   menu = $SR.View('MenuTop').inject(MenuController, {
-    onclick_close:(e) => {
+    onclick_close:(_e) => {
       navBar.shiftUp();
-    }
+    },
+    onclick_menu1: (_e) => {
+      console.log('clicked');
+    },
+    navBar_addTab: (id, seq) => navBar.addTab(id, seq),
   });
   navBar = $SR.View('NavBar').inject(NavBarController, {
 
-    onclick_menu: (e) => import(/* webpackChunkName: "loader" */ '../layout/article_sample/loader').then(module => {
-      // load script
-      const script = module.default;
-      // run script
-      script();
-      // get que seq number
-      const articles = document.getElementsByTagName("article");
-      const seq = articles.length - 1
-      // extract tab info
-      navBar.addTab(articles[seq].id, seq);
-
+    onclick_menu: (_e) => {
       menu.open();
       navBar.shiftDown();
-    })
+    }
 
   });
 
