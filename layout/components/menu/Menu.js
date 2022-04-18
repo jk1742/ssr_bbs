@@ -8,7 +8,6 @@ const Menu = function (id, styles) {
   return $SR.generateHtml `
     <div class="menu-top" id="${id}" style="${styles}">
       <a href="javascript:void(0)" class="closebtn">&times;</a>
-      <a href="#">About</a>
     </div>
   `; // HTML end
 }

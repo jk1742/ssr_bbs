@@ -6,6 +6,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
+    //filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -40,8 +41,8 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,
-    port: 9001,
-  }
+    port: 9000,
+  },
 
 };
 

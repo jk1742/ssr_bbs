@@ -9,7 +9,7 @@ const Article = function (id) {
   return $SR.generateHtml `
   <article id="${id}" data-icon="fas fa-copyright" alt="this is a alt contents of this sample page">
     <!-- article Title -->
-    <h3> Brave a new World </h3>
+    <h3> Brave a new World 2</h3>
   </article>
   `; // HTML end
 }

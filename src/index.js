@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/js/brands'
 import '/static/css/style.css';
 
 //* import utility ////////////////////////////////////////////////////////////
-import { Logger }  from '/class/Logger';
+import { _Logger }  from '/class/Logger';
 import favicon from '/static/favicon/Favicon';
 
 //* import layout /////////////////////////////////////////////////////////////
@@ -39,7 +39,6 @@ window.onload = function () {
     navBar_addTab: (id, seq) => navBar.addTab(id, seq),
   });
   navBar = $SR.View('NavBar').inject(NavBarController, {
-
     onclick_menu: (_e) => {
       menu.open();
       navBar.shiftDown();
