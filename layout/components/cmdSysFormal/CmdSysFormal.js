@@ -8,7 +8,7 @@ import '/layout/components/cmdSysFormal/CmdSysFormal.css';
 const CmdSysFormal   = function(id) {
   return $SR.generateHtml `
   <div id="${id}" class="cmd-sys-formal">
-    <button><i class="fas fa-arrow-alt-circle-up"></i></button>  
+    <button><i class="fas fa-arrow-alt-circle-up"></i></button>
     <button><i class="fas fa-arrow-alt-circle-left"></i></button>
     <button><i class="fas fa-upload"></i></button>
     <button><i class="fas fa-check"></i></button>

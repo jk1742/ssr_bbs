@@ -39,6 +39,26 @@ function scrollToSmoothly(pos, time) {
    return tkCnt++;
  }
 
+/**
+  * isDOM
+  * @param {*} obj 
+  * @returns 
+  */
+function isDOM(obj){
+  try {
+    //Using W3 DOM2 (works for FF, Opera and Chrome)
+    return obj instanceof HTMLElement;
+  }
+  catch (e) {
+    //Browsers not supporting W3 DOM2 don't have HTMLElement and
+    //an exception is thrown and we end up here. Testing some
+    //properties that all elements have (works on IE7)
+    return (typeof obj === "object") &&
+      (obj.nodeType === 1) && (typeof obj.style === "object") &&
+      (typeof obj.ownerDocument === "object");
+  }
+}
+
 module.exports = {
   uuidv4: function() {
     let ieSupporter = function(ie, mo, obj) {
@@ -100,13 +120,17 @@ module.exports = {
         emit(name, obj){
           data[name] = JSON.stringify(obj);
           carriage.dispatchEvent(new CustomEvent('onEventEmitted', { bubbles: true, detail: {
-             getEventName: () => name,
-             getContents: () => JSON.parse(data[name])
+            getEventName: () => name,
+            getContent: () => JSON.parse(data[name])
            }}));
         },
         recall(name){
           return JSON.parse(data[name]);
+        },
+        getEmitNamesList(){
+          return data;
         }
+
       });
       return carriage;
     }
@@ -123,7 +147,7 @@ module.exports = {
   })(),
   VolatileState: (function(){
     let   instance;
-    const StateClass = function(sw) {
+    const StateClass = function(_sw) {
       let   carriage  = new DocumentFragment();
       let   data      = {};
       Object.defineProperties(carriage, {
@@ -159,7 +183,7 @@ module.exports = {
   Store: (function(){
     let   instance;
     const GLOBAL      = 'GLOBAL';
-    const StoreClass = function(sw) {
+    const StoreClass = function(_sw) {
       let   carriage  = new DocumentFragment();
       let   setGlobal = false;
       Object.defineProperties(carriage, {
@@ -212,6 +236,148 @@ module.exports = {
       }
     };
   })(),
+  /**
+   * Event
+   *  @summary Customized User Event Controller
+   *  @function emit: emitting Event
+   *  @function figure: figure Event Object
+   *  @detail getName, getMessage
+   *  * set listener => 'on + eventName'
+   */
+  Event: (function () {
+    let instance = {};
+    const StateClass = function (name) {
+      let carriage = new DocumentFragment();
+      let data = {};
+      const eventName = 'on' + name;
+      Object.defineProperty(carriage, eventName, {
+        set: function (fx) {
+          carriage.addEventListener(eventName, e => fx(e));
+        },
+        configurable: true
+      });
+      Object.assign(carriage, {
+        emit(obj) {
+          data[name] = JSON.stringify(obj);
+          carriage.dispatchEvent(new CustomEvent(eventName, {
+            bubbles: true,
+            detail: {
+              getName: () => name,
+              getMessage: () => obj
+            }
+          }));
+        },
+        figure() {
+          return JSON.parse(data[name]);
+        }
+      });
+      return carriage;
+    }
+    return {
+      register: function (name) {
+        if (instance[name] == null) {
+          instance[name] = new StateClass(name);
+          instance.constructor = null;
+        }
+        return instance[name];
+      }
+    };
+  })(),
+  /**
+   * Queue store
+   *  event type: onQueuePush, onQueueCursorMoved
+   */
+  Queue: (function () {
+    let instance;
+    const QueueClass = function () {
+      let carriage = new DocumentFragment();
+      let _private = {};
+      _private.index = 0;
+      _private.name = 'Queue';
+      _private.queue = [];
+      const objCall = () => {
+        return {
+          getName: () => _private.name,
+          getMessage: () => _private.queue[(_private.queue.length - 1)]
+        }
+      }
+      const pushEvent = () => new CustomEvent('onQueuePush', { bubbles: true, detail: objCall() });
+      const movedEvent = () => new CustomEvent('onQueueCursorMoved', { bubbles: true, detail: objCall() });
+
+      Object.defineProperties(carriage, {
+        onQueuePush: {
+          set: function (fx) {
+            carriage.addEventListener('onQueuePush', e => fx(e));
+          },
+          configurable: true,
+        },
+        onQueueCursorMoved: {
+          set: function (fx) {
+            carriage.addEventListener('onQueueCursorMoved', e => fx(e));
+          },
+          configurable: true,
+        },
+        name: {
+          set: function (o) {
+            _private.name = o;
+          },
+          get: () => _private.name,
+          configurable: true,
+        }
+      });
+      Object.assign(carriage, {
+        push(obj) {
+          _private.queue.push(obj);
+          _private.index = _private.queue.length - 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(pushEvent());
+        },
+        clear() {
+          _private.queue = [];
+          _private.index = 0;
+          localStorage.clear();
+        },
+        cursor() {
+          return _private.queue[_private.index];
+        },
+        beforeCursor() {
+          let pos = _private.index;
+          pos -= 1;
+          pos = (0 > pos) ? 0 : pos;
+          return _private.queue[pos];
+        },
+        goNext() {
+          if (0 > _private.index) _private.index = 0;
+          _private.index += 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(movedEvent());
+          return (_private.queue !== null && _private.index < _private.queue.length) ? { value: _private.queue[_private.index], done: false } : { done: true };
+        },
+        goBack() {
+          if (_private.queue.length - 1 < _private.index) _private.index = _private.queue.length - 1;
+          _private.index -= 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(movedEvent());
+          return (_private.queue !== null && 0 <= _private.index) ? { value: _private.queue[_private.index], done: false } : { done: true };
+        }
+      });
+      return carriage;
+    }
+    // return closure
+    return {
+      getInstance: function () {
+        if (instance == null) {
+          instance = new QueueClass('Queue');
+          instance.constructor = null;
+          localStorage.clear();
+        }
+        return instance;
+      }
+    };
+  })(),
+  /**
+   * History
+   */
   History: (function(){
     let   instance;
     const HistoryClass = function() {
@@ -264,15 +430,14 @@ module.exports = {
           pos = (0 > pos) ? 0 : pos;
           return _private.history[pos];
         },
-        next(){
+        goNext(){
           if (0 > _private.index) _private.index = 0;
           _private.index += 1;
           localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
           carriage.dispatchEvent(new CustomEvent('onHistoryCursorMoved', { bubbles: true, detail: { text: () => name } }));
           return (_private.history !== null && _private.index < _private.history.length) ? {value: _private.history[_private.index], done: false} : {done: true};
         },
-        pre(){
-          //console.log('pre:', history.back());
+        goPre(){
           if (_private.history.length-1 < _private.index) _private.index = _private.history.length-1;
           _private.index -= 1;
           localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
@@ -287,11 +452,11 @@ module.exports = {
       getInstance: function(name){
         if (instance == null) {
           instance = new HistoryClass();
-          if('undefined' !== typeof name) instance.name = name;
+          if ('undefined' !== typeof name) instance = name;
           localStorage.clear();
           instance.constructor = null;
         }
-        if('undefined' !== typeof name) instance.name = name;
+        if ('undefined' !== typeof name) instance = name;
         return instance;
       }
     };
@@ -311,22 +476,62 @@ module.exports = {
     a.forEach(e => {
       if (e.length > 0) array.push(e.trim());
     });
-    c = array.reduce((result, str, i) => (result + str));
+    c = array.reduce((result, str) => (result + str));
     return new DOMParser().parseFromString(c, "text/html").body.firstChild;
   },
 
  /*****
-  * core : marge view and contoroller
+  * core : marge view and controller
   * return: html object with functions
   * const model = (dom, handler) => Controller.call(dom, handler);
   * dom = model(dom,{});
   ******/
   marge: function (Controller, Dom, Handler){
-    return (function(Dom, Handler){
-      return Controller.call(Dom, Handler);
+    return (function(_Dom, _Handler){
+      return Controller.call(_Dom, _Handler);
     })(Dom, Handler);
   },
-
+  /**
+   * isElement
+   * @param {*} obj 
+   * @returns 
+   */
+  isDOM: (obj) => {
+    return isDOM(obj);
+  },
+  /*****
+   * core : DOMCall
+   * inject controller to Dom object
+   ******/
+  DOMCall: function (documentObject) {
+    let dom = documentObject;
+    if (isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
+    let hasController = '';
+    Object.defineProperties(dom, {
+      hasController: {
+        get: function () {
+          return hasController;
+        },
+        configurable: true,
+      }
+    });
+    Object.assign(dom, {
+      inject: function (Controller, Handler) {
+        // double inject check
+        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+        // transfer params
+        let args = Array.from(arguments);
+        args.splice(0, 2);
+        // marge controller & view
+        //  - register Controller
+        hasController = Controller.name;
+        return (function (_dom, _handler, ...Args) {
+          return Controller.call(_dom, _handler, ...Args);
+        })(dom, Handler, ...args);
+      },
+    });
+    return dom;
+  },
  /*****
   * core : View
   * return: html object with functions
@@ -335,11 +540,11 @@ module.exports = {
   ******/
   View: function(id){
     let dom           = document.getElementById(id);
-    let hasContoller  = '';
+    let hasController  = '';
     Object.defineProperties(dom, {
       hasController: {
         get: function() {
-          return hasContoller;
+          return hasController;
         },
         configurable: true,
       }
@@ -348,18 +553,23 @@ module.exports = {
       inject: function (Controller, Handler){
         // double inject check
         if(dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
-        // trasfer params
+        // transfer params
         let args  = Array.from(arguments);
         args.splice(0, 2);
         // marge controller & view
         //  - register Controller
-        hasContoller = Controller.name;
-        return (function(dom, Handler){
-          return Controller.call(dom, Handler, ...args);
+        hasController = Controller.name;
+        return (function (_dom, _Handler, ...Args){
+          return Controller.call(_dom, _Handler, ...Args);
         })(dom, Handler, ...args);
       },
     });
     return dom;
+  },
+  moveTo:function(loc){
+    if (browser.isChrome || browser.isEdge) {
+      window.scroll({ top: loc, behavior: 'smooth' });
+    } else scrollToSmoothly(loc, 1000);
   },
   moveScreen_bak:function(dom){
     const y = dom.getBoundingClientRect().top + window.scrollY;
@@ -380,7 +590,7 @@ module.exports = {
     }).then((Response)=>{
       // console.log('Response',Response.data); http://192.168.0.6/
       setCertifyKey(Response.data.content);
-    }).catch((Error)=>{
+    }).catch((_Error)=>{
       let elements = document.getElementsByTagName('body')[0];
       elements.innerHTML = `
       <div style="height:95vh;width:100%;">

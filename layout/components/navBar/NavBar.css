@@ -2,18 +2,21 @@
 .nav-bar {
   height: 5vh;
   overflow: hidden;
-  background-color: #333;
+  background-color: #660505;
   z-index: 10;
-  position: relative;
+  position: absolute;
+  top: 0;
+  padding: 0;
   transition: margin-top .5s;
 }
 .nav-bar .nav-bar-frame {
-  margin: 0;
-  position: absolute;
+  margin: 0px;
+  height: 5vh;
+  /* position: absolute;
   top: 50%;
   width:100%;
   -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
 }
 
 .navBarFrame-listBox{
@@ -34,7 +37,7 @@ ul.navBarFrame-list li {
 }
 
 ul.navBarFrame-list li.top-tab-activated{
-  background-color: rgb(114, 113, 113);
+  background-color: #333;
 }
 
 ul.navBarFrame-list li button.menuBtn{

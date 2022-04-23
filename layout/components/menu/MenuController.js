@@ -20,8 +20,6 @@ const MenuController   = function(menuHandler) {
     }
   ];
 
-  // console.log('MenuController', menu1);
-
   //* Privilege Static Functions ////////////////////////////////////////////////
   // const  getPositionInfo = function(e, t){
   //   return {
@@ -37,17 +35,30 @@ const MenuController   = function(menuHandler) {
   //* Access Control: getter & setter ///////////////////////////////////////////
   // store in private
   Object.defineProperties(this, {
-    // articleId:{
-    //   set:(str) => {_private.articleId = str},
-    //   get:() => _private.articleId,
-    //   enumerable:true
-    // }
+    position: {
+      get: () => {
+        const pos = this.getBoundingClientRect();
+        return {
+          left: pos.left,
+          top: pos.top,
+          width: pos.width,
+          height: pos.height,
+          w_scrollX: window.scrollX,
+          w_scrollY: window.scrollY,
+        }
+      },
+      enumerable: true
+    },
   });
 
   //* Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
     open(){
       this.style.height = '250px';
+      this.style.top = `${window.scrollY}px`;
+    },
+    repositionTop(top) {
+      this.style.top = `${top + window.scrollY}px`;
     },
     // setTooltipAdd(msg, outline, color, opacity, width, height){
     //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
@@ -82,7 +93,7 @@ const MenuController   = function(menuHandler) {
           script();
           const articles = document.getElementsByTagName("article");
           const seq = articles.length - 1
-          if ('undefined' !== typeof menuHandler.navBar_addTab) menuHandler.navBar_addTab(articles[seq].id, seq);
+          if ('undefined' !== typeof menuHandler.append_article) menuHandler.append_article(articles[seq].id, seq);
         })
     });
   }

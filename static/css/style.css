@@ -33,6 +33,9 @@ html, body {
     transform: scale(1, 1);
   }
 }
+article {
+  float: left;
+}
 
 header {
   animation: zoominoutsingleheader 5s;
@@ -81,6 +84,7 @@ header div.head_mid {
 }
 
 section {
+  padding-top: 5vh;
   background-position: left top;
   background-repeat: no-repeat;
   overflow-x: hidden;
@@ -145,9 +149,7 @@ canvas {
 }
 .frame-mid {
    width: 100%;
-   height: 100%;
-}
-.frame-mid .frame-mid-left {
+   height: 81vh;
 }
 .frame-mid .frame-mid-center {
   display:block;
@@ -156,8 +158,6 @@ canvas {
   min-width:1024px;
   max-width:1200px;
   margin: 0 auto;
-}
-.frame-mid .frame-mid-right {
 }
 .frame-btm {
   height: 7vh;
@@ -207,64 +207,6 @@ canvas {
 }
 .text-space{
   margin: 0 1vw 0 1vw;
-}
-.panel {
-  overflow: auto;
-  padding: 10px;
-}
-.panel-contents {
-  padding: 1.5vh 1vh 0.7vh 1vh;
-  border: 2px solid #dddddd;
-  height: 4vh;
-  text-align: center;
-}
-.panel-contents input[type="text"]{
-  border-width: 0 0 2px 0;
-  border-bottom-style: dotted;
-  background: transparent;
-  border-color: #dddddd;
-}
-.panel-contents button.panel-contents-btn {
-  margin: 0 1vw 0 1vw;
-  font-size: 17px;
-  width: 20vw;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
-  padding: 6px 16px;
-  vertical-align: middle;
-  overflow: hidden;
-  text-decoration: none !important;
-}
-.panel-contents button.panel-contents-btn:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-.panel-contents button.panel-contents-btn > span svg {
-  padding-right: 0.5vw;
-}
-.panel-contents button.panel-contents-btn > span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-.panel-contents button.panel-contents-btn:hover > span {
-  padding-right: 25px;
-}
-.panel-contents button.panel-contents-btn > span:after {
-  font-size: 17px;
-  content: ' \271A';
-  position: absolute;
-  opacity: 0;
-  top: -2px;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.panel-contents button.panel-contents-btn:hover > span:after {
-  opacity: 1;
-  right: 0;
 }
 
 .tag-card {

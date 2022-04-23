@@ -9,43 +9,50 @@ import { NavTabController } from "/layout/components/navBar/NavTabController";
 const NavBarController   = function(navBarHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
+  const _private = {
+    loc:0,
+    focusArticleId:''
+  };
   const template              = this.firstChild;
   const navFrame              = template.firstChild.firstChild;
   const menu                  = navFrame.childNodes[0].firstChild;
   const FOCUS                 = 'top-tab-activated';
+
   //* Privilege Static Functions //////////////////////////////////////////////
-  const focusRemove  = function(){
+  const arrayTabs = () => {
     const array = [...navFrame.getElementsByTagName('li')];
-    array.splice(0,1);
-    array.forEach(function(e){
+    array.splice(0, 1);
+    return array;
+  }
+
+  const focusRemove  = function(){
+    arrayTabs().forEach(function(e){
       e.classList.remove(FOCUS);
     });
   };
-  const getPositionInfo = function(e, t){
-    return {
-      left  : t.left,
-      top   : t.top,
-      width : t.width,
-      height: t.height,
-      pageX : e.pageX,
-      pageY : e.pageY
-    }
-  }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
-    // tooltipSwitch:{
-    //   set: function(o) {
-    //     swTooltip = o;
-    //   },
-    //   get: function() {
-    //     return swTooltip;
-    //   }
-    // },
-    // viewerFilterDisease:{
-    //   get:() => viewerFilterDisease,
-    //   enumerable:true
-    // }
+    position: {
+      get: () => {
+        const pos = this.getBoundingClientRect();
+        return {
+          left      : pos.left,
+          top       : pos.top,
+          width     : pos.width,
+          height    : pos.height,
+          w_scrollX : window.scrollX,
+          w_scrollY : window.scrollY,
+          loc: window.scrollY + pos.top
+        }
+      },
+      enumerable: true
+    },
+    focusArticleId: {
+      set: (str) => { _private.focusArticleId = str },
+      get: () => _private.focusArticleId,
+      enumerable: true
+    },
   });
 
   //* Access control: Public functions ////////////////////////////////////////
@@ -60,32 +67,44 @@ const NavBarController   = function(navBarHandler) {
       // inject controller
       tab = $SR.View(tab.id).inject(NavTabController, {
         onclick_item  :(e) => {
+          if ('undefined' !== typeof navBarHandler.onclick_tab) navBarHandler.onclick_tab(articleId, tab.getAttribute('data-index'));
           focusRemove();
           tab.classList.add(FOCUS);
+          this.focusArticleId = articleId;
         },
         onclick_close :(e) => {
           tab.remove();
-          article.remove();
+          this.sortTabs();
+          navBarHandler.onclick_close(articleId);
         },
       });
       // set index
       tab.setAttribute('data-index', seq);
       // set articleId on tab
       tab.articleId = articleId;
-
-      // is first contents on nav
-
-      // navBarFrame-list
-      //  yes then show and focus
-      //  no then just add contents
     },
     shiftDown(){
       this.style.marginTop = "250px";
     },
     shiftUp() {
       this.style.marginTop = "0px";
+    },
+    sortTabs() {
+      const array = arrayTabs();
+      for (let i = 0; i < array.length; i++) {
+        array[i].setAttribute('data-index',i);
+      }
+    },
+    remoteTabActive(articleId){
+      arrayTabs().forEach(function (e) {
+        if (e.articleId == articleId) {
+          e.trigger_onclickItem();
+        }
+      });
+    },
+    repositionTop(top){
+      this.style.top = `${top + window.scrollY}px`;
     }
-
   });
 
   //* Event handler ///////////////////////////////////////////////////////////

@@ -1,11 +1,15 @@
+import { CmdSysFormalController } from '/layout/articles/sample1/section_01/CmdSysFormalController';
+
 /***
- * block:  SampleController
+ * block:  Section_01Controller
  ***/
 // Describe constant Class below
-const SampleController   = function(_sampleHandler) {
+const Section_01Controller = function (section_01Handler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
+  let sectionEvent = $SR.Event.register('SectionChange');
+  let queueEvent = $SR.Queue.getInstance();
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
@@ -30,16 +34,14 @@ const SampleController   = function(_sampleHandler) {
 
   // Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
-    // setViewFilter(arr){
-    //   let carriage = ['None'].concat(arr);
-    //   viewerSelect.generateList(carriage);
-    // },
-    // trigger_onclickViewer(){
-    //   viewerIcon.onclick();
-    // },
-    // setTooltipAdd(msg, outline, color, opacity, width, height){
-    //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
-    // }
+    activateSection() {
+      queueEvent.push({
+        id: this.id
+      });
+      const y = this.getBoundingClientRect().top + window.scrollY;
+      console.log(this.getBoundingClientRect(), window.scrollY, y);
+      $SR.moveScreen_bak(this);
+    }
   });
 
   //* Event handler ///////////////////////////////////////////////////////////
@@ -49,19 +51,19 @@ const SampleController   = function(_sampleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
-  //   update_selectedValue(e, value, id){
-  //     viewerFilterDisease = value;
-  //     if('undefined' !== typeof commandListHandler.update_selectedValue) commandListHandler.update_selectedValue(e, value, id);
-  //   }
-  // });
+  const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
+    onclick_confirm(e){
+      if ('undefined' !== typeof section_01Handler.section02_activateSection) section_01Handler.section02_activateSection(e);
+    }
+  });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
+  // console.log('fire section_01 '+ this.id);
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 export {
-  SampleController
+  Section_01Controller
 };

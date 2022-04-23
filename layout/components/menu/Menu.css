@@ -1,13 +1,14 @@
 /* menu set */
 .menu-top {
+  position: absolute;
+  z-index: 10;
   height: 0;
   width: 100%;
-  position: fixed;
-  z-index: 10;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #333;
   overflow-x: hidden;
+  transition-property: top;
   transition: 0.5s;
   padding-left: 60px;
 }
@@ -18,7 +19,6 @@
   font-size: 25px;
   color: #818181;
   display: block;
-  transition: 0.3s;
 }
 
 .menu-top a:hover {
@@ -29,11 +29,6 @@
   position: absolute;
   right: 80px;
   font-size: 36px;
-}
-
-#main {
-  transition: margin-left .5s;
-  padding: 16px;
 }
 
 @media screen and (max-width: 450px) {

@@ -2,7 +2,7 @@
  * block:  ArticleController
  ***/
 // Describe constant Class below
-const ArticleController   = function(articleHandler) {
+const ArticleController   = function(_articleHandler) {
 
   //? private variable & mapping //////////////////////////////////////////////
   const me                = this;

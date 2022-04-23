@@ -1,3 +1,6 @@
+import { Section_01Controller } from '/layout/articles/sample1/section_01/Section_01Controller';
+import { Section_02Controller } from '/layout/articles/sample1/section_02/Section_02Controller';
+
 /***
  * block:  ArticleController
  ***/
@@ -45,15 +48,21 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
-  //   update_selectedValue(e, value, id){
-  //     viewerFilterDisease = value;
-  //     if('undefined' !== typeof commandListHandler.update_selectedValue) commandListHandler.update_selectedValue(e, value, id);
-  //   }
-  // });
+  let section_01 = $SR.View(this.id + '-Section_01').inject(Section_01Controller, {
+    section02_activateSection(e){
+      section_02.activateSection();
+    }
+  });
+  let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
+    section01_activateSection(e) {
+      section_01.activateSection();
+    }
+  });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
+  // console.log('fire article Section-01', section_01.id);
+
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;

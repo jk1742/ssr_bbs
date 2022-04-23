@@ -8,8 +8,20 @@
 const Article = function (id) {
   return $SR.generateHtml `
   <article id="${id}" data-icon="fas fa-copyright" alt="this is a alt contents of this sample page">
-    <!-- article Title -->
-    <h3> Brave a new World 2</h3>
+    <section>
+      <div class="cont_main">
+        <!-- article Title -->
+        <div class="frame-top">
+          <h3> Brave a new World 2 </h3>
+        </div>
+        <div class="frame-mid">
+          hello second world
+        </div>
+        <div class="frame-btm">
+          bottom
+        </div>
+      </div>
+    </section>
   </article>
   `; // HTML end
 }

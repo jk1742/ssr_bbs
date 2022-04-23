@@ -17,11 +17,8 @@ const CmdSysFormalController   = function(cmdSysFormalHandler) {
   }, Super.prototype);
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  this.onUndo();
   this.onConfirm();
   this.onAlert();
-  this.setTooltipUndo('pervious page', 'bottom', '#555', 1, 0);
-  this.setTooltipUpload('upload', 'bottom', '#555', 1, 0);
   this.setTooltipConfirm('confirm', 'bottom', '#555', 1, 0);
   this.setTooltipAlert('alert', 'bottom', '#555', 1, 0);
 

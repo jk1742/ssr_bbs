@@ -26,8 +26,8 @@ const NavTabController   = function(navTabHandler) {
     articleId:{
       set:(str) => {_private.articleId = str},
       get:() => _private.articleId,
-      enumerable:true
-    }
+      enumerable: true
+    },
   });
 
   //* Access control: Public functions //////////////////////////////////////////
@@ -36,9 +36,9 @@ const NavTabController   = function(navTabHandler) {
     //   let carriage = ['None'].concat(arr);
     //   viewerSelect.generateList(carriage);
     // },
-    // trigger_onclickViewer(){
-    //   viewerIcon.onclick();
-    // },
+    trigger_onclickItem(){
+      item.onclick();
+    },
     // setTooltipAdd(msg, outline, color, opacity, width, height){
     //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
     // }

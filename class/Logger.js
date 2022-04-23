@@ -7,7 +7,7 @@ const Logger = function() {
   const _private = {};
   _private.status = LOG_SWITCH;
   _private.space  = '  ';
-  // accesscontrol getter setter
+  // accessControl getter setter
   Object.defineProperties(this, {
     status: {
       set: function(obj) {
@@ -46,5 +46,4 @@ const Logger = function() {
     if(this.status)console.log.apply(console, args);
   }
 }
-// Declare Logger Class  *** Do not change line sequence ***
 export { Logger };

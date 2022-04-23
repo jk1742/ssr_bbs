@@ -50,7 +50,7 @@ const MenuItemController = function (menuItemHandler) {
   // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
-  console.log('menu item controller', this);
+  // console.log('menu item controller', this);
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;
