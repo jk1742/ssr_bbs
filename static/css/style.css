@@ -20,6 +20,19 @@ html, body {
   padding: 0;
 }
 
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.skepticalBody {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.skepticalBody::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes zoominoutsingleheader {
   0% {
     transform: scale(1.1, 1.1);
@@ -123,7 +136,7 @@ canvas {
 .frame-top {
   height: 7vh;
   overflow: hidden;
-  background-color: #333;
+  background-color: #fff;
   position: relative;
 }
 .frame-top .frame-top-left {
@@ -163,6 +176,7 @@ canvas {
   height: 7vh;
   overflow: hidden;
   background-color: #333;
+  z-index: 0;
 }
 .frame-btm .frame-btm-left {
   float: left;

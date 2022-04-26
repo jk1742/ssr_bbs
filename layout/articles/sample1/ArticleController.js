@@ -61,8 +61,7 @@ const ArticleController   = function(_articleHandler) {
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
-  // console.log('fire article Section-01', section_01.id);
-
+  $SR.articleScrollLock(this);
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;

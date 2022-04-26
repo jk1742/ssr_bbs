@@ -6,8 +6,8 @@ const NavTabController   = function(navTabHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
-  const item                  = this.childNodes[0];
-  const close                 = this.childNodes[1];
+  const item = this.firstChild.childNodes[1];
+  const close = this.firstChild.childNodes[2];
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){

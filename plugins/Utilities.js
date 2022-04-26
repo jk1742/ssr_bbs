@@ -480,6 +480,66 @@ module.exports = {
     return new DOMParser().parseFromString(c, "text/html").body.firstChild;
   },
 
+  /**
+   * scroll lock on a selected article
+   * @param {*} dom
+   * @returns
+   */
+  articleScrollLock: function(dom){
+    dom.onmouseover = _.throttle(function () {
+      // scroll lock
+      document.childNodes[1].style.overflowY = 'hidden';
+      document.body.style.overflowY = 'hidden';
+      dom.style.overflowY = 'hidden';
+      // check correct position
+      const sections = [...this.getElementsByTagName('section')];
+      let secHeight;
+      let arrayLoc = [];
+      sections.forEach(element => {
+        const pos = element.getBoundingClientRect();
+        arrayLoc.push(pos.top);
+        secHeight = pos.height;
+      });
+      let needFix = false;
+      for (const obj of arrayLoc) {
+        const mod_k = obj % secHeight
+        if (mod_k != 0) needFix = true;
+      }
+      if (!needFix) return;
+      // adjust position
+      let tmp = 0;
+      let rc = 0;
+      for (let index = 0; index < sections.length; index++) {
+        const element = sections[index];
+        const k = Math.abs(element.getBoundingClientRect().top);
+        if (index == 0) tmp = k;
+        if (tmp > k) {
+          tmp = k;
+          rc = index;
+        }
+      }
+      console.warn('sr: unexpected wheel event occurred - position adjusted');
+      const y = sections[rc].getBoundingClientRect().top + window.scrollY
+      window.scroll({ top: y, behavior: 'instant' });
+    }, 600);
+    dom.onmouseout = function () {
+      document.childNodes[1].style.overflowY = 'scroll';
+      document.body.style.overflowY = 'scroll';
+    };
+    return dom;
+  },
+  /**
+  * scroll unlock on a selected article
+  * @param {*} dom
+  * @returns
+  */
+  articleScrollFree: function (dom) {
+    dom.addEventListener('mouseenter', e => {
+      document.childNodes[1].style.overflowY = 'scroll';
+      document.body.style.overflowY = 'scroll';
+    });
+    return dom;
+  },
  /*****
   * core : marge view and controller
   * return: html object with functions

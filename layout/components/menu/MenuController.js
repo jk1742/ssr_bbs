@@ -9,16 +9,22 @@ const MenuController   = function(menuHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
+  const menuTemplate = this.childNodes[1].firstChild.firstChild.childNodes[1];
   const close                 = this.firstChild;
   const array                 = [
     {
+      category: 'Sample type',
       name: 'sample1',
-      loc: 'sample1'
+      loc: 'sample1',
+      group: ''
     }, {
+      category: 'Sample type',
       name: 'sample2',
-      loc: 'sample2'
+      loc: 'sample2',
+      group: ''
     }
   ];
+  console.log("MenuController:", menuTemplate);
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   // const  getPositionInfo = function(e, t){
@@ -43,8 +49,9 @@ const MenuController   = function(menuHandler) {
           top: pos.top,
           width: pos.width,
           height: pos.height,
-          w_scrollX: window.scrollX,
-          w_scrollY: window.scrollY,
+          windowScrollX: window.scrollX,
+          windowScrollY: window.scrollY,
+          loc: window.scrollY + pos.top
         }
       },
       enumerable: true
@@ -55,11 +62,14 @@ const MenuController   = function(menuHandler) {
   Object.assign(this, {
     open(){
       this.style.height = '250px';
-      this.style.top = `${window.scrollY}px`;
+      this.style.top = `0px`;
     },
     repositionTop(top) {
       this.style.top = `${top + window.scrollY}px`;
     },
+    trigger_close(e){
+      close.onclick(e);
+    }
     // setTooltipAdd(msg, outline, color, opacity, width, height){
     //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
     // }
@@ -83,7 +93,7 @@ const MenuController   = function(menuHandler) {
   //* Lazy Initialization ///////////////////////////////////////////////////////
   for (const element of array) {
     let menuItem = new MenuItem(element.name);
-    this.appendChild(menuItem);
+    menuTemplate.appendChild(menuItem);
     menuItem = $SR.marge(MenuItemController, menuItem, {
       onclick_menuItem: () => import(
           /* webpackChunkName: "loader" */

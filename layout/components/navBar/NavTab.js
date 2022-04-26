@@ -7,8 +7,11 @@ const NavTab   = function(id, name, icon, alt, styles) {
 
   return $SR.generateHtml `
   <li id="${id}" style="${styles}">
-    <button class="itemBtn" alt="${alt}"><i class="${icon}"></i> ${name} </button>
-    <button class="closeBtn" alt="close this tab"><i class="fas fa-times"></i></button>
+    <a class="itemBtn" alt="${alt}">
+      <span class="icon is-small"> <i class="${icon}" aria-hidden="true"></i></span>
+      <span>${name}</span>
+      <button class="delete" style="margin-left:12px;"></button>
+    </a>
   </li>
   `; // HTML end
 }

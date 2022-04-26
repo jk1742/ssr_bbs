@@ -13,16 +13,15 @@ const NavBarController   = function(navBarHandler) {
     loc:0,
     focusArticleId:''
   };
-  const template              = this.firstChild;
-  const navFrame              = template.firstChild.firstChild;
-  const menu                  = navFrame.childNodes[0].firstChild;
-  const FOCUS                 = 'top-tab-activated';
+  const navFrame = this.firstChild.childNodes[1].firstChild.firstChild;
+  const menuOpen = this.firstChild.firstChild.firstChild;
+  const menuClose = this.firstChild.firstChild.childNodes[1];
+  const FOCUS                 = 'is-active';
+  // console.log("NavBarController:", navFrame);
 
   //* Privilege Static Functions //////////////////////////////////////////////
   const arrayTabs = () => {
-    const array = [...navFrame.getElementsByTagName('li')];
-    array.splice(0, 1);
-    return array;
+    return [...navFrame.getElementsByTagName('li')];
   }
 
   const focusRemove  = function(){
@@ -37,12 +36,12 @@ const NavBarController   = function(navBarHandler) {
       get: () => {
         const pos = this.getBoundingClientRect();
         return {
-          left      : pos.left,
-          top       : pos.top,
-          width     : pos.width,
-          height    : pos.height,
-          w_scrollX : window.scrollX,
-          w_scrollY : window.scrollY,
+          left          : pos.left,
+          top           : pos.top,
+          width         : pos.width,
+          height        : pos.height,
+          windowScrollX : window.scrollX,
+          windowScrollY : window.scrollY,
           loc: window.scrollY + pos.top
         }
       },
@@ -68,6 +67,7 @@ const NavBarController   = function(navBarHandler) {
       tab = $SR.View(tab.id).inject(NavTabController, {
         onclick_item  :(e) => {
           if ('undefined' !== typeof navBarHandler.onclick_tab) navBarHandler.onclick_tab(articleId, tab.getAttribute('data-index'));
+          console.log('tab.onclick_item', tab);
           focusRemove();
           tab.classList.add(FOCUS);
           this.focusArticleId = articleId;
@@ -104,13 +104,32 @@ const NavBarController   = function(navBarHandler) {
     },
     repositionTop(top){
       this.style.top = `${top + window.scrollY}px`;
-    }
+    },
+    reveal_menuOpen(){
+      menuOpen.style.display = 'block';
+      menuClose.style.display = 'none';
+    },
+    hideNavbar(_e){
+      // visibility: visible;
+      navFrame.style.visibility = 'hidden';
+    },
+    revealNavbar(_e){
+      navFrame.style.visibility = 'visible';
+    },
+    sizeTabs: () => arrayTabs().length
   });
 
   //* Event handler ///////////////////////////////////////////////////////////
   // register event
-  menu.onclick = (e) => {
-    if('undefined' !== typeof navBarHandler.onclick_menu) navBarHandler.onclick_menu(e);
+  menuOpen.onclick = (e) => {
+    menuOpen.style.display = 'none';
+    menuClose.style.display = 'block';
+    if ('undefined' !== typeof navBarHandler.onclick_menuOpen) navBarHandler.onclick_menuOpen(e);
+  };
+  menuClose.onclick = (e) => {
+    menuOpen.style.display = 'block';
+    menuClose.style.display = 'none';
+    if ('undefined' !== typeof navBarHandler.onclick_menuClose) navBarHandler.onclick_menuClose(e);
   };
 
   //* inject controller ///////////////////////////////////////////////////////
@@ -122,7 +141,8 @@ const NavBarController   = function(navBarHandler) {
   // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
-  // viewFilter.style.display    = 'none';
+  menuClose.style.display = 'none';
+  this.hideNavbar();
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;

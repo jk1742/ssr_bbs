@@ -7,15 +7,20 @@ import '/layout/components/navBar/NavBar.css';
 // Describe constant Class below
 const NavBar   = function(id, styles) {
   return $SR.generateHtml `
-    <nav class="nav-bar" id="${id}" style="${styles}">
-      <div class="nav-bar-frame">
-        <div class="navBarFrame-listBox">
-          <ul class="navBarFrame-list">
-            <li class="top-menu" ><button class="menuBtn" alt="menu"><i class="fas fa-th"></i></button></li>
+  <div class="column nav-bar-fixed nav-bar-animate" id="${id}" style="${styles}">
+    <div class="columns" role="navigation" aria-label="main navigation">
+      <div class="column is-narrow">
+        <a class="button is-info is-inverted"><span class="icon is-medium"><i class="fa-regular fa-folder-open" aria-hidden="true"></i></span></a>
+        <a class="button is-info is-inverted"><span class="icon is-medium"><i class="fa-solid fa-folder" aria-hidden="true"></i></span></a>
+      </div>
+      <div class="column">
+        <div class="tabs is-centered">
+          <ul>
           </ul>
         </div>
       </div>
-    </nav>
+    </div>
+  </div>
   `; // HTML end
 }
 export {
