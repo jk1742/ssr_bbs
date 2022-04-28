@@ -3,6 +3,7 @@
         "bulma",
         "fontawesome",
         "fortawesome",
-        "gapless"
+        "gapless",
+        "vcentered"
     ]
 }

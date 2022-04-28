@@ -14,6 +14,11 @@ const MenuController   = function(menuHandler) {
   const array                 = [
     {
       category: 'Sample type',
+      name: 'Notice Board',
+      loc: 'noticeBoard',
+      group: 'all'
+    }, {
+      category: 'Sample type',
       name: 'sample1',
       loc: 'sample1',
       group: ''

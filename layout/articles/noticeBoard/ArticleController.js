@@ -9,20 +9,17 @@ const ArticleController   = function(_articleHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private          = {};
-  const namePlate         = this.getElementsByTagName('h3')[0];
 
   //* Privilege Static Functions //////////////////////////////////////////////
-  // const getPositionInfo = function(e, t){
-  //   return {
-  //     left  : t.left,
-  //     top   : t.top,
-  //   }
+  // const getSubject = function(obj){
+  //   let subject;
+  //   return subject;
   // }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
     // subject:{
-    //   get: () => namePlate.innerText,
+    //   get: () => me.subject,
     //   enumerable:true
     // },
   });
@@ -48,16 +45,16 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  let section_01 = $SR.View(this.id + '-Section_01').inject(Section_01Controller, {
-    section02_activateSection(e){
-      section_02.activateSection();
-    }
-  });
-  let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
-    section01_activateSection(e) {
-      section_01.activateSection();
-    }
-  });
+  // let section_01 = $SR.View(this.id + '-Section_01').inject(Section_01Controller, {
+  //   section02_activateSection(e){
+  //     section_02.activateSection();
+  //   }
+  // });
+  // let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
+  //   section01_activateSection(e) {
+  //     section_01.activateSection();
+  //   }
+  // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   this.scrollLock = true;

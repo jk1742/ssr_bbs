@@ -46,6 +46,7 @@ html, body {
     transform: scale(1, 1);
   }
 }
+/* ver 1.0.1 */
 article {
   float: left;
 }
@@ -76,6 +77,11 @@ header {
     position: static;
     margin-top: 18vh;
 }
+/* ver 1.0.1 */
+.article-subject{
+  margin-left: 4vw;
+}
+
 header div.head_mid {
   opacity: 0.8;
   text-align: center;
@@ -95,9 +101,10 @@ header div.head_mid {
   background-color: #ffffff;
   color:black;
 }
-
+/* ver 1.0.1 */
 section {
-  padding-top: 5vh;
+  padding-top: 6vh;
+  height: 100%;
   background-position: left top;
   background-repeat: no-repeat;
   overflow-x: hidden;
@@ -122,22 +129,22 @@ canvas {
   background-position: center center;
   background-repeat: no-repeat;
 }
-
+/* ver 1.0.1 */
 .cont_main {
   position: static;
   width: 100%;
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
+  height: 94vh !important;
   background-color: white;
 }
 
-/* frame set */
+/* ver 1.0.1 */
 .frame-top {
+  padding-top: 3vh;
   height: 7vh;
   overflow: hidden;
   background-color: #fff;
-  position: relative;
+  /* position: relative; */
 }
 .frame-top .frame-top-left {
   margin: 0;
@@ -160,9 +167,11 @@ canvas {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+/* ver 1.0.1 */
 .frame-mid {
    width: 100%;
-   height: 81vh;
+   height: 80vh;
 }
 .frame-mid .frame-mid-center {
   display:block;
@@ -172,6 +181,8 @@ canvas {
   max-width:1200px;
   margin: 0 auto;
 }
+
+/* ver 1.0.1 */
 .frame-btm {
   height: 7vh;
   overflow: hidden;
@@ -338,8 +349,6 @@ table.entry-table tr td input[type="text"] {
   clear: both;
   display: block;
 }
-
-
 
 /* SelectGroup */
 .select-group {

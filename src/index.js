@@ -118,15 +118,13 @@ window.onload = function () {
   // fix nav bar width
   navBar.style.width = window.innerWidth;
 
-  intro = $SR.View('Intro').inject(IntroController, {});
+  intro = $SR.setModelById('Intro').inject(IntroController, {});
   intro.setPaddingTop(navBar.position.height);
 
   // queueEvent
   queueEvent.onQueuePush = (e) => {
     const cur = document.getElementById(e.detail.getMessage().id);
     const loc = cur.getBoundingClientRect().top;
-    // navBar.repositionTop(loc);
-    // menu.repositionTop(loc);
     logger.step(0, 'queueEvent.onQueuePush');
     logger.step(1, 'menu.position:', menu.position, 'scrollY:', window.scrollY);
     logger.step(1, 'navBar.position:', navBar.position, 'scrollY:', window.scrollY);

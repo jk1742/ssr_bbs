@@ -479,14 +479,63 @@ module.exports = {
     c = array.reduce((result, str) => (result + str));
     return new DOMParser().parseFromString(c, "text/html").body.firstChild;
   },
-
-  /**
-   * scroll lock on a selected article
-   * @param {*} dom
-   * @returns
-   */
-  articleScrollLock: function(dom){
-    dom.onmouseover = _.throttle(function () {
+  Article: function(dom) {
+    const fx = function () {
+      let _private= {
+        scrollLock: false,
+      };
+      Object.defineProperties(this, {
+        subject: {
+          get: function () {
+            let subject;
+            let array = [];
+            array = this.getElementsByClassName('article-subject');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h3');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h2');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h1');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            subject = "There is no subject of article.";
+            console.warn("append article error: There is no subject of article.");
+            return subject;
+          },
+          configurable: true
+        },
+        scrollLock:{
+          set: function (scrollLock){
+            _private.scrollLock = scrollLock;
+            if (scrollLock){
+              this.addEventListener('mouseenter', e => {
+                document.childNodes[1].style.overflowY = 'hidden';
+                document.body.style.overflowY = 'hidden';
+              });
+            } else {
+              this.addEventListener('mouseenter', e => {
+                document.childNodes[1].style.overflowY = 'scroll';
+                document.body.style.overflowY = 'scroll';
+              });
+            }
+          },
+          get: () => _private.scrollLock,
+          configurable: true
+        }
+      });
+    }
+    fx.call(dom);
+    return dom;
+  },
+  adjustSectionPosition: function (dom) {
+    dom.onmouseover = _.debounce(function () {
       // scroll lock
       document.childNodes[1].style.overflowY = 'hidden';
       document.body.style.overflowY = 'hidden';
@@ -522,23 +571,6 @@ module.exports = {
       const y = sections[rc].getBoundingClientRect().top + window.scrollY
       window.scroll({ top: y, behavior: 'instant' });
     }, 600);
-    dom.onmouseout = function () {
-      document.childNodes[1].style.overflowY = 'scroll';
-      document.body.style.overflowY = 'scroll';
-    };
-    return dom;
-  },
-  /**
-  * scroll unlock on a selected article
-  * @param {*} dom
-  * @returns
-  */
-  articleScrollFree: function (dom) {
-    dom.addEventListener('mouseenter', e => {
-      document.childNodes[1].style.overflowY = 'scroll';
-      document.body.style.overflowY = 'scroll';
-    });
-    return dom;
   },
  /*****
   * core : marge view and controller
@@ -553,8 +585,8 @@ module.exports = {
   },
   /**
    * isElement
-   * @param {*} obj 
-   * @returns 
+   * @param {*} obj
+   * @returns
    */
   isDOM: (obj) => {
     return isDOM(obj);
@@ -563,7 +595,7 @@ module.exports = {
    * core : DOMCall
    * inject controller to Dom object
    ******/
-  DOMCall: function (documentObject) {
+  setModelDOM: function (documentObject) {
     let dom = documentObject;
     if (isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
     let hasController = '';
@@ -620,6 +652,41 @@ module.exports = {
         //  - register Controller
         hasController = Controller.name;
         return (function (_dom, _Handler, ...Args){
+          return Controller.call(_dom, _Handler, ...Args);
+        })(dom, Handler, ...args);
+      },
+    });
+    return dom;
+  },
+  /*****
+ * core : setModelById
+ * return: html object with functions
+ * const model = (dom, handler) => Controller.call(dom, handler);
+ * dom = model(dom,{});
+ ******/
+  setModelById: function (id) {
+    let dom = document.getElementById(id);
+    let hasController = '';
+    Object.defineProperties(dom, {
+      hasController: {
+        get: function () {
+          return hasController;
+        },
+        configurable: true,
+      }
+    });
+    if ('article'==dom.tagName.toLowerCase()) this.Article(dom);
+    Object.assign(dom, {
+      inject: function (Controller, Handler) {
+        // double inject check
+        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+        // transfer params
+        let args = Array.from(arguments);
+        args.splice(0, 2);
+        // marge controller & view
+        //  - register Controller
+        hasController = Controller.name;
+        return (function (_dom, _Handler, ...Args) {
           return Controller.call(_dom, _Handler, ...Args);
         })(dom, Handler, ...args);
       },
