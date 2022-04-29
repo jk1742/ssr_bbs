@@ -7,6 +7,7 @@ import { CmdSysFormalController } from '/layout/articles/sample1/section_01/CmdS
 const Section_01Controller = function (section_01Handler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
+  const me                    = this;
   const _private              = {};
   let sectionEvent = $SR.Event.register('SectionChange');
   let queueEvent = $SR.Queue.getInstance();
@@ -40,7 +41,7 @@ const Section_01Controller = function (section_01Handler) {
       });
       const y = this.getBoundingClientRect().top + window.scrollY;
       console.log(this.getBoundingClientRect(), window.scrollY, y);
-      $SR.moveScreen_bak(this);
+      $SR.moveScreen(this);
     }
   });
 
@@ -49,11 +50,14 @@ const Section_01Controller = function (section_01Handler) {
   // item.onclick = (e) => {
   //   if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
   // }
+  
+  console.log('sction activate:', this.activate);
+  // console.log('sction activate:', this.activate());
 
   //* inject controller ///////////////////////////////////////////////////////
   const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
     onclick_confirm(e){
-      if ('undefined' !== typeof section_01Handler.section02_activateSection) section_01Handler.section02_activateSection(e);
+      if ('undefined' !== typeof section_01Handler.section02_activate) section_01Handler.section02_activate(e);
     }
   });
 

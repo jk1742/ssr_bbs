@@ -32,7 +32,6 @@ const Section_list = function (id) {
                 ${sampleTable.outerHTML}
               </div>
           </div>
-
         </div>
       </div>
       <div class="frame-btm">

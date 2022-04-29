@@ -42,7 +42,8 @@ const NavBarController   = function(navBarHandler) {
           height        : pos.height,
           windowScrollX : window.scrollX,
           windowScrollY : window.scrollY,
-          loc: window.scrollY + pos.top
+          loc: window.scrollY + pos.top,
+          windowTop: window.scrollY + pos.top,
         }
       },
       enumerable: true
@@ -67,7 +68,6 @@ const NavBarController   = function(navBarHandler) {
       tab = $SR.View(tab.id).inject(NavTabController, {
         onclick_item  :(e) => {
           if ('undefined' !== typeof navBarHandler.onclick_tab) navBarHandler.onclick_tab(articleId, tab.getAttribute('data-index'));
-          console.log('tab.onclick_item', tab);
           focusRemove();
           tab.classList.add(FOCUS);
           this.focusArticleId = articleId;
@@ -75,13 +75,14 @@ const NavBarController   = function(navBarHandler) {
         onclick_close :(e) => {
           tab.remove();
           this.sortTabs();
-          navBarHandler.onclick_close(articleId);
+          if ('undefined' !== typeof navBarHandler.onclick_close) navBarHandler.onclick_close(articleId);
         },
       });
       // set index
       tab.setAttribute('data-index', seq);
       // set articleId on tab
       tab.articleId = articleId;
+      // event
     },
     shiftDown(){
       this.style.marginTop = "250px";

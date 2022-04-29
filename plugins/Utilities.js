@@ -1,4 +1,7 @@
 /* eslint-disable no-undef */
+
+const { isNull } = require("lodash");
+
 /* eslint-disable no-unused-vars */
 function scrollToSmoothly(pos, time) {
   var currentPos = window.pageYOffset;
@@ -103,6 +106,83 @@ module.exports = {
      const start = new Date().getTime();
      while (new Date().getTime() < start + delay);
   },
+  /**
+   * Skeleton
+   *  load html visual skeleton form css
+   */
+  Skeleton: (function () {
+    let instance;
+    const SkeletonClass = function () {
+      const skeleton = ['section', '.cont_main', '.frame-top', '.frame-mid', '.frame-btm'];
+      const skeletonAttribute = ['margin-top', 'padding-top', 'border-top', 'height', 'border-bottom', 'padding-bottom', 'margin-bottom'];
+      let carriage = {};
+      let styleTmp = [];
+      const pick = (css) => {
+        const array = [...css];
+        const k = array.filter(e => skeleton.includes(e.selectorText));
+        if (k.length > 0) styleTmp = styleTmp.concat(k);
+      }
+      const find = (name) => {
+        return styleTmp.find(e => { return e.selectorText == name });
+      }
+      const v = [...document.styleSheets];
+      v.splice(0, 0, v.splice(1, 1)[0]); //for improving performance
+      for (const iterator of v) {
+        pick(iterator.cssRules || iterator.rules);
+        if (styleTmp.length >= 5) break;
+      }
+      for (const iterator of skeleton) {
+        const name = _.camelCase(iterator.replace(/\.|\#/, ''));
+        const r = find(iterator);
+        carriage[name] = {};
+        for (const inIter of skeletonAttribute) {
+          const value = r.style.getPropertyValue(inIter);
+          if (!isNull(value) && '' != value) carriage[name][_.camelCase(inIter)] = value;
+        }
+        const fx = function () {
+          const strip = (str)=>{
+            const array = str.match(/\d+/g);
+            if(array > 0) {
+              return Number(array[0]);
+            }
+            return null;
+          }
+          Object.assign(this, {
+            getIntValue: (str) => {
+              if (!isNull(this[str]) && this[str] !== undefined) {
+                return strip(this[str]);
+              }
+              const csStr = _.camelCase(str);
+              if (!isNull(this[csStr]) && this[csStr] !== undefined) {
+                return strip(this[csStr]);
+              }
+              return null;
+            }
+          });
+        }
+        fx.call(carriage[name]);
+      }
+      return carriage;
+    }
+    const test = function(){
+      console.log();
+    }
+    // return closure
+    return {
+      getInstance: function () {
+        if (instance == null) {
+          instance = new SkeletonClass();
+          instance.constructor = null;
+          localStorage.clear();
+        }
+        return instance;
+      }
+    };
+  })(),
+ /***
+  * EventCarrier
+  *  event type: onEventEmitted
+  ***/
   EventCarrier: (function(){
     let   instance = {};
     const SingletonEventClass = function() {
@@ -512,9 +592,9 @@ module.exports = {
           configurable: true
         },
         scrollLock:{
-          set: function (scrollLock){
-            _private.scrollLock = scrollLock;
-            if (scrollLock){
+          set: function (boolScrollLock){
+            _private.scrollLock = boolScrollLock;
+            if (boolScrollLock){
               this.addEventListener('mouseenter', e => {
                 document.childNodes[1].style.overflowY = 'hidden';
                 document.body.style.overflowY = 'hidden';
@@ -529,6 +609,33 @@ module.exports = {
           get: () => _private.scrollLock,
           configurable: true
         }
+      });
+      const scrollLock = dom.getAttribute('data-scroll-lock');
+      if (!isNull(scrollLock) && 'true' == scrollLock.toLowerCase()) {
+        this.scrollLock = true;
+      } else {
+        this.scrollLock = false;
+      }
+    }
+    fx.call(dom);
+    return dom;
+  },
+  Section: function (dom, me) {
+    const fx = function () {
+      let _private = {
+      };
+      let activities = me.Queue.getInstance();
+      Object.assign(this, {
+        activate(){
+          activities.push({
+            id: this.id,
+            name: 'moveSection',
+            detail: `move to section: ${this.id}`,
+            timestamp: Date.now(),
+            hash:''
+          });
+          me.moveScreen(this);
+        },
       });
     }
     fx.call(dom);
@@ -595,7 +702,7 @@ module.exports = {
    * core : DOMCall
    * inject controller to Dom object
    ******/
-  setModelDOM: function (documentObject) {
+  getModel: function (documentObject) {
     let dom = documentObject;
     if (isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
     let hasController = '';
@@ -659,12 +766,12 @@ module.exports = {
     return dom;
   },
   /*****
- * core : setModelById
+ * core : getModelById
  * return: html object with functions
  * const model = (dom, handler) => Controller.call(dom, handler);
  * dom = model(dom,{});
  ******/
-  setModelById: function (id) {
+  getModelById: function (id) {
     let dom = document.getElementById(id);
     let hasController = '';
     Object.defineProperties(dom, {
@@ -675,7 +782,9 @@ module.exports = {
         configurable: true,
       }
     });
-    if ('article'==dom.tagName.toLowerCase()) this.Article(dom);
+    const tagName = dom.tagName.toLowerCase();
+    if ('article' == tagName) this.Article(dom);
+    if ('section' == tagName || 'header' == tagName || 'footer' == tagName) this.Section(dom, this);
     Object.assign(dom, {
       inject: function (Controller, Handler) {
         // double inject check
@@ -698,14 +807,14 @@ module.exports = {
       window.scroll({ top: loc, behavior: 'smooth' });
     } else scrollToSmoothly(loc, 1000);
   },
-  moveScreen_bak:function(dom){
+  moveScreen:function(dom){
     const y = dom.getBoundingClientRect().top + window.scrollY;
     const browser = this.getBrowserInfo();
     if (browser.isChrome || browser.isEdge){
       window.scroll({ top: y, behavior: 'smooth' });
     } else scrollToSmoothly(y,1000);
   },
-  moveScreen: function(dom){
+  moveScreen_bak: function(dom){
     const y = dom.getBoundingClientRect().top + window.scrollY;
     const browser = this.getBrowserInfo();
     axios({

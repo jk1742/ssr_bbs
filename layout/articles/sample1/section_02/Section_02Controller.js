@@ -38,7 +38,7 @@ const Section_02Controller = function (section_02Handler) {
       queueEvent.push({
          id: this.id
       });
-      $SR.moveScreen_bak(this);
+      $SR.moveScreen(this);
     }
   });
 
@@ -51,8 +51,7 @@ const Section_02Controller = function (section_02Handler) {
   //* inject controller ///////////////////////////////////////////////////////
   const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
     onclick_confirm(e){
-      console.log(`cmdSysFormal` ,e)
-      if ('undefined' !== typeof section_02Handler.section01_activateSection) section_02Handler.section01_activateSection(e);
+      if ('undefined' !== typeof section_02Handler.section01_activate) section_02Handler.section01_activate(e);
     }
   });
 

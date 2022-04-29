@@ -1,4 +1,4 @@
-import { Section_01Controller } from '/layout/articles/sample1/section_01/Section_01Controller';
+import { Section_listController } from '/layout/articles/noticeBoard/section_list/Section_listController';
 import { Section_02Controller } from '/layout/articles/sample1/section_02/Section_02Controller';
 
 /***
@@ -45,11 +45,8 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  // let section_01 = $SR.View(this.id + '-Section_01').inject(Section_01Controller, {
-  //   section02_activateSection(e){
-  //     section_02.activateSection();
-  //   }
-  // });
+  let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
+  });
   // let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
   //   section01_activateSection(e) {
   //     section_01.activateSection();
@@ -57,7 +54,8 @@ const ArticleController   = function(_articleHandler) {
   // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
-  this.scrollLock = true;
+  // console.log(this.scrollLock);
+  // this.scrollLock = true;
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;

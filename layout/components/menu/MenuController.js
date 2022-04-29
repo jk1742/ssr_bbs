@@ -29,8 +29,7 @@ const MenuController   = function(menuHandler) {
       group: ''
     }
   ];
-  console.log("MenuController:", menuTemplate);
-
+  
   //* Privilege Static Functions ////////////////////////////////////////////////
   // const  getPositionInfo = function(e, t){
   //   return {

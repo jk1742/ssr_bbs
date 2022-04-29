@@ -219,32 +219,6 @@ const SampleTable = function (id) {
         <td>43</td>
         <td></td>
       </tr>
-      <tr>
-        <th>15</th>
-        <td><a href="https://en.wikipedia.org/wiki/Crystal_Palace_F.C." title="Crystal Palace F.C.">Crystal Palace</a></td>
-        <td>38</td>
-        <td>11</td>
-        <td>9</td>
-        <td>18</td>
-        <td>39</td>
-        <td>51</td>
-        <td>−12</td>
-        <td>42</td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>16</th>
-        <td><a href="https://en.wikipedia.org/wiki/A.F.C._Bournemouth" title="A.F.C. Bournemouth">AFC Bournemouth</a></td>
-        <td>38</td>
-        <td>11</td>
-        <td>9</td>
-        <td>18</td>
-        <td>45</td>
-        <td>67</td>
-        <td>−22</td>
-        <td>42</td>
-        <td></td>
-      </tr>
     </tbody>
   </table>
   `; // HTML end

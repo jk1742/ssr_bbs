@@ -18,7 +18,7 @@ import favicon from '/static/favicon/Favicon';
 //* import layout /////////////////////////////////////////////////////////////
 import { NavBar } from '/layout/components/navBar/NavBar';
 import { Menu   } from '/layout/components/menu/Menu';
-import { Intro } from '/layout/intro/Intro';
+import { Intro  } from '/layout/intro/Intro';
 
 //* import controller /////////////////////////////////////////////////////////
 import { NavBarController } from '/layout/components/navBar/NavBarController';
@@ -43,8 +43,8 @@ document.body.appendChild(navBar);
 document.body.appendChild(intro);
 
 //* event ////////////////////////////////////////////////////////////////////
-let sectionEvent = $SR.Event.register('SectionChange');
-let queueEvent = $SR.Queue.getInstance();
+// let sectionEvent = $SR.Event.register('SectionChange');
+let activities = $SR.Queue.getInstance();
 
 const displayArticle = (articleId) => {
   const articles = Array.from(document.getElementsByTagName('article'));
@@ -57,11 +57,44 @@ const displayArticle = (articleId) => {
   }
 }
 
-const articleRePosition = function (id, seq) {
-  const article = document.getElementById(id);
+const articleRePosition = function (articleId, seq) {
+  const article = document.getElementById(articleId);
+  // get css setting values
+  const skeleton = $SR.Skeleton.getInstance();
+  const section_PaddingTop = skeleton.section.getIntValue('padding-top');
+  const frameTop_height = skeleton.frameTop.getIntValue('height');
+  const frameMid_height = skeleton.frameMid.getIntValue('height');
+  // section build shape
   const sections = Array.from(article.getElementsByTagName('section'));
-  for (const e of sections) {
-    e.style.width = `${window.innerWidth}px`;
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    const window_verticalHeight = (i * 100);
+    section.style.width = `${window.innerWidth}px`;
+    // frame-top null check and input height value
+    let frameTop = section.getElementsByClassName('frame-top');
+    if (0 < frameTop.length) {
+      const element = frameTop[0];
+      element.style.position = 'absolute';
+      element.style.width = '100%';
+      element.style.top = `${section_PaddingTop + window_verticalHeight}vh`;
+    }
+    // frame-mid null check and input height value
+    let frameMid = section.getElementsByClassName('frame-mid');
+    if (0 < frameMid.length) {
+      const element = frameMid[0];
+      element.style.height = `${skeleton.frameMid.getIntValue('height')}vh`;
+      element.style.position = 'absolute';
+      element.style.width = '100%';
+      element.style.top = `${section_PaddingTop + frameTop_height + window_verticalHeight}vh`;
+    }
+    // frame-mid null check and input height value
+    let frameBtm = section.getElementsByClassName('frame-btm');
+    if (0 < frameBtm.length) {
+      const element = frameBtm[0];
+      element.style.position = 'absolute';
+      element.style.width = '100%';
+      element.style.top = `${section_PaddingTop + frameTop_height + frameMid_height + window_verticalHeight}vh`;
+    }
   }
 }// articleRePosition end
 
@@ -97,13 +130,15 @@ window.onload = function () {
     },
     onclick_tab: (articleId, seq) => {
       window.scrollTo({ top: 0 });
+      // menu.trigger_close();
       // skip this when equal target articleId with current ArticleId
       if (navBar.focusArticleId == articleId) return;
       // animation screen move tab
       displayArticle(articleId);
       // register focused articleId
       navBar.focusArticleId = articleId;
-      articleRePosition(articleId, seq);
+      // article reposition with position:absolute
+      if (document.getElementById(articleId).scrollLock) articleRePosition(articleId, seq);
     },
     onclick_close: (articleId) => {
       // if (navBar.focusArticleId == articleId) navBar.style.top = '0px';
@@ -118,16 +153,19 @@ window.onload = function () {
   // fix nav bar width
   navBar.style.width = window.innerWidth;
 
-  intro = $SR.setModelById('Intro').inject(IntroController, {});
-  intro.setPaddingTop(navBar.position.height);
+  intro = $SR.getModelById('Intro').inject(IntroController, {});
 
   // queueEvent
-  queueEvent.onQueuePush = (e) => {
+  activities.onQueuePush = (e) => {
     const cur = document.getElementById(e.detail.getMessage().id);
     const loc = cur.getBoundingClientRect().top;
-    logger.step(0, 'queueEvent.onQueuePush');
-    logger.step(1, 'menu.position:', menu.position, 'scrollY:', window.scrollY);
-    logger.step(1, 'navBar.position:', navBar.position, 'scrollY:', window.scrollY);
+    const msg = e.detail.getMessage();
+    logger.step(0, 'activities.onQueuePush');
+    logger.step(1, 'message ', msg.id);
+    logger.step(1, 'message ', msg.name);
+    logger.step(1, 'message ', msg.detail);
+    logger.step(1, 'message ', msg.timestamp);
+    logger.step(1, 'message ', msg.hash);
   }
   // navBar.position.height
 }

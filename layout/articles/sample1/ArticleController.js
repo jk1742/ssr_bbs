@@ -8,6 +8,7 @@ import { Section_02Controller } from '/layout/articles/sample1/section_02/Sectio
 const ArticleController   = function(_articleHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
+  let queueEvent = $SR.Queue.getInstance();
   const _private          = {};
   const namePlate         = this.getElementsByTagName('h3')[0];
 
@@ -48,15 +49,11 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  let section_01 = $SR.View(this.id + '-Section_01').inject(Section_01Controller, {
-    section02_activateSection(e){
-      section_02.activateSection();
-    }
+  let section_01 = $SR.getModelById(this.id + '-Section_01').inject(Section_01Controller, {
+    section02_activate: (e) =>section_02.activate()
   });
-  let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
-    section01_activateSection(e) {
-      section_01.activateSection();
-    }
+  let section_02 = $SR.getModelById(this.id + '-Section_02').inject(Section_02Controller, {
+    section01_activate: (e) => section_01.activate()
   });
 
   //* Lazy Initialization /////////////////////////////////////////////////////

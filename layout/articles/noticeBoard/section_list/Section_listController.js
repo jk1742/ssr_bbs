@@ -1,15 +1,13 @@
-import { CmdSysFormalController } from '/layout/articles/sample1/section_01/CmdSysFormalController';
+// import { CmdSysFormalController } from '/layout/articles/sample1/section_01/CmdSysFormalController';
 
 /***
  * block:  Section_01Controller
  ***/
 // Describe constant Class below
-const Section_01Controller = function (section_01Handler) {
+const Section_listController = function (_section_listHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
-  let sectionEvent = $SR.Event.register('SectionChange');
-  let queueEvent = $SR.Queue.getInstance();
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
@@ -34,14 +32,8 @@ const Section_01Controller = function (section_01Handler) {
 
   // Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
-    activateSection() {
-      queueEvent.push({
-        id: this.id
-      });
-      const y = this.getBoundingClientRect().top + window.scrollY;
-      console.log(this.getBoundingClientRect(), window.scrollY, y);
-      $SR.moveScreen_bak(this);
-    }
+    // activateSection() {
+    // }
   });
 
   //* Event handler ///////////////////////////////////////////////////////////
@@ -51,19 +43,18 @@ const Section_01Controller = function (section_01Handler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
-    onclick_confirm(e){
-      if ('undefined' !== typeof section_01Handler.section02_activateSection) section_01Handler.section02_activateSection(e);
-    }
-  });
+  // const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
+  //   onclick_confirm(e){
+  //     if ('undefined' !== typeof section_01Handler.section02_activateSection) section_01Handler.section02_activateSection(e);
+  //   }
+  // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
-  // console.log('fire section_01 '+ this.id);
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 export {
-  Section_01Controller
+  Section_listController
 };
