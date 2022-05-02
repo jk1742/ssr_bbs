@@ -7,7 +7,7 @@ import { SampleTable } from '/layout/articles/noticeBoard/section_list/SampleTab
 const Section_list = function (id) {
 
   //* View Register
-  const panelNavBtns = new PanelNavBtns(id +'-PanelNavBtns');
+  const panelNavBtns = new PanelNavBtns();
   const sampleTable = new SampleTable(id + '-SampleTable');
 
   //* Describe Tags

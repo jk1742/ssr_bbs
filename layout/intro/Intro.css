@@ -9,3 +9,10 @@
   width: 100%;
   padding: 20px;
 }
+video {
+  height: 94vh;
+  width: 100%;
+  /* use "cover"to avoid distortion */
+  object-fit: fill;
+  position: absolute;
+}

@@ -51,7 +51,7 @@ const Section_02Controller = function (section_02Handler) {
   //* inject controller ///////////////////////////////////////////////////////
   const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
     onclick_confirm(e){
-      if ('undefined' !== typeof section_02Handler.section01_activate) section_02Handler.section01_activate(e);
+      if ('undefined' !== typeof section_02Handler.sectionList_activate) section_02Handler.sectionList_activate(e);
     }
   });
 

@@ -37,7 +37,7 @@ meta.name = "viewport";
 meta.content = "width=device-width, initial-scale=1";
 document.getElementsByTagName('head')[0].appendChild(meta);
 // menu and nav
-document.body.classList.add('skepticalBody');
+document.body.classList.add('scroll-bar-hide');
 document.body.appendChild(menu);
 document.body.appendChild(navBar);
 document.body.appendChild(intro);
@@ -119,9 +119,9 @@ window.onload = function () {
 
   navBar = $SR.View('NavBar').inject(NavBarController, {
     onclick_menuOpen: (_e) => {
-      logger.step(0, 'navBar.onclick_menu');
-      console.log(logger.ind(1), 'menu.position:', menu.position, 'scrollY:', window.scrollY);
-      console.log(logger.ind(1), 'navBar.position:', navBar.position, 'scrollY:', window.scrollY);
+      // logger.step(0, 'navBar.onclick_menu');
+      // console.log(logger.ind(1), 'menu.position:', menu.position, 'scrollY:', window.scrollY);
+      // console.log(logger.ind(1), 'navBar.position:', navBar.position, 'scrollY:', window.scrollY);
       menu.open();
       navBar.shiftDown();
     },
@@ -138,10 +138,12 @@ window.onload = function () {
       // register focused articleId
       navBar.focusArticleId = articleId;
       // article reposition with position:absolute
-      if (document.getElementById(articleId).scrollLock) articleRePosition(articleId, seq);
+      const article = document.getElementById(articleId);
+      if (article.scrollLock) {
+        articleRePosition(articleId, seq);
+      }
     },
     onclick_close: (articleId) => {
-      // if (navBar.focusArticleId == articleId) navBar.style.top = '0px';
       const article = document.getElementById(articleId);
       article.remove();
       if(navBar.sizeTabs() <= 0) {

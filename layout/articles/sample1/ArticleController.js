@@ -1,6 +1,6 @@
-import { Section_01Controller } from '/layout/articles/sample1/section_01/Section_01Controller';
+import { Section_listController } from '/layout/articles/sample1/section_list/Section_listController';
 import { Section_02Controller } from '/layout/articles/sample1/section_02/Section_02Controller';
-
+import { ToolTipController } from '/layout/components/toolTip/ToolTipController';
 /***
  * block:  ArticleController
  ***/
@@ -11,14 +11,11 @@ const ArticleController   = function(_articleHandler) {
   let queueEvent = $SR.Queue.getInstance();
   const _private          = {};
   const namePlate         = this.getElementsByTagName('h3')[0];
+  // const toolTip = this.children[0];
+  const toolTip           = $SR.registerModel(this.children[0]).inject(ToolTipController,{});
+  // console.log(toolTip);
 
   //* Privilege Static Functions //////////////////////////////////////////////
-  // const getPositionInfo = function(e, t){
-  //   return {
-  //     left  : t.left,
-  //     top   : t.top,
-  //   }
-  // }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -49,17 +46,21 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  let section_01 = $SR.getModelById(this.id + '-Section_01').inject(Section_01Controller, {
-    section02_activate: (e) =>section_02.activate()
+  let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
+    section02_activate: (e) => section_02.activate()
   });
   let section_02 = $SR.getModelById(this.id + '-Section_02').inject(Section_02Controller, {
-    section01_activate: (e) => section_01.activate()
+    sectionList_activate: (e) => {
+      console.log('sectionList_activate', e);
+      section_list.activate()
+    }
   });
 
+  console.log(section_list);
   //* Lazy Initialization /////////////////////////////////////////////////////
   this.scrollLock = true;
 
-  //* End of Structure //////////////////////////////////////////////////////////
+  //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 export {

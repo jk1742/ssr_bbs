@@ -1,9 +1,31 @@
 /* eslint-disable no-undef */
-
 const { isNull } = require("lodash");
 
+/*****
+  * name  : getBrowser
+  * return:   isAndroid, isCordova, isEdge, isFirefox, isChrome, isChromeIOS, isChromiumBased,
+              isIE, isIOS, isOpera, isSafari, isTouchScreen, isWebComponentsSupported
+  ******/
+const getBrowserInfo = function() {
+  return {
+    isAndroid: /Android/.test(navigator.userAgent),
+    isCordova: !!window.cordova,
+    isEdge: /Edge/.test(navigator.userAgent),
+    isFirefox: /Firefox/.test(navigator.userAgent),
+    isChrome: /Google Inc/.test(navigator.vendor),
+    isChromeIOS: /CriOS/.test(navigator.userAgent),
+    isChromiumBased: !!window.chrome && !/Edge/.test(navigator.userAgent),
+    isIE: /Trident/.test(navigator.userAgent),
+    isIOS: /(iPhone|iPad|iPod)/.test(navigator.platform),
+    isOpera: /OPR/.test(navigator.userAgent),
+    isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
+    isTouchScreen: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+    isWebComponentsSupported: 'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+  };
+}
+
 /* eslint-disable no-unused-vars */
-function scrollToSmoothly(pos, time) {
+const scrollToSmoothly = function (pos, time) {
   var currentPos = window.pageYOffset;
   var start = null;
   if(time == null) time = 500;
@@ -28,26 +50,27 @@ function scrollToSmoothly(pos, time) {
  * security policy
  *****/
  let klp;
- function getCertifyKey() {
+const getCertifyKey = function() {
    return klp;
  }
- function setCertifyKey(o) {
+const setCertifyKey =  function(o) {
    klp = o;
  }
+
 /*****
  * server stamp
  *****/
  let tkCnt = 0;
- function stampCnt() {
+const stampCnt = function() {
    return tkCnt++;
- }
+}
 
 /**
   * isDOM
-  * @param {*} obj 
-  * @returns 
+  * @param {*} obj
+  * @returns
   */
-function isDOM(obj){
+const isDOM = function(obj){
   try {
     //Using W3 DOM2 (works for FF, Opera and Chrome)
     return obj instanceof HTMLElement;
@@ -60,6 +83,41 @@ function isDOM(obj){
       (obj.nodeType === 1) && (typeof obj.style === "object") &&
       (typeof obj.ownerDocument === "object");
   }
+}
+
+/**
+  * instantIdStamp
+  *   Count how many parent nodes to Target
+  * @param {*} obj
+  * @returns
+  */
+const instantIdStamp = function(DOM){
+  const countToTop = function (target, o) {
+    let cnt = 0;
+    const fx = function (_target, _o) {
+      const node = _o;
+      if (!node.tagName) return 'article-child';
+      if (node.tagName == _target) return cnt;
+      cnt++;
+      return fx(_target, node.parentNode);
+    }
+    return fx(target, o);
+  }
+  const countToHorizontal = function (o) {
+    const array = [...o['parentNode']['children']]
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      if (o.isSameNode(element)) return index;
+    }
+  }
+  return _.join([
+    countToTop('SECTION', DOM),
+    countToTop('ARTICLE', DOM),
+    countToTop('BODY', DOM),
+    Math.floor(new Date().getTime() / 1000).toString(16),
+    countToHorizontal(DOM),
+    DOM.parentNode.children.length
+  ], '-');
 }
 
 module.exports = {
@@ -112,7 +170,7 @@ module.exports = {
    */
   Skeleton: (function () {
     let instance;
-    const SkeletonClass = function () {
+    const SkeletonClass = function() {
       const skeleton = ['section', '.cont_main', '.frame-top', '.frame-mid', '.frame-btm'];
       const skeletonAttribute = ['margin-top', 'padding-top', 'border-top', 'height', 'border-bottom', 'padding-bottom', 'margin-bottom'];
       let carriage = {};
@@ -163,9 +221,6 @@ module.exports = {
         fx.call(carriage[name]);
       }
       return carriage;
-    }
-    const test = function(){
-      console.log();
     }
     // return closure
     return {
@@ -559,11 +614,26 @@ module.exports = {
     c = array.reduce((result, str) => (result + str));
     return new DOMParser().parseFromString(c, "text/html").body.firstChild;
   },
+  /**
+   * Article
+   * @param {*} dom
+   * @returns
+   * @variable subject
+   * @variable scrollLock
+   * @function removeClassArticle
+   * @function appendClassArticle
+   */
   Article: function(dom) {
     const fx = function () {
       let _private= {
         scrollLock: false,
       };
+      const articleCSSIterator = (me, skeleton, fxo)=>{
+        const structure = [...me.getElementsByClassName(skeleton)];
+        for (const iterator of structure) {
+          fxo(iterator);
+        }
+      }
       Object.defineProperties(this, {
         subject: {
           get: function () {
@@ -610,6 +680,18 @@ module.exports = {
           configurable: true
         }
       });
+      Object.assign(this, {
+        removeCSSArticle(skeleton, target) {
+          articleCSSIterator(this, skeleton, (iterator) => {
+            if (iterator.classList.contains(target)) iterator.classList.remove(target);
+          });
+        },
+        appendCSSArticle(skeleton, target) {
+          articleCSSIterator(this, skeleton, (iterator) => {
+            iterator.classList.add(target);
+          });
+        }
+      });
       const scrollLock = dom.getAttribute('data-scroll-lock');
       if (!isNull(scrollLock) && 'true' == scrollLock.toLowerCase()) {
         this.scrollLock = true;
@@ -635,6 +717,15 @@ module.exports = {
             hash:''
           });
           me.moveScreen(this);
+        },
+        checkInteractiveDOM(target){
+          const _fx = function (_o) {
+            const node = _o;
+            if (node.isInteractDOM) return node;
+            if (node.tagName == 'SECTION' || node.tagName == 'BODY') return null;
+            return _fx(node.parentNode);
+          }
+          return _fx(target);
         },
       });
     }
@@ -679,6 +770,151 @@ module.exports = {
       window.scroll({ top: y, behavior: 'instant' });
     }, 600);
   },
+  /**
+   * 
+   * @param {*} documentObject 
+   * @returns 
+   */
+  registerModel: function (documentObject) {
+    // DOM check
+    let dom = documentObject;
+    if (!isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
+    const ssr = this;
+    const fx = function () {
+      // variables
+      let name;
+      // private
+      let _private = {
+        hasController: '',
+        parentSectionId: '',
+        parentArticleId: '',
+        isInteractDOM: false,
+        interactiveAction: ()=> null
+      };
+      // private functions
+      const getParentId = function (target, o) {
+        const _fx = function (_target, _o) {
+          const node = _o;
+          if (!node) return '';
+          if (node.tagName == _target) return node.id;
+          return _fx(_target, node.parentNode);
+        }
+        return _fx(target, o);
+      }
+      // access control
+      Object.defineProperties(this, {
+        hasController: {
+          get: function () {
+            return _private.hasController;
+          },
+          configurable: true,
+        },
+        parentSectionId: {
+          set: function (p) {
+            _private.parentSectionId = p;
+          },
+          get: function () {
+            return _private.parentSectionId;
+          },
+          configurable: true,
+        },
+        parentArticleId: {
+          set: function (p) {
+              _private.parentArticleId = p;
+          },
+          get: function () {
+            return _private.parentArticleId;
+          },
+          configurable: true,
+        },
+        isInteractDOM:{
+          get:() => _private.isInteractDOM,
+          set: function (p) {
+            _private.isInteractDOM = p;
+          },
+          configurable: true,
+        }
+      });
+      // public function
+      Object.assign(this, {
+        inject: function (Controller, Handler) {
+          // double inject check
+          if (this.hasController !== '') console.warn(`Instance inject error: There was already injected ${this.hasController};Controller is able to inject once`);
+          // transfer params
+          let args = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          _private.hasController = Controller.name;
+          return (function (_dom, _handler, ...Args) {
+            return Controller.call(_dom, _handler, ...Args);
+          })(this, Handler, ...args);
+        },
+        setTooltip: function (msg, outline, color, opacity, width, height) {
+          console.log(msg, outline, color, opacity, width, height);
+          const toolTipEvent = ssr.Event.register('ToolTipEvent');
+          const t = this.getBoundingClientRect();
+          this.onmouseenter = (e) => {
+            toolTipEvent.emit({
+              id: this.id,
+              name: 'onmouseenter',
+              detail: `mouse entered: ${this.id}`,
+              timestamp: Date.now(),
+              hash: '',
+              tip: {
+                msg: msg,
+                outline: outline,
+                color: color,
+                opacity: opacity,
+                width: width,
+                height: height,
+                position: {
+                  left: t.left,
+                  top: t.top,
+                  width: t.width,
+                  height: t.height,
+                  pageX: e.pageX,
+                  pageY: e.pageY,
+                }
+              }
+            });
+          }
+          this.onmouseleave = (e) => {
+            toolTipEvent.emit({
+              id: this.id,
+              name: 'onmouseleave',
+              detail: `mouse entered: ${this.id}`,
+              timestamp: Date.now(),
+              hash: ''
+            });
+          }
+          return this;
+        },
+        run: (runFx) => {
+          runFx(this);
+          return this;
+        },
+        setInteractive:(_fxo)=>{
+          this.isInteractDOM = true;
+          if (_fxo !== null) _private.interactiveAction = _fxo;
+          return this;
+        },
+        launchInteractive:()=>{
+          _private.interactiveAction(this);
+          return this;
+        }
+      });
+      // new id set
+      if (this.id != '') name = this.id;
+      else name = this.tagName.toLowerCase();
+      this.id = name + '-' + instantIdStamp(this);
+      // get section-id
+      this.parentSectionId = getParentId('SECTION', this);
+      this.parentArticleId = getParentId('ARTICLE', this);
+    }
+    fx.call(dom);
+    return dom;
+  },
  /*****
   * core : marge view and controller
   * return: html object with functions
@@ -697,39 +933,6 @@ module.exports = {
    */
   isDOM: (obj) => {
     return isDOM(obj);
-  },
-  /*****
-   * core : DOMCall
-   * inject controller to Dom object
-   ******/
-  getModel: function (documentObject) {
-    let dom = documentObject;
-    if (isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
-    let hasController = '';
-    Object.defineProperties(dom, {
-      hasController: {
-        get: function () {
-          return hasController;
-        },
-        configurable: true,
-      }
-    });
-    Object.assign(dom, {
-      inject: function (Controller, Handler) {
-        // double inject check
-        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
-        // transfer params
-        let args = Array.from(arguments);
-        args.splice(0, 2);
-        // marge controller & view
-        //  - register Controller
-        hasController = Controller.name;
-        return (function (_dom, _handler, ...Args) {
-          return Controller.call(_dom, _handler, ...Args);
-        })(dom, Handler, ...args);
-      },
-    });
-    return dom;
   },
  /*****
   * core : View
@@ -851,21 +1054,5 @@ module.exports = {
   * return:   isAndroid, isCordova, isEdge, isFirefox, isChrome, isChromeIOS, isChromiumBased,
               isIE, isIOS, isOpera, isSafari, isTouchScreen, isWebComponentsSupported
   ******/
-  getBrowserInfo: function(){
-    return {
-      isAndroid: /Android/.test(navigator.userAgent),
-      isCordova: !!window.cordova,
-      isEdge: /Edge/.test(navigator.userAgent),
-      isFirefox: /Firefox/.test(navigator.userAgent),
-      isChrome: /Google Inc/.test(navigator.vendor),
-      isChromeIOS: /CriOS/.test(navigator.userAgent),
-      isChromiumBased: !!window.chrome && !/Edge/.test(navigator.userAgent),
-      isIE: /Trident/.test(navigator.userAgent),
-      isIOS: /(iPhone|iPad|iPod)/.test(navigator.platform),
-      isOpera: /OPR/.test(navigator.userAgent),
-      isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
-      isTouchScreen: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
-      isWebComponentsSupported: 'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
-    };
-  },
+  getBrowserInfo: () => getBrowserInfo(),
 };

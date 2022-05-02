@@ -11,7 +11,7 @@ const Intro   = function(id, styles) {
   return $SR.generateHtml `
   <article id="${id}" class="intro-frame" style="${styles}">
     <Section>
-      <div class="cont_main">
+      <div class="cont_main scroll-bar-hide">
         <video autoplay muted loop id="backgroundVideo">
           <source src="${video}" type="video/mp4">
           Your browser does not support HTML5 video.

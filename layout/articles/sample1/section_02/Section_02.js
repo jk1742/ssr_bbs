@@ -27,7 +27,6 @@ const Section_02 = function (id) {
       </div>
       <div class="frame-mid">
         Brave a new World  section 2
-
         <h3>this is second page</h3>
       </div>
       <div class="frame-btm">

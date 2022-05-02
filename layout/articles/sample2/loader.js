@@ -9,5 +9,5 @@ export default () => {
     let article = new Article(articleId);
     document.body.appendChild(article);
     // insert controller
-    $SR.View(articleId).inject(ArticleController, {});
+    $SR.getModelById(articleId).inject(ArticleController, {});
 };

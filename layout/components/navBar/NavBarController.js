@@ -86,8 +86,10 @@ const NavBarController   = function(navBarHandler) {
     },
     shiftDown(){
       this.style.marginTop = "250px";
+      this.classList.add('nav-bar-shadow');
     },
     shiftUp() {
+      this.classList.remove('nav-bar-shadow');
       this.style.marginTop = "0px";
     },
     sortTabs() {

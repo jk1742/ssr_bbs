@@ -19,10 +19,10 @@ const ArticleController   = function(_articleHandler) {
   // subject // alt // icon //
   //? Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
-    subject:{
-      get: () => namePlate.innerText,
-      enumerable:true
-    },
+    // subject:{
+    //   get: () => namePlate.innerText,
+    //   enumerable:true
+    // },
   });
 
   //? Access control: Public functions ////////////////////////////////////////
@@ -55,6 +55,7 @@ const ArticleController   = function(_articleHandler) {
 
   //? Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
+  this.scrollLock = false;
 
   //? End of Structure //////////////////////////////////////////////////////////
   return this;
