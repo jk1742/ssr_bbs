@@ -162,12 +162,12 @@ window.onload = function () {
     const cur = document.getElementById(e.detail.getMessage().id);
     const loc = cur.getBoundingClientRect().top;
     const msg = e.detail.getMessage();
-    logger.step(0, 'activities.onQueuePush');
-    logger.step(1, 'message ', msg.id);
-    logger.step(1, 'message ', msg.name);
-    logger.step(1, 'message ', msg.detail);
-    logger.step(1, 'message ', msg.timestamp);
-    logger.step(1, 'message ', msg.hash);
+    console.log('activities.onQueuePush');
+    console.log('  message ', msg.id);
+    console.log('  message ', msg.name);
+    console.log('  message ', msg.detail);
+    console.log('  message ', msg.timestamp);
+    console.log('  message ', msg.hash);
   }
   // navBar.position.height
 }

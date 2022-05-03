@@ -1,5 +1,6 @@
+import { ToolTipController } from '/layout/components/toolTip/ToolTipController';
 import { Section_listController } from '/layout/articles/noticeBoard/section_list/Section_listController';
-import { Section_02Controller } from '/layout/articles/sample1/section_02/Section_02Controller';
+import { Section_detailController } from '/layout/articles/noticeBoard/section_detail/Section_detailController';
 
 /***
  * block:  ArticleController
@@ -9,6 +10,7 @@ const ArticleController   = function(_articleHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private          = {};
+  let toolTip = this.children[0];
 
   //* Privilege Static Functions //////////////////////////////////////////////
   // const getSubject = function(obj){
@@ -45,13 +47,13 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
+  $SR.registerModel(toolTip).inject(ToolTipController, {});
   let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
+    onclick_write: (e) => section_detail.activate()
   });
-  // let section_02 = $SR.View(this.id + '-Section_02').inject(Section_02Controller, {
-  //   section01_activateSection(e) {
-  //     section_01.activateSection();
-  //   }
-  // });
+  let section_detail = $SR.getModelById(this.id + '-Section_detail').inject(Section_detailController, {
+    onclick_list: (e) => section_list.activate()
+  });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // console.log(this.scrollLock);

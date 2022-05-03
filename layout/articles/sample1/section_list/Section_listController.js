@@ -18,7 +18,6 @@ const Section_listController = function (section_listHandler) {
   let sectionEvent            = $SR.Event.register('SectionChange');
   let queueEvent              = $SR.Queue.getInstance();
 
-
   //* Privilege Static Functions //////////////////////////////////////////////
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -50,25 +49,20 @@ const Section_listController = function (section_listHandler) {
 
   //* inject controller ///////////////////////////////////////////////////////
   subject = $SR.registerModel(subject).inject(SubjectController, {});
-  panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController,{
-  });
+  // panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController,{});
   subject.subjectValue = 'Sample List Page';
-  // panelNavBtns.down.setTooltip();
 
-  console.log('panelNavBtns.down:',panelNavBtns.down);
-  this.onclick = (e) =>{
-    console.log("target = " + e.target.tagName + ", this=" + this.tagName);
-    const iNode = this.checkInteractiveDOM(e.target);
-    if (iNode !== null){
-      console.log("onclick checkInteractiveDOM: ");
-      if ('undefined' !== typeof section_listHandler.section02_activate) section_listHandler.section02_activate(e);
-    }
-    // if (iNode!==null)iNode.run((d)=>{
-    //   console.log("hello world ", d);
-    //   iNode.launchInteractive(); // if ('undefined' !== typeof section_02Handler.section01_activate) section_02Handler.section01_activate(e);
-    // });
-  }
-  console.log(subject.subjectValue);
+  // panelNavBtns.down.onclick =(e) => {
+  //   if ('undefined' !== typeof section_listHandler.section02_activate) section_listHandler.section02_activate(e);
+  // }
+
+  // this.onclick = (e) =>{
+  //   console.log("target = " + e.target.tagName + ", this=" + this.tagName);
+  //   const iNode = this.checkInteractiveDOM(e.target);
+  //   if (iNode !== null){
+  //     console.log("onclick checkInteractiveDOM: ", );
+  //   }
+  // }
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';

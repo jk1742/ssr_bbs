@@ -1,18 +1,18 @@
 // import { CmdSysFormalController } from '/layout/articles/sample1/section_01/CmdSysFormalController';
 // import { PanelNavBtns } from '/layout/components/panel/navBtns/PanelNavBtns';
-import { PanelNavBtnsController } from "/layout/components/panel/navBtns/PanelNavBtnsController";
+import { PanelNavBtnsController } from "./PanelNavBtnsController";
 
 /***
  * block:  Section_01Controller
  ***/
 // Describe constant Class below
-const Section_listController = function (_section_listHandler) {
+const Section_listController = function (section_listHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
   const contents              = this.firstChild;
   const frameTop              = contents.childNodes[1];
-  const panelNavBtns          = frameTop.firstChild.childNodes[2];
+  let panelNavBtns            = frameTop.firstChild.childNodes[2];
   console.log('Section_listController', panelNavBtns);
 
   //* Privilege Static Functions ////////////////////////////////////////////////
@@ -42,19 +42,14 @@ const Section_listController = function (_section_listHandler) {
     // }
   });
 
-  //* Event handler ///////////////////////////////////////////////////////////
-  // register menu event
-  // item.onclick = (e) => {
-  //   if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
-  // }
-
   //* inject controller ///////////////////////////////////////////////////////
-  // const cmdSysFormal = $SR.View(this.id + '-CmdSysFormal').inject(CmdSysFormalController, {
-  //   onclick_confirm(e){
-  //     if ('undefined' !== typeof section_01Handler.section02_activateSection) section_01Handler.section02_activateSection(e);
-  //   }
-  // });
-  // $SR.getModel
+  panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController, {});
+
+  //* Event handler ///////////////////////////////////////////////////////////
+  panelNavBtns.write.onclick = (e) => {
+    console.log('panelNavBtns.write.onclick:',e)
+    if ('undefined' !== typeof section_listHandler.onclick_write) section_listHandler.onclick_write(e);
+  }
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';

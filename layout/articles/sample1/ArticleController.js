@@ -50,10 +50,7 @@ const ArticleController   = function(_articleHandler) {
     section02_activate: (e) => section_02.activate()
   });
   let section_02 = $SR.getModelById(this.id + '-Section_02').inject(Section_02Controller, {
-    sectionList_activate: (e) => {
-      console.log('sectionList_activate', e);
-      section_list.activate()
-    }
+    sectionList_activate: (e) => section_list.activate()
   });
 
   console.log(section_list);

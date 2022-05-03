@@ -771,9 +771,9 @@ module.exports = {
     }, 600);
   },
   /**
-   * 
-   * @param {*} documentObject 
-   * @returns 
+   *
+   * @param {*} documentObject
+   * @returns
    */
   registerModel: function (documentObject) {
     // DOM check
@@ -855,6 +855,7 @@ module.exports = {
           const toolTipEvent = ssr.Event.register('ToolTipEvent');
           const t = this.getBoundingClientRect();
           this.onmouseenter = (e) => {
+            console.log('setTooltip onmouseenter', e)
             toolTipEvent.emit({
               id: this.id,
               name: 'onmouseenter',
