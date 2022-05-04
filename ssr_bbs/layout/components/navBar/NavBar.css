@@ -1,73 +1,17 @@
 /* frame set */
-.nav-bar {
-  height: 5vh;
+.nav-bar-fixed {
   overflow: hidden;
-  background-color: #333;
-  z-index: 10;
-  position: relative;
+  z-index: 20;
+  position: fixed;
+  top: 0px;
+  right:0px;
+  background-color: #fff;
 }
-.nav-bar .nav-bar-frame {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+.nav-bar-animate {
+  transition: margin-top .5s;
 }
-
-.navBarFrame-listBox{
-  display: block;
-  height: 5vh;
-  line-height: 5vh;
+.nav-bar-shadow {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 4px 4px -1px,
+    rgba(0, 0, 0, 0.3) 0px 4px 4px -1px;
+  /* box-shadow: rgba(0, 0, 0, 0.45) 0px 10px 10px -10px; */
 }
-ul.navBarFrame-list {
-  margin: auto;
-  padding-left: 0px;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  list-style-type: none;
-}
-ul.navBarFrame-list li {
-  float: left;
-}
-
-ul.navBarFrame-list li.top-tab-activated{
-  background-color: rgb(114, 113, 113);
-}
-
-ul.navBarFrame-list li button.menuBtn{
-  background-color: inherit;
-  margin-right: 8px;
-  margin-left: 8px;
-  font-size: 16px;
-  color: #ccc;
-  border: none;
-  cursor: pointer;
-}
-
-ul.navBarFrame-list li button.itemBtn{
-  background-color: inherit;
-  margin-right: 8px;
-  margin-left: 16px;
-  font-size: 16px;
-  color: #ccc;
-  border: none;
-  cursor: pointer;
-}
-
-ul.navBarFrame-list li button.closeBtn{
-  background-color: inherit;
-  margin-right: 16px;
-  font-size: 16px;
-  color: #ccc;
-  border: none;
-  cursor: pointer;
-}
-
-ul.navBarFrame-list li button:hover {
-  color: white;
-}
-ul.navBarFrame-list li button.active {
-  color: #4CAF50;
-}
-

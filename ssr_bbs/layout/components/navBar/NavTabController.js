@@ -4,12 +4,12 @@
 // Describe constant Class below
 const NavTabController   = function(navTabHandler) {
 
-  //? private variable & mapping ////////////////////////////////////////////////
-  const me                    = this;
-  const item                  = me.childNodes[0];
-  const close                 = me.childNodes[1];
+  //* private variable & mapping ////////////////////////////////////////////////
+  const _private              = {};
+  const item = this.firstChild.childNodes[1];
+  const close = this.firstChild.childNodes[2];
 
-  //? Privilege Static Functions ////////////////////////////////////////////////
+  //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
     return {
       left  : t.left,
@@ -21,39 +21,30 @@ const NavTabController   = function(navTabHandler) {
     }
   }
 
-  //? Access Control: getter & setter ///////////////////////////////////////////
+  //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
-    // tooltipSwitch:{
-    //   set: function(o) {
-    //     swTooltip = o;
-    //   },
-    //   get: function() {
-    //     return swTooltip;
-    //   }
-    // },
-    // viewerFilterDisease:{
-    //   get:() => viewerFilterDisease,
-    //   enumerable:true
-    // }
+    articleId:{
+      set:(str) => {_private.articleId = str},
+      get:() => _private.articleId,
+      enumerable: true
+    },
   });
 
-  // Access control: Public functions //////////////////////////////////////////
+  //* Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
     // setViewFilter(arr){
     //   let carriage = ['None'].concat(arr);
     //   viewerSelect.generateList(carriage);
     // },
-    // trigger_onclickViewer(){
-    //   viewerIcon.onclick();
-    // },
+    trigger_onclickItem(){
+      item.onclick();
+    },
     // setTooltipAdd(msg, outline, color, opacity, width, height){
     //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
     // }
   });
 
-  /***
-   * Event handler
-   ***/
+  //* Event handler ///////////////////////////////////////////////////////////
   // register menu event
   item.onclick = (e) => {
     if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
@@ -61,16 +52,8 @@ const NavTabController   = function(navTabHandler) {
   close.onclick = (e) => {
     if('undefined' !== typeof navTabHandler.onclick_close) navTabHandler.onclick_close(e);
   }
-  // register viewerIcon event
-  // viewerIcon.onclick = (e) => {
-  //   let swFilter = viewerSelect.style.display;
-  //   if('none' == swFilter)swFilter = 'initial';
-  //   else swFilter = 'none';
-  //   viewerSelect.style.display = swFilter;
-  //   if('undefined' !== typeof commandListHandler.onclick_viewerIcon) commandListHandler.onclick_viewerIcon(e);
-  // }
 
-  // inject controller /////////////////////////////////////////////////////////
+  //* inject controller ///////////////////////////////////////////////////////
   // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
   //   update_selectedValue(e, value, id){
   //     viewerFilterDisease = value;
@@ -78,10 +61,10 @@ const NavTabController   = function(navTabHandler) {
   //   }
   // });
 
-  // Lazy Initialization ///////////////////////////////////////////////////////
+  //* Lazy Initialization /////////////////////////////////////////////////////
   // viewFilter.style.display    = 'none';
 
-  // End of Structure //////////////////////////////////////////////////////////
+  //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 export {

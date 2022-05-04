@@ -9,79 +9,130 @@ import { NavTabController } from "/layout/components/navBar/NavTabController";
 const NavBarController   = function(navBarHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
-  const me                    = this;
-  const template              = me.firstChild;
-  const navFrame              = template.firstChild.firstChild;
-  const menu                  = navFrame.childNodes[0].firstChild;
+  const _private = {
+    loc:0,
+    focusArticleId:''
+  };
+  const navFrame = this.firstChild.childNodes[1].firstChild.firstChild;
+  const menuOpen = this.firstChild.firstChild.firstChild;
+  const menuClose = this.firstChild.firstChild.childNodes[1];
+  const FOCUS                 = 'is-active';
+  // console.log("NavBarController:", navFrame);
 
   //* Privilege Static Functions //////////////////////////////////////////////
-  const navClassRemove  = function(){
-    const array = [select, selectSq];
-    array.forEach(function(e){
-      e.classList.remove(FOCUS_CLASS);
+  const arrayTabs = () => {
+    return [...navFrame.getElementsByTagName('li')];
+  }
+
+  const focusRemove  = function(){
+    arrayTabs().forEach(function(e){
+      e.classList.remove(FOCUS);
     });
   };
-  const getPositionInfo = function(e, t){
-    return {
-      left  : t.left,
-      top   : t.top,
-      width : t.width,
-      height: t.height,
-      pageX : e.pageX,
-      pageY : e.pageY
-    }
-  }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
-    // tooltipSwitch:{
-    //   set: function(o) {
-    //     swTooltip = o;
-    //   },
-    //   get: function() {
-    //     return swTooltip;
-    //   }
-    // },
-    // viewerFilterDisease:{
-    //   get:() => viewerFilterDisease,
-    //   enumerable:true
-    // }
+    position: {
+      get: () => {
+        const pos = this.getBoundingClientRect();
+        return {
+          left          : pos.left,
+          top           : pos.top,
+          width         : pos.width,
+          height        : pos.height,
+          windowScrollX : window.scrollX,
+          windowScrollY : window.scrollY,
+          loc: window.scrollY + pos.top,
+          windowTop: window.scrollY + pos.top,
+        }
+      },
+      enumerable: true
+    },
+    focusArticleId: {
+      set: (str) => { _private.focusArticleId = str },
+      get: () => _private.focusArticleId,
+      enumerable: true
+    },
   });
 
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
-    addTab(obj){
+    addTab(articleId, seq){
       // add tab and generate ID
-      const tabId = "navTab-" + $SR.uuidv4();
-      let tab = new NavTab(tabId, "sample tab 1", "fas fa-info", "styles", "alt");
+      const tabId = "navTab-" + articleId;
+      const article = document.getElementById(articleId);
+      const tabAltTxt = 'A tab of ' + article.getAttribute('alt');
+      let tab = new NavTab(tabId, article.subject, article.getAttribute('data-icon'), tabAltTxt, "");
       navFrame.appendChild(tab);
       // inject controller
       tab = $SR.View(tab.id).inject(NavTabController, {
         onclick_item  :(e) => {
-          // if ( document.getElementById("MyElement").classList.contains('MyClass') )
-          console.log("addTab ", me);
-          console.log("clicked item " + tab.id);
+          if ('undefined' !== typeof navBarHandler.onclick_tab) navBarHandler.onclick_tab(articleId, tab.getAttribute('data-index'));
+          focusRemove();
+          tab.classList.add(FOCUS);
+          this.focusArticleId = articleId;
         },
         onclick_close :(e) => {
-          console.log("clicked close " + tab.id);
+          tab.remove();
+          this.sortTabs();
+          if ('undefined' !== typeof navBarHandler.onclick_close) navBarHandler.onclick_close(articleId);
         },
       });
-      // is first contents on nav
-
-      // navBarFrame-list
-      //  yes then show and focus
-      //  no then just add contents
+      // set index
+      tab.setAttribute('data-index', seq);
+      // set articleId on tab
+      tab.articleId = articleId;
+      // event
     },
-    // setTooltipAdd(msg, outline, color, opacity, width, height){
-    //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
-    // },
-
+    shiftDown(){
+      this.style.marginTop = "250px";
+      this.classList.add('nav-bar-shadow');
+    },
+    shiftUp() {
+      this.classList.remove('nav-bar-shadow');
+      this.style.marginTop = "0px";
+    },
+    sortTabs() {
+      const array = arrayTabs();
+      for (let i = 0; i < array.length; i++) {
+        array[i].setAttribute('data-index',i);
+      }
+    },
+    remoteTabActive(articleId){
+      arrayTabs().forEach(function (e) {
+        if (e.articleId == articleId) {
+          e.trigger_onclickItem();
+        }
+      });
+    },
+    repositionTop(top){
+      this.style.top = `${top + window.scrollY}px`;
+    },
+    reveal_menuOpen(){
+      menuOpen.style.display = 'block';
+      menuClose.style.display = 'none';
+    },
+    hideNavbar(_e){
+      // visibility: visible;
+      navFrame.style.visibility = 'hidden';
+    },
+    revealNavbar(_e){
+      navFrame.style.visibility = 'visible';
+    },
+    sizeTabs: () => arrayTabs().length
   });
 
   //* Event handler ///////////////////////////////////////////////////////////
   // register event
-  menu.onclick = (e) => {
-    if('undefined' !== typeof navBarHandler.onclick_menu) navBarHandler.onclick_menu(e);
+  menuOpen.onclick = (e) => {
+    menuOpen.style.display = 'none';
+    menuClose.style.display = 'block';
+    if ('undefined' !== typeof navBarHandler.onclick_menuOpen) navBarHandler.onclick_menuOpen(e);
+  };
+  menuClose.onclick = (e) => {
+    menuOpen.style.display = 'block';
+    menuClose.style.display = 'none';
+    if ('undefined' !== typeof navBarHandler.onclick_menuClose) navBarHandler.onclick_menuClose(e);
   };
 
   //* inject controller ///////////////////////////////////////////////////////
@@ -93,7 +144,8 @@ const NavBarController   = function(navBarHandler) {
   // });
 
   //* Lazy Initialization /////////////////////////////////////////////////////
-  // viewFilter.style.display    = 'none';
+  menuClose.style.display = 'none';
+  this.hideNavbar();
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;

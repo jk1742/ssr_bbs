@@ -1,0 +1,53 @@
+/* menu set */
+
+.menu-top {
+  z-index: 20;
+  height: 0;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+.menu-top-fixed {
+  position: fixed;
+  top: 0px;
+  /* width: 100%; */
+}
+
+.menu-animate {
+  transition-property: top;
+  transition: 0.5s;
+}
+
+.menu-top .closebtn {
+  position: absolute;
+  right: 70px;
+  font-size: 36px;
+}
+
+.menu-top .closebtn a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.menu-top .closebtn a:hover {
+  color: #f1f1f1;
+}
+
+@media screen and (max-width: 450px) {
+  .menu-top {
+    padding-top: 15px;
+  }
+  .menu-top a {
+    font-size: 18px;
+  }
+}

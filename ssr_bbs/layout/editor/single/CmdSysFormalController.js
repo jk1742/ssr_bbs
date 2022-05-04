@@ -3,20 +3,20 @@ import { CmdSysFormalController as Super }     from '/layout/components/cmdSysFo
 /***
  * layout:  EditTopBarController control buttons
  ***/
-// Describe EditTopBarController layout below
+//* Describe EditTopBarController layout below
 const CmdSysFormalController   = function(cmdSysFormalHandler) {
 
-  // Inheritance & private variable ////////////////////////////////////////////
+  //* Inheritance & private variable ////////////////////////////////////////////
   Super.call(this, cmdSysFormalHandler);
 
-  // public function ///////////////////////////////////////////////////////////
+  //* public function ///////////////////////////////////////////////////////////
   Object.assign(this, {
     // trigger_onclickBtnSelect(){
     //   btnSelect.onclick();
     // },
   }, Super.prototype);
 
-  // Lazy Initialization ///////////////////////////////////////////////////////
+  //* Lazy Initialization ///////////////////////////////////////////////////////
   this.onUndo();
   this.onConfirm();
   this.onAlert();
@@ -25,7 +25,7 @@ const CmdSysFormalController   = function(cmdSysFormalHandler) {
   this.setTooltipConfirm('confirm', 'bottom', '#555', 1, 0);
   this.setTooltipAlert('alert', 'bottom', '#555', 1, 0);
 
-  // End of Structure //////////////////////////////////////////////////////////
+  //* End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

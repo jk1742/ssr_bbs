@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-// import view block with contorller
+// import view block with controller
 import { ServicePanelController     } from '/layout/header/ServicePanelController';
 // import background img
 import HeaderBG from '/static/img/bg_ship_container_1024x524.jpg';

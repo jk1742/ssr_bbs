@@ -23,8 +23,8 @@ import screenBG  from '/static/img/operation_bg.jpg';
 
 /**
  * controller:  ToasterController
- * @param {[Function]} toasterHandler 
- * @returns 
+ * @param {[Function]} toasterHandler
+ * @returns
  */
 const ToasterController    = function (toasterHandler) {
 

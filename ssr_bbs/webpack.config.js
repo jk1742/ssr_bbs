@@ -6,6 +6,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
+    //filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -15,13 +16,16 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
         type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
-      }
+      }, {
+        test: /\.mp4$/,
+        use: 'file-loader?name=videos/[name].[ext]',
+      },
     ]
   },
   plugins: [
@@ -39,9 +43,19 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9005',
+        pathRewrite: { '^/api': '' }, // In this case we don't pass `api` path
+      },
+      historyApiFallback: true,
+    },
     compress: true,
     port: 9000,
-  }
+  },
 
 };
 

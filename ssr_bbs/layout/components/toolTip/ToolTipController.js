@@ -1,31 +1,32 @@
 
 /***
- * Layout:  EntryList
+ * ToolTipController
  ***/
-// Describe EntryList Class below
+//* Describe ToolTipController Class below
 const ToolTipController   = function (toolTipHandler) {
 
-  // private variable //////////////////////////////////////////////////////////
+  //* private variable //////////////////////////////////////////////////////////
+  const toolTip = $SR.Event.register('ToolTipEvent');
 
-  // mapping ///////////////////////////////////////////////////////////////////
+  //* mapping ///////////////////////////////////////////////////////////////////
   const me           = this;
 
-  // Event handler /////////////////////////////////////////////////////////////
+  //* Event handler /////////////////////////////////////////////////////////////
 
-  // Privilige Static Functions ////////////////////////////////////////////////
+  //* Privilege Static Functions ////////////////////////////////////////////////
 
-  // Access Contorl: getter & setter ///////////////////////////////////////////
+  //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
-    // toggleSwitch: {
-    //   get: function() {
-    //     return toggleSwitch.checked;
-    //   },
-    //   enumerable: true,
-    //   configurable: true
-    // }
+    //* toggleSwitch: {
+    //*   get: function() {
+    //*     return toggleSwitch.checked;
+    //*   },
+    //*   enumerable: true,
+    //*   configurable: true
+    //* }
   });
 
-  // Access control: public functions //////////////////////////////////////////
+  //* Access control: public functions //////////////////////////////////////////
   Object.assign(this, {
     // open
     // parameter index - below
@@ -41,7 +42,7 @@ const ToolTipController   = function (toolTipHandler) {
       if('bottom' == o.outline) {
         me.className = 'tool-tip-bottom';
         me.style.left = (o.position.pageX + o.width) +'px';
-        me.style.top = (o.position.pageY + o.position.height + o.height) +'px';
+        me.style.top = (o.position.pageY + o.position.height + o.height-10) +'px';
       } else if('top' == o.outline) {
         me.className = 'tool-tip-top';
         me.style.left = (o.position.pageX - 5 + 0*o.position.width + o.width) +'px';
@@ -60,9 +61,17 @@ const ToolTipController   = function (toolTipHandler) {
     }
   });
 
-  // Lazy Initialization ///////////////////////////////////////////////////////
+  //* Lazy Initialization ///////////////////////////////////////////////////////
+  toolTip.onToolTipEvent = (e)=>{
+    const msg = e.detail.getMessage();
+    if (msg.name === 'onmouseenter'){
+      this.open(msg.tip);
+    } else {
+      this.collapse();
+    }
+  }
 
-  // End of Structure //////////////////////////////////////////////////////////
+  //* End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

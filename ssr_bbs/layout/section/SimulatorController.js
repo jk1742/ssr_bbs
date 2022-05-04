@@ -49,7 +49,7 @@ const SimulatorController   = function(simulatorHandler) {
   let   contentRect       = content.getBoundingClientRect();
 
 
-  // Privilige Static Functions ////////////////////////////////////////////////
+  // Privilege Static Functions ////////////////////////////////////////////////
   /**
    * getHexNumCut
    * @param {Number} n 

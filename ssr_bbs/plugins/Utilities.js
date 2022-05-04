@@ -1,6 +1,31 @@
 /* eslint-disable no-undef */
+const { isNull } = require("lodash");
+
+/*****
+  * name  : getBrowser
+  * return:   isAndroid, isCordova, isEdge, isFirefox, isChrome, isChromeIOS, isChromiumBased,
+              isIE, isIOS, isOpera, isSafari, isTouchScreen, isWebComponentsSupported
+  ******/
+const getBrowserInfo = function() {
+  return {
+    isAndroid: /Android/.test(navigator.userAgent),
+    isCordova: !!window.cordova,
+    isEdge: /Edge/.test(navigator.userAgent),
+    isFirefox: /Firefox/.test(navigator.userAgent),
+    isChrome: /Google Inc/.test(navigator.vendor),
+    isChromeIOS: /CriOS/.test(navigator.userAgent),
+    isChromiumBased: !!window.chrome && !/Edge/.test(navigator.userAgent),
+    isIE: /Trident/.test(navigator.userAgent),
+    isIOS: /(iPhone|iPad|iPod)/.test(navigator.platform),
+    isOpera: /OPR/.test(navigator.userAgent),
+    isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
+    isTouchScreen: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+    isWebComponentsSupported: 'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+  };
+}
+
 /* eslint-disable no-unused-vars */
-function scrollToSmoothly(pos, time) {
+const scrollToSmoothly = function (pos, time) {
   var currentPos = window.pageYOffset;
   var start = null;
   if(time == null) time = 500;
@@ -25,19 +50,75 @@ function scrollToSmoothly(pos, time) {
  * security policy
  *****/
  let klp;
- function getCertifyKey() {
+const getCertifyKey = function() {
    return klp;
  }
- function setCertifyKey(o) {
+const setCertifyKey =  function(o) {
    klp = o;
  }
+
 /*****
  * server stamp
  *****/
  let tkCnt = 0;
- function stampCnt() {
+const stampCnt = function() {
    return tkCnt++;
- }
+}
+
+/**
+  * isDOM
+  * @param {*} obj
+  * @returns
+  */
+const isDOM = function(obj){
+  try {
+    //Using W3 DOM2 (works for FF, Opera and Chrome)
+    return obj instanceof HTMLElement;
+  }
+  catch (e) {
+    //Browsers not supporting W3 DOM2 don't have HTMLElement and
+    //an exception is thrown and we end up here. Testing some
+    //properties that all elements have (works on IE7)
+    return (typeof obj === "object") &&
+      (obj.nodeType === 1) && (typeof obj.style === "object") &&
+      (typeof obj.ownerDocument === "object");
+  }
+}
+
+/**
+  * instantIdStamp
+  *   Count how many parent nodes to Target
+  * @param {*} obj
+  * @returns
+  */
+const instantIdStamp = function(DOM){
+  const countToTop = function (target, o) {
+    let cnt = 0;
+    const fx = function (_target, _o) {
+      const node = _o;
+      if (!node.tagName) return 'article-child';
+      if (node.tagName == _target) return cnt;
+      cnt++;
+      return fx(_target, node.parentNode);
+    }
+    return fx(target, o);
+  }
+  const countToHorizontal = function (o) {
+    const array = [...o['parentNode']['children']]
+    for (let index = 0; index < array.length; index++) {
+      const element = array[index];
+      if (o.isSameNode(element)) return index;
+    }
+  }
+  return _.join([
+    countToTop('SECTION', DOM),
+    countToTop('ARTICLE', DOM),
+    countToTop('BODY', DOM),
+    Math.floor(new Date().getTime() / 1000).toString(16),
+    countToHorizontal(DOM),
+    DOM.parentNode.children.length
+  ], '-');
+}
 
 module.exports = {
   uuidv4: function() {
@@ -83,6 +164,80 @@ module.exports = {
      const start = new Date().getTime();
      while (new Date().getTime() < start + delay);
   },
+  /**
+   * Skeleton
+   *  load html visual skeleton form css
+   */
+  Skeleton: (function () {
+    let instance;
+    const SkeletonClass = function() {
+      const skeleton = ['section', '.cont_main', '.frame-top', '.frame-mid', '.frame-btm'];
+      const skeletonAttribute = ['margin-top', 'padding-top', 'border-top', 'height', 'border-bottom', 'padding-bottom', 'margin-bottom'];
+      let carriage = {};
+      let styleTmp = [];
+      const pick = (css) => {
+        const array = [...css];
+        const k = array.filter(e => skeleton.includes(e.selectorText));
+        if (k.length > 0) styleTmp = styleTmp.concat(k);
+      }
+      const find = (name) => {
+        return styleTmp.find(e => { return e.selectorText == name });
+      }
+      const v = [...document.styleSheets];
+      v.splice(0, 0, v.splice(1, 1)[0]); //for improving performance
+      for (const iterator of v) {
+        pick(iterator.cssRules || iterator.rules);
+        if (styleTmp.length >= 5) break;
+      }
+      for (const iterator of skeleton) {
+        const name = _.camelCase(iterator.replace(/\.|\#/, ''));
+        const r = find(iterator);
+        carriage[name] = {};
+        for (const inIter of skeletonAttribute) {
+          const value = r.style.getPropertyValue(inIter);
+          if (!isNull(value) && '' != value) carriage[name][_.camelCase(inIter)] = value;
+        }
+        const fx = function () {
+          const strip = (str)=>{
+            const array = str.match(/\d+/g);
+            if(array > 0) {
+              return Number(array[0]);
+            }
+            return null;
+          }
+          Object.assign(this, {
+            getIntValue: (str) => {
+              if (!isNull(this[str]) && this[str] !== undefined) {
+                return strip(this[str]);
+              }
+              const csStr = _.camelCase(str);
+              if (!isNull(this[csStr]) && this[csStr] !== undefined) {
+                return strip(this[csStr]);
+              }
+              return null;
+            }
+          });
+        }
+        fx.call(carriage[name]);
+      }
+      return carriage;
+    }
+    // return closure
+    return {
+      getInstance: function () {
+        if (instance == null) {
+          instance = new SkeletonClass();
+          instance.constructor = null;
+          localStorage.clear();
+        }
+        return instance;
+      }
+    };
+  })(),
+ /***
+  * EventCarrier
+  *  event type: onEventEmitted
+  ***/
   EventCarrier: (function(){
     let   instance = {};
     const SingletonEventClass = function() {
@@ -100,13 +255,17 @@ module.exports = {
         emit(name, obj){
           data[name] = JSON.stringify(obj);
           carriage.dispatchEvent(new CustomEvent('onEventEmitted', { bubbles: true, detail: {
-             getEventName: () => name,
-             getContents: () => JSON.parse(data[name])
+            getEventName: () => name,
+            getContent: () => JSON.parse(data[name])
            }}));
         },
         recall(name){
           return JSON.parse(data[name]);
+        },
+        getEmitNamesList(){
+          return data;
         }
+
       });
       return carriage;
     }
@@ -123,7 +282,7 @@ module.exports = {
   })(),
   VolatileState: (function(){
     let   instance;
-    const StateClass = function(sw) {
+    const StateClass = function(_sw) {
       let   carriage  = new DocumentFragment();
       let   data      = {};
       Object.defineProperties(carriage, {
@@ -159,7 +318,7 @@ module.exports = {
   Store: (function(){
     let   instance;
     const GLOBAL      = 'GLOBAL';
-    const StoreClass = function(sw) {
+    const StoreClass = function(_sw) {
       let   carriage  = new DocumentFragment();
       let   setGlobal = false;
       Object.defineProperties(carriage, {
@@ -212,6 +371,148 @@ module.exports = {
       }
     };
   })(),
+  /**
+   * Event
+   *  @summary Customized User Event Controller
+   *  @function emit: emitting Event
+   *  @function figure: figure Event Object
+   *  @detail getName, getMessage
+   *  * set listener => 'on + eventName'
+   */
+  Event: (function () {
+    let instance = {};
+    const StateClass = function (name) {
+      let carriage = new DocumentFragment();
+      let data = {};
+      const eventName = 'on' + name;
+      Object.defineProperty(carriage, eventName, {
+        set: function (fx) {
+          carriage.addEventListener(eventName, e => fx(e));
+        },
+        configurable: true
+      });
+      Object.assign(carriage, {
+        emit(obj) {
+          data[name] = JSON.stringify(obj);
+          carriage.dispatchEvent(new CustomEvent(eventName, {
+            bubbles: true,
+            detail: {
+              getName: () => name,
+              getMessage: () => obj
+            }
+          }));
+        },
+        figure() {
+          return JSON.parse(data[name]);
+        }
+      });
+      return carriage;
+    }
+    return {
+      register: function (name) {
+        if (instance[name] == null) {
+          instance[name] = new StateClass(name);
+          instance.constructor = null;
+        }
+        return instance[name];
+      }
+    };
+  })(),
+  /**
+   * Queue store
+   *  event type: onQueuePush, onQueueCursorMoved
+   */
+  Queue: (function () {
+    let instance;
+    const QueueClass = function () {
+      let carriage = new DocumentFragment();
+      let _private = {};
+      _private.index = 0;
+      _private.name = 'Queue';
+      _private.queue = [];
+      const objCall = () => {
+        return {
+          getName: () => _private.name,
+          getMessage: () => _private.queue[(_private.queue.length - 1)]
+        }
+      }
+      const pushEvent = () => new CustomEvent('onQueuePush', { bubbles: true, detail: objCall() });
+      const movedEvent = () => new CustomEvent('onQueueCursorMoved', { bubbles: true, detail: objCall() });
+
+      Object.defineProperties(carriage, {
+        onQueuePush: {
+          set: function (fx) {
+            carriage.addEventListener('onQueuePush', e => fx(e));
+          },
+          configurable: true,
+        },
+        onQueueCursorMoved: {
+          set: function (fx) {
+            carriage.addEventListener('onQueueCursorMoved', e => fx(e));
+          },
+          configurable: true,
+        },
+        name: {
+          set: function (o) {
+            _private.name = o;
+          },
+          get: () => _private.name,
+          configurable: true,
+        }
+      });
+      Object.assign(carriage, {
+        push(obj) {
+          _private.queue.push(obj);
+          _private.index = _private.queue.length - 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(pushEvent());
+        },
+        clear() {
+          _private.queue = [];
+          _private.index = 0;
+          localStorage.clear();
+        },
+        cursor() {
+          return _private.queue[_private.index];
+        },
+        beforeCursor() {
+          let pos = _private.index;
+          pos -= 1;
+          pos = (0 > pos) ? 0 : pos;
+          return _private.queue[pos];
+        },
+        goNext() {
+          if (0 > _private.index) _private.index = 0;
+          _private.index += 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(movedEvent());
+          return (_private.queue !== null && _private.index < _private.queue.length) ? { value: _private.queue[_private.index], done: false } : { done: true };
+        },
+        goBack() {
+          if (_private.queue.length - 1 < _private.index) _private.index = _private.queue.length - 1;
+          _private.index -= 1;
+          localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
+          carriage.dispatchEvent(movedEvent());
+          return (_private.queue !== null && 0 <= _private.index) ? { value: _private.queue[_private.index], done: false } : { done: true };
+        }
+      });
+      return carriage;
+    }
+    // return closure
+    return {
+      getInstance: function () {
+        if (instance == null) {
+          instance = new QueueClass('Queue');
+          instance.constructor = null;
+          localStorage.clear();
+        }
+        return instance;
+      }
+    };
+  })(),
+  /**
+   * History
+   */
   History: (function(){
     let   instance;
     const HistoryClass = function() {
@@ -264,15 +565,14 @@ module.exports = {
           pos = (0 > pos) ? 0 : pos;
           return _private.history[pos];
         },
-        next(){
+        goNext(){
           if (0 > _private.index) _private.index = 0;
           _private.index += 1;
           localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
           carriage.dispatchEvent(new CustomEvent('onHistoryCursorMoved', { bubbles: true, detail: { text: () => name } }));
           return (_private.history !== null && _private.index < _private.history.length) ? {value: _private.history[_private.index], done: false} : {done: true};
         },
-        pre(){
-          //console.log('pre:', history.back());
+        goPre(){
           if (_private.history.length-1 < _private.index) _private.index = _private.history.length-1;
           _private.index -= 1;
           localStorage.setItem('LOCAL$' + _private.name, JSON.stringify(_private));
@@ -287,11 +587,11 @@ module.exports = {
       getInstance: function(name){
         if (instance == null) {
           instance = new HistoryClass();
-          if('undefined' !== typeof name) instance.name = name;
+          if ('undefined' !== typeof name) instance = name;
           localStorage.clear();
           instance.constructor = null;
         }
-        if('undefined' !== typeof name) instance.name = name;
+        if ('undefined' !== typeof name) instance = name;
         return instance;
       }
     };
@@ -311,22 +611,330 @@ module.exports = {
     a.forEach(e => {
       if (e.length > 0) array.push(e.trim());
     });
-    c = array.reduce((result, str, i) => (result + str));
+    c = array.reduce((result, str) => (result + str));
     return new DOMParser().parseFromString(c, "text/html").body.firstChild;
   },
-
+  /**
+   * Article
+   * @param {*} dom
+   * @returns
+   * @variable subject
+   * @variable scrollLock
+   * @function removeClassArticle
+   * @function appendClassArticle
+   */
+  Article: function(dom) {
+    const fx = function () {
+      let _private= {
+        scrollLock: false,
+      };
+      const articleCSSIterator = (me, skeleton, fxo)=>{
+        const structure = [...me.getElementsByClassName(skeleton)];
+        for (const iterator of structure) {
+          fxo(iterator);
+        }
+      }
+      Object.defineProperties(this, {
+        subject: {
+          get: function () {
+            let subject;
+            let array = [];
+            array = this.getElementsByClassName('article-subject');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h3');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h2');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            array = this.getElementsByTagName('h1');
+            if (array.length > 0) {
+              return array[0].innerText;
+            }
+            subject = "There is no subject of article.";
+            console.warn("append article error: There is no subject of article.");
+            return subject;
+          },
+          configurable: true
+        },
+        scrollLock:{
+          set: function (boolScrollLock){
+            _private.scrollLock = boolScrollLock;
+            if (boolScrollLock){
+              this.addEventListener('mouseenter', e => {
+                document.childNodes[1].style.overflowY = 'hidden';
+                document.body.style.overflowY = 'hidden';
+              });
+            } else {
+              this.addEventListener('mouseenter', e => {
+                document.childNodes[1].style.overflowY = 'scroll';
+                document.body.style.overflowY = 'scroll';
+              });
+            }
+          },
+          get: () => _private.scrollLock,
+          configurable: true
+        }
+      });
+      Object.assign(this, {
+        removeCSSArticle(skeleton, target) {
+          articleCSSIterator(this, skeleton, (iterator) => {
+            if (iterator.classList.contains(target)) iterator.classList.remove(target);
+          });
+        },
+        appendCSSArticle(skeleton, target) {
+          articleCSSIterator(this, skeleton, (iterator) => {
+            iterator.classList.add(target);
+          });
+        }
+      });
+      const scrollLock = dom.getAttribute('data-scroll-lock');
+      if (!isNull(scrollLock) && 'true' == scrollLock.toLowerCase()) {
+        this.scrollLock = true;
+      } else {
+        this.scrollLock = false;
+      }
+    }
+    fx.call(dom);
+    return dom;
+  },
+  Section: function (dom, me) {
+    const fx = function () {
+      let _private = {
+      };
+      let activities = me.Queue.getInstance();
+      Object.assign(this, {
+        activate(){
+          activities.push({
+            id: this.id,
+            name: 'moveSection',
+            detail: `move to section: ${this.id}`,
+            timestamp: Date.now(),
+            hash:''
+          });
+          me.moveScreen(this);
+        },
+        checkInteractiveDOM(target){
+          const _fx = function (_o) {
+            const node = _o;
+            if (node.isInteractDOM) return node;
+            if (node.tagName == 'SECTION' || node.tagName == 'BODY') return null;
+            return _fx(node.parentNode);
+          }
+          return _fx(target);
+        },
+      });
+    }
+    fx.call(dom);
+    return dom;
+  },
+  adjustSectionPosition: function (dom) {
+    dom.onmouseover = _.debounce(function () {
+      // scroll lock
+      document.childNodes[1].style.overflowY = 'hidden';
+      document.body.style.overflowY = 'hidden';
+      dom.style.overflowY = 'hidden';
+      // check correct position
+      const sections = [...this.getElementsByTagName('section')];
+      let secHeight;
+      let arrayLoc = [];
+      sections.forEach(element => {
+        const pos = element.getBoundingClientRect();
+        arrayLoc.push(pos.top);
+        secHeight = pos.height;
+      });
+      let needFix = false;
+      for (const obj of arrayLoc) {
+        const mod_k = obj % secHeight
+        if (mod_k != 0) needFix = true;
+      }
+      if (!needFix) return;
+      // adjust position
+      let tmp = 0;
+      let rc = 0;
+      for (let index = 0; index < sections.length; index++) {
+        const element = sections[index];
+        const k = Math.abs(element.getBoundingClientRect().top);
+        if (index == 0) tmp = k;
+        if (tmp > k) {
+          tmp = k;
+          rc = index;
+        }
+      }
+      console.warn('sr: unexpected wheel event occurred - position adjusted');
+      const y = sections[rc].getBoundingClientRect().top + window.scrollY
+      window.scroll({ top: y, behavior: 'instant' });
+    }, 600);
+  },
+  /**
+   *
+   * @param {*} documentObject
+   * @returns
+   */
+  registerModel: function (documentObject) {
+    // DOM check
+    let dom = documentObject;
+    if (!isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
+    const ssr = this;
+    const fx = function () {
+      // variables
+      let name;
+      // private
+      let _private = {
+        hasController: '',
+        parentSectionId: '',
+        parentArticleId: '',
+        isInteractDOM: false,
+        interactiveAction: ()=> null
+      };
+      // private functions
+      const getParentId = function (target, o) {
+        const _fx = function (_target, _o) {
+          const node = _o;
+          if (!node) return '';
+          if (node.tagName == _target) return node.id;
+          return _fx(_target, node.parentNode);
+        }
+        return _fx(target, o);
+      }
+      // access control
+      Object.defineProperties(this, {
+        hasController: {
+          get: function () {
+            return _private.hasController;
+          },
+          configurable: true,
+        },
+        parentSectionId: {
+          set: function (p) {
+            _private.parentSectionId = p;
+          },
+          get: function () {
+            return _private.parentSectionId;
+          },
+          configurable: true,
+        },
+        parentArticleId: {
+          set: function (p) {
+              _private.parentArticleId = p;
+          },
+          get: function () {
+            return _private.parentArticleId;
+          },
+          configurable: true,
+        },
+        isInteractDOM:{
+          get:() => _private.isInteractDOM,
+          set: function (p) {
+            _private.isInteractDOM = p;
+          },
+          configurable: true,
+        }
+      });
+      // public function
+      Object.assign(this, {
+        inject: function (Controller, Handler) {
+          // double inject check
+          if (this.hasController !== '') console.warn(`Instance inject error: There was already injected ${this.hasController};Controller is able to inject once`);
+          // transfer params
+          let args = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          _private.hasController = Controller.name;
+          return (function (_dom, _handler, ...Args) {
+            return Controller.call(_dom, _handler, ...Args);
+          })(this, Handler, ...args);
+        },
+        setTooltip: function (msg, outline, color, opacity, width, height) {
+          console.log(msg, outline, color, opacity, width, height);
+          const toolTipEvent = ssr.Event.register('ToolTipEvent');
+          const t = this.getBoundingClientRect();
+          this.onmouseenter = (e) => {
+            console.log('setTooltip onmouseenter', e)
+            toolTipEvent.emit({
+              id: this.id,
+              name: 'onmouseenter',
+              detail: `mouse entered: ${this.id}`,
+              timestamp: Date.now(),
+              hash: '',
+              tip: {
+                msg: msg,
+                outline: outline,
+                color: color,
+                opacity: opacity,
+                width: width,
+                height: height,
+                position: {
+                  left: t.left,
+                  top: t.top,
+                  width: t.width,
+                  height: t.height,
+                  pageX: e.pageX,
+                  pageY: e.pageY,
+                }
+              }
+            });
+          }
+          this.onmouseleave = (e) => {
+            toolTipEvent.emit({
+              id: this.id,
+              name: 'onmouseleave',
+              detail: `mouse entered: ${this.id}`,
+              timestamp: Date.now(),
+              hash: ''
+            });
+          }
+          return this;
+        },
+        run: (runFx) => {
+          runFx(this);
+          return this;
+        },
+        setInteractive:(_fxo)=>{
+          this.isInteractDOM = true;
+          if (_fxo !== null) _private.interactiveAction = _fxo;
+          return this;
+        },
+        launchInteractive:()=>{
+          _private.interactiveAction(this);
+          return this;
+        }
+      });
+      // new id set
+      if (this.id != '') name = this.id;
+      else name = this.tagName.toLowerCase();
+      this.id = name + '-' + instantIdStamp(this);
+      // get section-id
+      this.parentSectionId = getParentId('SECTION', this);
+      this.parentArticleId = getParentId('ARTICLE', this);
+    }
+    fx.call(dom);
+    return dom;
+  },
  /*****
-  * core : marge view and contoroller
+  * core : marge view and controller
   * return: html object with functions
   * const model = (dom, handler) => Controller.call(dom, handler);
   * dom = model(dom,{});
   ******/
   marge: function (Controller, Dom, Handler){
-    return (function(Dom, Handler){
-      return Controller.call(Dom, Handler);
+    return (function(_Dom, _Handler){
+      return Controller.call(_Dom, _Handler);
     })(Dom, Handler);
   },
-
+  /**
+   * isElement
+   * @param {*} obj
+   * @returns
+   */
+  isDOM: (obj) => {
+    return isDOM(obj);
+  },
  /*****
   * core : View
   * return: html object with functions
@@ -335,11 +943,11 @@ module.exports = {
   ******/
   View: function(id){
     let dom           = document.getElementById(id);
-    let hasContoller  = '';
+    let hasController  = '';
     Object.defineProperties(dom, {
       hasController: {
         get: function() {
-          return hasContoller;
+          return hasController;
         },
         configurable: true,
       }
@@ -348,27 +956,69 @@ module.exports = {
       inject: function (Controller, Handler){
         // double inject check
         if(dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
-        // trasfer params
+        // transfer params
         let args  = Array.from(arguments);
         args.splice(0, 2);
         // marge controller & view
         //  - register Controller
-        hasContoller = Controller.name;
-        return (function(dom, Handler){
-          return Controller.call(dom, Handler, ...args);
+        hasController = Controller.name;
+        return (function (_dom, _Handler, ...Args){
+          return Controller.call(_dom, _Handler, ...Args);
         })(dom, Handler, ...args);
       },
     });
     return dom;
   },
-  moveScreen_bak:function(dom){
+  /*****
+ * core : getModelById
+ * return: html object with functions
+ * const model = (dom, handler) => Controller.call(dom, handler);
+ * dom = model(dom,{});
+ ******/
+  getModelById: function (id) {
+    let dom = document.getElementById(id);
+    let hasController = '';
+    Object.defineProperties(dom, {
+      hasController: {
+        get: function () {
+          return hasController;
+        },
+        configurable: true,
+      }
+    });
+    const tagName = dom.tagName.toLowerCase();
+    if ('article' == tagName) this.Article(dom);
+    if ('section' == tagName || 'header' == tagName || 'footer' == tagName) this.Section(dom, this);
+    Object.assign(dom, {
+      inject: function (Controller, Handler) {
+        // double inject check
+        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+        // transfer params
+        let args = Array.from(arguments);
+        args.splice(0, 2);
+        // marge controller & view
+        //  - register Controller
+        hasController = Controller.name;
+        return (function (_dom, _Handler, ...Args) {
+          return Controller.call(_dom, _Handler, ...Args);
+        })(dom, Handler, ...args);
+      },
+    });
+    return dom;
+  },
+  moveTo:function(loc){
+    if (browser.isChrome || browser.isEdge) {
+      window.scroll({ top: loc, behavior: 'smooth' });
+    } else scrollToSmoothly(loc, 1000);
+  },
+  moveScreen:function(dom){
     const y = dom.getBoundingClientRect().top + window.scrollY;
     const browser = this.getBrowserInfo();
     if (browser.isChrome || browser.isEdge){
       window.scroll({ top: y, behavior: 'smooth' });
     } else scrollToSmoothly(y,1000);
   },
-  moveScreen: function(dom){
+  moveScreen_bak: function(dom){
     const y = dom.getBoundingClientRect().top + window.scrollY;
     const browser = this.getBrowserInfo();
     axios({
@@ -380,7 +1030,7 @@ module.exports = {
     }).then((Response)=>{
       // console.log('Response',Response.data); http://192.168.0.6/
       setCertifyKey(Response.data.content);
-    }).catch((Error)=>{
+    }).catch((_Error)=>{
       let elements = document.getElementsByTagName('body')[0];
       elements.innerHTML = `
       <div style="height:95vh;width:100%;">
@@ -405,21 +1055,5 @@ module.exports = {
   * return:   isAndroid, isCordova, isEdge, isFirefox, isChrome, isChromeIOS, isChromiumBased,
               isIE, isIOS, isOpera, isSafari, isTouchScreen, isWebComponentsSupported
   ******/
-  getBrowserInfo: function(){
-    return {
-      isAndroid: /Android/.test(navigator.userAgent),
-      isCordova: !!window.cordova,
-      isEdge: /Edge/.test(navigator.userAgent),
-      isFirefox: /Firefox/.test(navigator.userAgent),
-      isChrome: /Google Inc/.test(navigator.vendor),
-      isChromeIOS: /CriOS/.test(navigator.userAgent),
-      isChromiumBased: !!window.chrome && !/Edge/.test(navigator.userAgent),
-      isIE: /Trident/.test(navigator.userAgent),
-      isIOS: /(iPhone|iPad|iPod)/.test(navigator.platform),
-      isOpera: /OPR/.test(navigator.userAgent),
-      isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
-      isTouchScreen: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
-      isWebComponentsSupported: 'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
-    };
-  },
+  getBrowserInfo: () => getBrowserInfo(),
 };
