@@ -6,18 +6,18 @@ import { TableHeaderDataController     } from '/layout/components/sortingTable/h
  * Layout:  TableHeaderRowController
  ***/
 
-//* Describe EntryList Class below
+// Describe EntryList Class below
 const TableHeaderRowController   = function (tableHeaderRowHandler, header) {
 
-  //* private variable & mapping /////////////////////////////////////////////////
+  // private variable & mapping /////////////////////////////////////////////////
   const me            = this;
   const arrayHeaders  = me.getElementsByTagName('th');
   let   selectedId    = '';
   let   selectedType  = '';
 
-  //* Privilege Static Functions ////////////////////////////////////////////////
+  // Privilige Static Functions ////////////////////////////////////////////////
 
-  //* Access Control: getter & setter ///////////////////////////////////////////
+  // Access Contorl: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     selectedId: {
       get: ()   => selectedId,
@@ -29,19 +29,19 @@ const TableHeaderRowController   = function (tableHeaderRowHandler, header) {
     },
   });
 
-  //* Access Control: public functions //////////////////////////////////////////
+  // Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     // onmouseover_btn (e) {
     //   console.log('onmouseover_btn');
     // }
   });
 
-  //* Event handler /////////////////////////////////////////////////////////////
+  // Event handler /////////////////////////////////////////////////////////////
   // this.onclick = (e) => {
   //   if('undefined' !== typeof tableHeaderRowHandler.onclick_th) tableHeaderRowHandler.onclick_th(e, this.id);
   // }
 
-  //* Lazy Initialization ///////////////////////////////////////////////////////
+  // Lazy Initialization ///////////////////////////////////////////////////////
   for (let i = 1; i < arrayHeaders.length; i++) {
     const h = header[i-1];
     $SR.View(arrayHeaders[i].id).inject(TableHeaderDataController, {
@@ -53,7 +53,7 @@ const TableHeaderRowController   = function (tableHeaderRowHandler, header) {
     });
   }
 
-  //* End of Structure //////////////////////////////////////////////////////////
+  // End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

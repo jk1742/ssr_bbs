@@ -9,7 +9,7 @@ const MenuController   = function(menuHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
-  const menuTemplate = this.childNodes[1].firstChild.firstChild.childNodes[1];
+  const menuTemplate          = this.childNodes[1].firstChild.firstChild.childNodes[1];
   const close                 = this.firstChild;
   const array                 = [
     {
@@ -29,7 +29,7 @@ const MenuController   = function(menuHandler) {
       group: ''
     }
   ];
-  
+
   //* Privilege Static Functions ////////////////////////////////////////////////
   // const  getPositionInfo = function(e, t){
   //   return {

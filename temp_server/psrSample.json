@@ -1,6 +1,7 @@
 {
   "psr": [
     {
+      "RULE_ID": 1,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -27,6 +28,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 2,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -53,6 +55,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 3,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -79,6 +82,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 4,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -105,6 +109,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 5,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -131,6 +136,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 6,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -157,6 +163,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 7,
       "FTA_CODE": "PMXBO",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -183,6 +190,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 8,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -209,6 +217,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 9,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -235,6 +244,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 10,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -261,6 +271,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 11,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -287,6 +298,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 12,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -313,6 +325,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 13,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -339,6 +352,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 14,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -365,6 +379,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 15,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -391,6 +406,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 16,
       "FTA_CODE": "PMXBO_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -417,6 +433,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 17,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -443,6 +460,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 18,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -469,6 +487,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 19,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -495,6 +514,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 20,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -521,6 +541,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 21,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -547,6 +568,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 22,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -573,6 +595,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 23,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -599,6 +622,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 24,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -625,6 +649,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 25,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -651,6 +676,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 26,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -677,6 +703,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 27,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -703,6 +730,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 28,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -729,6 +757,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 29,
       "FTA_CODE": "PMXCL",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -755,6 +784,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 30,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -781,6 +811,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 31,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -807,6 +838,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 32,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -833,6 +865,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 33,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -859,6 +892,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 34,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -885,6 +919,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 35,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -911,6 +946,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 36,
       "FTA_CODE": "PMXCO",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -937,6 +973,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 37,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -963,6 +1000,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 38,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -989,6 +1027,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 39,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1015,6 +1054,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 40,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1041,6 +1081,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 41,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1067,6 +1108,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 42,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1093,6 +1135,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 43,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1119,6 +1162,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 44,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1145,6 +1189,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 45,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1171,6 +1216,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 46,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1197,6 +1243,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 47,
       "FTA_CODE": "PMXPA",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1223,6 +1270,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 48,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1249,6 +1297,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 49,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1275,6 +1324,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 50,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1301,6 +1351,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 51,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1327,6 +1378,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 52,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1353,6 +1405,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 53,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1379,6 +1432,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 54,
       "FTA_CODE": "PMXPE",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1405,6 +1459,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 55,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1431,6 +1486,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 56,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1457,6 +1513,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 57,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1483,6 +1540,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 58,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088001,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1509,6 +1567,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 59,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088001,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1535,6 +1594,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 60,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088002,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1561,6 +1621,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 61,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088002,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1587,6 +1648,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 62,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088003,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1613,6 +1675,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 63,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088003,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1639,6 +1702,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 64,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088004,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1665,6 +1729,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 65,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1691,6 +1756,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 66,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1717,6 +1783,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 67,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088006,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1743,6 +1810,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 68,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088006,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1769,6 +1837,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 69,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088007,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1795,6 +1864,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 70,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088007,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1821,6 +1891,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 71,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088008,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1847,6 +1918,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 72,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088008,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1873,6 +1945,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 73,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088009,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1899,6 +1972,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 74,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088009,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1925,6 +1999,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 75,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088010,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1951,6 +2026,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 76,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088010,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -1977,6 +2053,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 77,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088011,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2003,6 +2080,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 78,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088011,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2029,6 +2107,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 79,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088012,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2055,6 +2134,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 80,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088012,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2081,6 +2161,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 81,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2107,6 +2188,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 82,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2133,6 +2215,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 83,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2159,6 +2242,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 84,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2185,6 +2269,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 85,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2211,6 +2296,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 86,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2237,6 +2323,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 87,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2263,6 +2350,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 88,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2289,6 +2377,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 89,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2315,6 +2404,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 90,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2341,6 +2431,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 91,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2367,6 +2458,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 92,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2393,6 +2485,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 93,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2419,6 +2512,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 94,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2445,6 +2539,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 95,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2471,6 +2566,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 96,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2497,6 +2593,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 97,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2523,6 +2620,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 98,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2549,6 +2647,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 99,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2575,6 +2674,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 100,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2601,6 +2701,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 101,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089911,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2627,6 +2728,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 102,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2653,6 +2755,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 103,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2679,6 +2782,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 104,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2705,6 +2809,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 105,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2731,6 +2836,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 106,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2757,6 +2863,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 107,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2783,6 +2890,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 108,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2809,6 +2917,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 109,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2835,6 +2944,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 110,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2861,6 +2971,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 111,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2887,6 +2998,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 112,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2913,6 +3025,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 113,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088001,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2939,6 +3052,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 114,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088001,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2965,6 +3079,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 115,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088002,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -2991,6 +3106,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 116,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088002,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3017,6 +3133,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 117,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088003,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3043,6 +3160,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 118,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088003,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3069,6 +3187,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 119,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088004,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3095,6 +3214,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 120,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3121,6 +3241,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 121,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088005,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3147,6 +3268,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 122,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088006,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3173,6 +3295,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 123,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088006,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3199,6 +3322,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 124,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088007,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3225,6 +3349,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 125,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088007,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3251,6 +3376,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 126,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088008,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3277,6 +3403,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 127,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088008,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3303,6 +3430,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 128,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088009,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3329,6 +3457,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 129,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088009,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3355,6 +3484,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 130,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088010,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3381,6 +3511,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 131,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088010,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3407,6 +3538,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 132,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088011,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3433,6 +3565,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 133,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088011,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3459,6 +3592,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 134,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088012,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3485,6 +3619,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 135,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088012,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3511,6 +3646,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 136,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3537,6 +3673,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 137,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3563,6 +3700,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 138,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3589,6 +3727,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 139,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87088099,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3615,6 +3754,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 140,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3641,6 +3781,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 141,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3667,6 +3808,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 142,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3693,6 +3835,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 143,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3719,6 +3862,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 144,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3745,6 +3889,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 145,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3771,6 +3916,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 146,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3797,6 +3943,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 147,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3823,6 +3970,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 148,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3849,6 +3997,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 149,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3875,6 +4024,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 150,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3901,6 +4051,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 151,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3927,6 +4078,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 152,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3953,6 +4105,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 153,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -3979,6 +4132,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 154,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4005,6 +4159,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 155,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4031,6 +4186,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 156,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4057,6 +4213,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 157,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4083,6 +4240,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 158,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089911,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4109,6 +4267,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 159,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4135,6 +4294,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 160,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4161,6 +4321,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 161,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4187,6 +4348,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 162,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4213,6 +4375,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 163,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4239,6 +4402,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 164,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4265,6 +4429,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 165,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4291,6 +4456,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 166,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4317,6 +4483,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 167,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4343,6 +4510,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 168,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4369,6 +4537,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 169,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4395,6 +4564,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 170,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4421,6 +4591,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 171,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4447,6 +4618,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 172,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4473,6 +4645,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 173,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4499,6 +4672,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 174,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4525,6 +4699,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 175,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4551,6 +4726,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 176,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4577,6 +4753,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 177,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4603,6 +4780,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 178,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4629,6 +4807,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 179,
       "FTA_CODE": "PMXAR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4655,6 +4834,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 180,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4681,6 +4861,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 181,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4707,6 +4888,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 182,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4733,6 +4915,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 183,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4759,6 +4942,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 184,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4785,6 +4969,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 185,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4811,6 +4996,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 186,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4837,6 +5023,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 187,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4863,6 +5050,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 188,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4889,6 +5077,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 189,
       "FTA_CODE": "PMXAR_P",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4915,6 +5104,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 190,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4941,6 +5131,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 191,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4967,6 +5158,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 192,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -4993,6 +5185,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 193,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5019,6 +5212,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 194,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5045,6 +5239,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 195,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5071,6 +5266,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 196,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5097,6 +5293,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 197,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5123,6 +5320,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 198,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5149,6 +5347,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 199,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5175,6 +5374,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 200,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5201,6 +5401,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 201,
       "FTA_CODE": "PMXBR",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5227,6 +5428,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 202,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5253,6 +5455,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 203,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5279,6 +5482,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 204,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5305,6 +5509,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 205,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5331,6 +5536,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 206,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5357,6 +5563,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 207,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5383,6 +5590,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 208,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5409,6 +5617,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 209,
       "FTA_CODE": "PMXBR_P",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5435,6 +5644,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 210,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5461,6 +5671,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 211,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 40169900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5487,6 +5698,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 212,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5513,6 +5725,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 213,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 73181500,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5539,6 +5752,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 214,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5565,6 +5779,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 215,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 73181600,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5591,6 +5806,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 216,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5617,6 +5833,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 217,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 87088000,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5643,6 +5860,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 218,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5669,6 +5887,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 219,
       "FTA_CODE": "PMXUY",
       "HS_CODE": 87089900,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5695,6 +5914,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 220,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5721,6 +5941,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 221,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5747,6 +5968,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 222,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5773,6 +5995,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 223,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5799,6 +6022,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 224,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5825,6 +6049,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 225,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5851,6 +6076,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 226,
       "FTA_CODE": "PMXPL",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5877,6 +6103,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 227,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5903,6 +6130,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 228,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5929,6 +6157,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 229,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5955,6 +6184,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 230,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -5981,6 +6211,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 231,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6007,6 +6238,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 232,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6033,6 +6265,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 233,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6059,6 +6292,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 234,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089901,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6085,6 +6319,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 235,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6111,6 +6346,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 236,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6137,6 +6373,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 237,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089902,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6163,6 +6400,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 238,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6189,6 +6427,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 239,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6215,6 +6454,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 240,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089903,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6241,6 +6481,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 241,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089905,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6267,6 +6508,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 242,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089905,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6293,6 +6535,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 243,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089905,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6319,6 +6562,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 244,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6345,6 +6589,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 245,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6371,6 +6616,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 246,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089906,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6397,6 +6643,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 247,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6423,6 +6670,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 248,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6449,6 +6697,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 249,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089907,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6475,6 +6724,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 250,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6501,6 +6751,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 251,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6527,6 +6778,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 252,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089908,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6553,6 +6805,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 253,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6579,6 +6832,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 254,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6605,6 +6859,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 255,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089909,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6631,6 +6886,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 256,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6657,6 +6913,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 257,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6683,6 +6940,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 258,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089912,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6709,6 +6967,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 259,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6735,6 +6994,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 260,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6761,6 +7021,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 261,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089913,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6787,6 +7048,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 262,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6813,6 +7075,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 263,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6839,6 +7102,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 264,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089914,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6865,6 +7129,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 265,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6891,6 +7156,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 266,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089910,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6917,6 +7183,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 267,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089999,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6943,6 +7210,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 268,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089999,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6969,6 +7237,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 269,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089911,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -6995,6 +7264,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 270,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089911,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7021,6 +7291,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 271,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7047,6 +7318,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 272,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7073,6 +7345,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 273,
       "FTA_CODE": "PMXCM",
       "HS_CODE": 87089904,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7099,6 +7372,7 @@
       "TRACKING_YN": "N"
     },
     {
+      "RULE_ID": 274,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 401699,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7125,6 +7399,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 275,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 731815,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7151,6 +7426,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 276,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 731816,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7177,6 +7453,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 277,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7203,6 +7480,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 278,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7229,6 +7507,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 279,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870880,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7255,6 +7534,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 280,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7281,6 +7561,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 281,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7307,6 +7588,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 282,
       "FTA_CODE": "PMXCM_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7333,6 +7615,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 283,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089999,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7359,6 +7642,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 284,
       "FTA_CODE": "PMXNA",
       "HS_CODE": 87089999,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7385,6 +7669,7 @@
       "TRACKING_YN": "Y"
     },
     {
+      "RULE_ID": 285,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7411,6 +7696,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 286,
       "FTA_CODE": "PMXNA_AS",
       "HS_CODE": 870899,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7437,6 +7723,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 287,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 73,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7463,6 +7750,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 288,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 73,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7489,6 +7777,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 289,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 87,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7515,6 +7804,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 290,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 87,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7541,6 +7831,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 291,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 40,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7567,6 +7858,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 292,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 40,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7593,6 +7885,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 293,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 84,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7619,6 +7912,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 294,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 84,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7645,6 +7939,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 295,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 39,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7671,6 +7966,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 296,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 39,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7697,6 +7993,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 297,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 83,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7723,6 +8020,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 298,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 83,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7749,6 +8047,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 299,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 35,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7775,6 +8074,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 300,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 35,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7801,6 +8101,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 301,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 32,
       "HS_CODE_SUB_CATEGORY": 1,
@@ -7827,6 +8128,7 @@
       "TRACKING_YN": null
     },
     {
+      "RULE_ID": 302,
       "FTA_CODE": "PMXEC",
       "HS_CODE": 32,
       "HS_CODE_SUB_CATEGORY": 1,

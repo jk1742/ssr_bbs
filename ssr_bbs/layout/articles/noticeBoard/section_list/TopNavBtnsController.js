@@ -1,9 +1,10 @@
-import { PanelNavBtnsController as Super} from "/layout/components/panel/navBtns/PanelNavBtnsController";
+import { DynamicBoxController as Super } from "/layout/components/panel/dynamicBox/DynamicBoxController";
+// import { PanelNavBtnsController as Super} from "/layout/components/panel/navBtns/PanelNavBtnsController";
 
 /***
  * layout:  PanelNavBtnsController control buttons
  ***/
-const PanelNavBtnsController = function (panelNavBtnsHandler) {
+const TopNavBtnsController = function (_topNavBtnsHandler) {
   //* private variable ////////////////////////////////////////////////////////
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -20,18 +21,18 @@ const PanelNavBtnsController = function (panelNavBtnsHandler) {
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   //! keep sequence
-  this.revealWrite();
-  this.revealCheck();
-  this.revealAlert();
-
-  this.write.setTooltip('write', 'bottom', '#555', 1, 0, 0);
-  this.check.setTooltip('check', 'bottom', '#555', 1, 0, 0);
-  this.alert.setTooltip('alert', 'bottom', '#555', 1, 0, 0);
+  this.appendToOven('fa-solid fa-marker');
+  this.appendToOven('fa-solid fa-briefcase');
+  this.appendToOven('fa-solid fa-lock');
+  this.bake();
+  //! Bake first before paint.
+  this.adaptStyleAllBtns('is-primary', 'is-inverted');
+  this.classList.add('has-text-right');
 
   // //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 
 export {
-  PanelNavBtnsController
+  TopNavBtnsController
 };

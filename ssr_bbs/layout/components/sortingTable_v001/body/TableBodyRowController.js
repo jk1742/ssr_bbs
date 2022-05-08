@@ -9,22 +9,24 @@
  */
 const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
 
-  //* private variable & mapping ////////////////////////////////////////////////
+  // private variable & mapping ////////////////////////////////////////////////
   const me            = this;
   const data          = array;
   let   rowNum        = Number(me.firstChild.textContent);
   let   idList        = [];
+  
 
-  //* Privilege Static Functions ////////////////////////////////////////////////
+  // Privilige Static Functions ////////////////////////////////////////////////
   const setIdList = function(){
     let carriage = [];
-    for (const element of header) {
-      carriage.push(element.id);
+    for (var i = 0; i < header.length; i++) {
+      carriage.push(header[i].id);
     }
     return carriage;
   }
 
-  //* Access Control: getter & setter ///////////////////////////////////////////
+
+  // Access Contorl: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     data: {
       get: () => data
@@ -34,15 +36,16 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
     }
   });
 
-  //* Access Control: public functions //////////////////////////////////////////
+
+  // Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     getDataByName (name) {
       return array[idList.indexOf(name)];
     },
     changeCells(seq, o){
-      //* data change
+      // data change
       this.data[seq] = o;
-      //* render
+      // render
       const pos  = seq + 1;
       if('undefined' !== typeof tableBodyRowHandler.changeTableCells) tableBodyRowHandler.changeTableCells(idList[seq], pos, o, me.childNodes[pos]);
     },
@@ -51,7 +54,8 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
     }
   });
 
-  //* Event handler /////////////////////////////////////////////////////////////
+
+  // Event handler /////////////////////////////////////////////////////////////
   this.onclick = (e) => {
     if('undefined' !== typeof tableBodyRowHandler.onclick_row) tableBodyRowHandler.onclick_row(e, this.id, array);
   }
@@ -59,10 +63,12 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
     if('undefined' !== typeof tableBodyRowHandler.ondblclick_row) tableBodyRowHandler.ondblclick_row(e, this.id, array);
   }
 
-  //* Lazy Initialization ///////////////////////////////////////////////////////
+
+  // Lazy Initialization ///////////////////////////////////////////////////////
   idList = setIdList();
 
-  //* End of Structure //////////////////////////////////////////////////////////
+  
+  // End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

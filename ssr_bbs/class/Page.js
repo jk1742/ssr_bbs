@@ -1,25 +1,24 @@
-
 /**
  * Page Class of list contents
  * @constructor
- * @param {*} size 
- * @param {*} orderId 
- * @param {*} orderType 
- * @param {*} total 
- * @returns 
+ * @param {*} size
+ * @param {*} orderId
+ * @param {*} orderType
+ * @param {*} total
+ * @returns
  */
 const Page = function(size, orderId, orderType, total){
-  const _private = {};
-  _private.size = size;
-  _private.orderId = orderId;
-  _private.orderType = orderType;
-  _private.orderBy = 'asc';
-  _private.total = total;
-  _private.rows = [];
-  _private.startNum;
-  _private.lastNum;
+  let _private = {
+    size      : size,
+    orderId   : orderId,
+    orderType : orderType,
+    orderBy   : 'asc',
+    total     : total,
+    rows      : [],
+    startNum  : 0,
+    lastNum   : 0
+  };
 
-  // _private.rowscnt = _private.rows.length;
   Object.defineProperties(this, {
     size:{
       get: ()   => _private.size,
@@ -60,7 +59,7 @@ const Page = function(size, orderId, orderType, total){
         let carriage;
         if('undefined' == typeof _private.total || 0 >= _private.total){
           return 0;
-        } 
+        }
         if('undefined' == typeof _private.startNum || Number.isNaN(_private.startNum)) {
           return 0;
         }
@@ -69,7 +68,7 @@ const Page = function(size, orderId, orderType, total){
         }
         if(_private.startNum > _private.total){
           return 0;
-        } 
+        }
         if(0 > _private.startNum){
           return 0;
         }
@@ -79,7 +78,7 @@ const Page = function(size, orderId, orderType, total){
       enumerable:true
     },
     lastNum:{
-      get: ()   => {
+      get: () => {
         let carriage;
         const tempLast = (this.startNum + _private.size);
         if('undefined' == typeof _private.total || 0 >= _private.total) {
@@ -93,7 +92,7 @@ const Page = function(size, orderId, orderType, total){
         }
         if(_private.lastNum > _private.total){
           return _private.total;
-        } 
+        }
         return carriage;
       },
       set:(o) => {_private.lastNum = o},
@@ -101,8 +100,7 @@ const Page = function(size, orderId, orderType, total){
     }
   });
 
-
-  // Access control: public functions //////////////////////////////////////////
+  //* Access control: public functions //////////////////////////////////////////
   Object.assign(this, {
     toggleOrderBy() {
       let order = _private.orderBy;
@@ -121,11 +119,11 @@ const Page = function(size, orderId, orderType, total){
     },
     nextTic(o){
       _private.startNum = o;
-      _private.lastNum  = _private.lastNum  + _private.size;
+      _private.lastNum  = _private.lastNum + _private.size;
     }
   });
   Object.seal(this);
   return this;
 }
-// Declare Point Class  *** Do not change line sequence ***
+//* Declare Point Class  *** Do not change line sequence ***
 export { Page };

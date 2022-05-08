@@ -15,25 +15,28 @@ import { TableBodyRowController } from '/layout/components/sortingTable/body/Tab
 const TableBodyController   = function (tableBodyHandler, header) {
 
 
-  //* Private variable & mapping ////////////////////////////////////////////////
+  // Private variable & mapping ////////////////////////////////////////////////
   const me            = this;
   let   rows          = [];
+  
 
-  //* Privilege Static Functions ////////////////////////////////////////////////
+  // Privilige Static Functions ////////////////////////////////////////////////
+  
 
-  //* Access Control: getter & setter ///////////////////////////////////////////
+  // Access Contorl: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     rows: {
       get: ()   => rows,
     },
   });
 
-  //* Access Control: public functions //////////////////////////////////////////
+
+  // Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     generateRows (array, page) {
       rows = [];
       const arrTemp = [];
-      //* draw row 
+      // draw row 
       let rowNum = page.startNum;
       for (let i = 1; i < array.length; i++) {
         rowNum = rowNum + 1;
@@ -41,7 +44,7 @@ const TableBodyController   = function (tableBodyHandler, header) {
         arrTemp.push(row);
         me.appendChild(row);
       }
-      //* inject controller
+      // inject contoller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
         const row = $SR.View(arrTemp[i].id).inject(TableBodyRowController, {
@@ -61,7 +64,7 @@ const TableBodyController   = function (tableBodyHandler, header) {
     generateRvrsRows (array, page) {
       rows = [];
       const arrTemp = [];
-      //* draw row 
+      // draw row 
       let rowNum = page.startNum;
       for (let i = 1; i < array.length; i++) {
         rowNum = rowNum + 1;
@@ -69,7 +72,7 @@ const TableBodyController   = function (tableBodyHandler, header) {
         arrTemp.push(row);
         me.insertBefore(row, me.childNodes[i-1]);
       }
-      //* inject controller
+      // inject contoller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
         const row = $SR.View(arrTemp[i].id).inject(TableBodyRowController, {
@@ -87,15 +90,18 @@ const TableBodyController   = function (tableBodyHandler, header) {
       rows = me.childNodes;
     }
   });
+  
 
-  //* Event handler /////////////////////////////////////////////////////////////
+  // Event handler /////////////////////////////////////////////////////////////
   this.onmousewheel = (e) => {
     if('undefined' !== typeof tableBodyHandler.onmousewheel_tbody) tableBodyHandler.onmousewheel_tbody(e);
   };
 
-  //* Lazy Initialization ///////////////////////////////////////////////////////
 
-  //* End of Structure //////////////////////////////////////////////////////////
+  // Lazy Initialization ///////////////////////////////////////////////////////
+
+  
+  // End of Structure //////////////////////////////////////////////////////////
   return this;
 };
 export {

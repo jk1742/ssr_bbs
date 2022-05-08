@@ -1,14 +1,16 @@
 /* eslint-disable no-undef */
 // import view block with controller
 // import { FRAME_SETTING  } from '/class/static/DefineConst';
-import { PanelNavBtns } from '/layout/components/panel/navBtns/PanelNavBtns';
-import { SampleTable } from '/layout/articles/noticeBoard/section_list/SampleTable';
+import { DynamicBox as PanelNavBtns } from '/layout/components/panel/dynamicBox/DynamicBox';
+import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
+// import { SampleTable } from '/layout/articles/noticeBoard/section_list/SampleTable';
+
 
 const Section_list = function (id) {
 
   //* View Register
   const panelNavBtns = new PanelNavBtns('panelNavBtns');
-  const sampleTable = new SampleTable(id + '-SampleTable');
+  const table = new SortingTable(id+'-SortingTable','67vh','width:80vw');
 
   //* Describe Tags
   return $SR.generateHtml `
@@ -29,7 +31,7 @@ const Section_list = function (id) {
           <div class = "columns is-centered">
               <div class = "column is-narrow">
                 <!-- sample Table -->
-                ${sampleTable.outerHTML}
+                ${table.outerHTML}
               </div>
           </div>
         </div>

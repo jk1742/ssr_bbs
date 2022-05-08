@@ -1,15 +1,15 @@
 /***
  * Layout:  TableHeaderDataController
  ***/
-//* Describe EntryList Class below
+// Describe EntryList Class below
 const TableHeaderDataController   = function (tableHeaderDataController) {
 
-  //* private variable & mapping ////////////////////////////////////////////////
+  // private variable & mapping ////////////////////////////////////////////////
   // const me           = this;
 
-  //* Privilege Static Functions ////////////////////////////////////////////////
+  // Privilige Static Functions ////////////////////////////////////////////////
 
-  //* Access Control: getter & setter ///////////////////////////////////////////
+  // Access Contorl: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     // x: {
     //   get: function() {
@@ -19,21 +19,21 @@ const TableHeaderDataController   = function (tableHeaderDataController) {
     // },
   });
 
-  //* Access Control: public functions //////////////////////////////////////////
+  // Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     // onmouseover_btn (e) {
     //   console.log('onmouseover_btn');
     // }
   });
 
-  //* Event handler /////////////////////////////////////////////////////////////
+  // Event handler /////////////////////////////////////////////////////////////
   this.onclick = (e) => {
     if('undefined' !== typeof tableHeaderDataController.onclick_th) tableHeaderDataController.onclick_th(e, this.id);
   }
 
-  //* Lazy Initialization ///////////////////////////////////////////////////////
+  // Lazy Initialization ///////////////////////////////////////////////////////
 
-  //* End of Structure //////////////////////////////////////////////////////////
+  // End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {

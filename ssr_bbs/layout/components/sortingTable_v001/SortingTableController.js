@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-import { Page                     } from './class/Page';
+import { Page                     } from '/class/Page';
 import { CHART_ICONS              } from '/class/static/BasicChartIcons';
 import { TableBodyController      } from '/layout/components/sortingTable/body/TableBodyController';
 import { TableHeaderRow           } from '/layout/components/sortingTable/header/TableHeaderRow';
@@ -30,11 +30,13 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   //* private variable & mapping //////////////////////////////////////////////
   let   me                = this;
   let   table             = me.firstChild;
+  let   temp              = me.lastChild;
   let   thead             = table.firstChild;
   let   tbody             = table.lastChild;
   let   tableArrayData    = [];
   let   tableHeader       = headerInfo;
   let   page              = new Page();
+  //let   page              = new Page(100, 'id', 'string');
 
   //* Privilege Static Functions //////////////////////////////////////////////
   /**
@@ -46,11 +48,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
    * @returns {[Array]}
    */
   const sorting = function (tableArray, selectedHeadId, direction, selectedHeadType) {
-    const innerSort = function (a, b) {
-      if (a[pos] > b[pos]) return ('asc' === direction) ? 1 : -1;
-      if (a[pos] < b[pos]) return ('asc' === direction) ? -1 : 1;
-      return 0;
-    }
     let array = _.cloneDeep(tableArray);
     let pos = array[0].findIndex(e => e === selectedHeadId);
     pos = (0 > pos)? 0:pos;
@@ -64,17 +61,25 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
         return 0;
       });
     } else if ('number' === selectedHeadType){
-      array.sort(innerSort);
+      array.sort(function(a, b) {
+        if (a[pos] > b[pos]) return ('asc' === direction) ?  1:-1;
+        if (a[pos] < b[pos]) return ('asc' === direction) ? -1: 1;
+        return 0;
+      });
     } else if ('boolean' === selectedHeadType){
-      array.sort(innerSort);
+      array.sort(function(a, b) {
+        if (a[pos] > b[pos]) return ('asc' === direction) ?  1:-1;
+        if (a[pos] < b[pos]) return ('asc' === direction) ? -1: 1;
+        return 0;
+      });
     }
     return header.concat(array);
   };//
 
   /**
    * fabricTableArray
-   * @param {[Object]} objArray
-   * @param {[Array]} headArray
+   * @param {[Object]} objArray 
+   * @param {[Array]} headArray 
    * @returns {[Array]}
    */
   const fabricTableArray = function (objArray, headArray){
@@ -98,8 +103,8 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
 
 	/**
 	 * mergeTableArrays
-	 * @param {*} o1
-	 * @param {*} o2
+	 * @param {*} o1 
+	 * @param {*} o2 
 	 * @returns {[]} table array data
 	 */
   const mergeTableArrays = function(o1, o2){
@@ -116,14 +121,13 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   /**
    * appendTrAfter
    *  Generate Table
-   * @param {Page} _p
+   * @param {Page} _p 
    */
   const appendTrAfter = function(_p) {
     // sorting and fabricTableArray
 		let arrTemp = fabricTableArray(_p.rows, tableHeader);
 		tableArrayData = mergeTableArrays(tableArrayData, arrTemp);
 		// generate tbody
-    // console.log("SortingTableController/appendTrAfter:",_p.rows, page.rows);
     tbody.generateRows(arrTemp, _p);
   };
 
@@ -158,8 +162,8 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   /**
    * compareArray
    *  compare array a1 to a2
-   * @param {Array} a1
-   * @param {Array} a2
+   * @param {Array} a1 
+   * @param {Array} a2 
    * @returns {boolean}
    */
   const compareArray = function(a1, a2){
@@ -186,7 +190,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
    * @param {Number} size
    */
   const cutTailRows = function(size) {
-    let tbodyLength = tbody.childNodes.length;
+		let tbodyLength = tbody.childNodes.length;
 		let cnt = tbodyLength % size;
 		cnt = (0 < cnt) ? cnt:size;
     for (let index = 0; index < cnt; index++) {
@@ -202,6 +206,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     while (tbody.hasChildNodes()) tbody.removeChild(tbody.firstChild);
     tableArrayData = [];
   }
+
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -221,7 +226,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   Object.assign(this, {
     // !important update tabledata
     generateTable(_p){
-      page = _p;
       // reset table and array data
       clearRows();
       // append tr
@@ -245,51 +249,22 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
         if(data) dom.innerHTML = CHART_ICONS.CHECK;
         else dom.removeChild(dom.firstChild);
       } else dom.textContent = data;
-    },
-    /**
-     * Render Next page
-     * @param {*} nextPage
-     */
-    renderNext(nextPage){
-      // append rows on bottom
-      if (nextPage.endNum == tbody.lastChild.rowNum || nextPage.endNum > page.total) return;
-      page.endNum = page.endNum + nextPage.size;
-      appendTrAfter(nextPage);
-      page.rows = page.rows.concat(nextPage.rows);
-      // cut top items
-      page.startNum = page.startNum + nextPage.size;
-      cutHeadRows(nextPage.size);
-      page.rows = page.rows.slice(nextPage.size);
-    },
-    renderPre(prePage) {
-      // append rows on top
-      if ((prePage.startNum + 1) == tbody.firstChild.rowNum || page.startNum <= 0) return;
-      page.startNum = page.startNum - prePage.size;
-      appendTrBefore(prePage);
-      // inner structure page for sync
-      // insert loaded rows at front
-      page.rows.splice(0, 0, ...prePage.rows);
-      // measure page size
-      page.endNum = page.endNum - prePage.size;
-      const k = page.rows.length % prePage.size;
-      const r = (k == 0) ? prePage.size : k;
-      // cut page rows from tail
-      page.rows.splice((page.rows.length - r) , r);
-      // cut table rows form tail
-      cutTailRows(prePage.size);
     }
   });
   me = this;
 
+
   //* Lazy Initialization /////////////////////////////////////////////////////
   // generate table HEADER
   thead.appendChild(new TableHeaderRow(thead.id, tableHeader));
+
 
   //* Inject controller ///////////////////////////////////////////////////////
   const tableHeaderRow = $SR.View(thead.id).inject(TableHeaderRowController, {
     stortingTable_sort(e, selectedId, selectedType){
       page.toggleOrderBy();
       page.orderId    = selectedId;
+      page.orderType  = selectedType;
       // page update call
       if('undefined' !== typeof sortingTableHandler.sort_tableByPageInfo) sortingTableHandler.sort_tableByPageInfo(page);
     }
@@ -311,21 +286,37 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
         cnt = (table.scrollTop / table.scrollHeight) * 100;
         if('undefined' !== typeof sortingTableHandler.load_prePage && 0 <= cnt && 20 > cnt) {
           let firstNum = tbody.firstChild.rowNum;
-          let prePage = new Page(10, page.orderId, page.orderBy, page.total, page.startNum);
-          prePage.preTic();
-          if (1 < firstNum) sortingTableHandler.load_prePage(prePage);
+					let prePage = new Page(10, page.orderId, page.orderType, page.total);
+          prePage.orderBy = page.orderBy;
+					prePage.preTic(firstNum);
+          // prepage
+          if(1 >= firstNum) return;
+          prePage = sortingTableHandler.load_prePage(prePage);
+          appendTrBefore(prePage);
+          page.startNum = page.startNum - prePage.size;
+          page.lastNum  = page.startNum + page.size;
+          cutTailRows(prePage.size);
         }
       } else {
         // down
         cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
         if('undefined' !== typeof sortingTableHandler.load_nextPage && 85 < cnt) {
-          let endNum = tbody.lastChild.rowNum;
-          let nextPage = new Page(10, page.orderId, page.orderBy, page.total, page.endNum);
-          if (nextPage.total > endNum) sortingTableHandler.load_nextPage(nextPage);
+          let lastNum = tbody.lastChild.rowNum;
+					let nextPage = new Page(10, page.orderId, page.orderType, page.total);
+          nextPage.orderBy = page.orderBy;
+          nextPage.nextTic(lastNum);
+          // nextPage
+					if(nextPage.total <= lastNum) return;
+          nextPage = sortingTableHandler.load_nextPage(nextPage);
+          appendTrAfter(nextPage);
+          page.lastNum  = page.lastNum + nextPage.size;
+          page.startNum = page.startNum + nextPage.size;
+          cutHeadRows(nextPage.size);
         }
       }
     }
   }, tableHeader);
+
 
   //* Event handler ///////////////////////////////////////////////////////////
 

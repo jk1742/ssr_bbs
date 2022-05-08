@@ -1,16 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-import { TableBodyRow           } from '/layout/components/sortingTable/body/TableBodyRow';
-import { TableBodyRowController } from '/layout/components/sortingTable/body/TableBodyRowController';
+import { TableBodyRow           } from '/layout/components/tables/sortingTable/body/TableBodyRow';
+import { TableBodyRowController } from '/layout/components/tables/sortingTable/body/TableBodyRowController';
 
- 
 /**
  * Layout:  TableBodyController
  * @constructor
- * @param {[Function]} tableBodyHandler 
- * @param {*} header 
- * @returns 
+ * @param {[Function]} tableBodyHandler
+ * @param {*} header
+ * @returns
  */
 const TableBodyController   = function (tableBodyHandler, header) {
 
@@ -33,7 +32,7 @@ const TableBodyController   = function (tableBodyHandler, header) {
     generateRows (array, page) {
       rows = [];
       const arrTemp = [];
-      //* draw row 
+      //* draw row
       let rowNum = page.startNum;
       for (let i = 1; i < array.length; i++) {
         rowNum = rowNum + 1;

@@ -1,0 +1,39 @@
+
+.sorting-table {
+  position: relative;
+}
+.sorting-table>table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow-y: auto;
+}
+.sorting-table>table > thead{
+  width: calc( 100% - 1em );
+  border: none;
+}
+.sorting-table>table > thead > tr > th {
+  position: sticky;
+  background-color: white;
+  font-size: 13px;
+  top: 0;
+  padding: 15px 5px 5px 5px;
+}
+.sorting-table>table > tbody > tr > th, .sorting-table>table > tbody > tr > td {
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+  font-size: 13px;
+}
+.sorting-table>table > tbody > tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.sorting-table-temp{
+  position: absolute;
+  display: none;
+  z-index: 6;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
