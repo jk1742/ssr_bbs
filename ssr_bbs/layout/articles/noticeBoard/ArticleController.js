@@ -49,7 +49,8 @@ const ArticleController   = function(_articleHandler) {
   //* inject controller ///////////////////////////////////////////////////////
   $SR.registerModel(toolTip).inject(ToolTipController, {});
   let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
-    onclick_write: (e) => section_detail.activate()
+    onclick_write     : (e) => section_detail.activate(),
+    detail_viewById   : (id) => section_detail.viewById(id)
   });
   let section_detail = $SR.getModelById(this.id + '-Section_detail').inject(Section_detailController, {
     onclick_list: (e) => section_list.activate()

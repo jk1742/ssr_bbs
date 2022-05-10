@@ -2,18 +2,19 @@
 /**
  * Layout:  TableBodyRowController
  * @constructor
- * @param {[Function]} tableBodyRowHandler 
- * @param {[Array]} array 
- * @param {*} header 
- * @returns 
+ * @param {[Function]} tableBodyRowHandler
+ * @param {[Array]} array
+ * @param {*} header
+ * @returns
  */
 const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
 
   //* private variable & mapping ////////////////////////////////////////////////
-  const me            = this;
+  let   me            = this;
   const data          = array;
-  let   rowNum        = Number(me.firstChild.textContent);
+  let   rowNum        = Number(me.children[1].textContent);
   let   idList        = [];
+
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   const setIdList = function(){
@@ -23,6 +24,7 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
     }
     return carriage;
   }
+
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
@@ -34,6 +36,7 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
     }
   });
 
+
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     getDataByName (name) {
@@ -43,13 +46,15 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
       //* data change
       this.data[seq] = o;
       //* render
-      const pos  = seq + 1;
+      const pos  = seq;
       if('undefined' !== typeof tableBodyRowHandler.changeTableCells) tableBodyRowHandler.changeTableCells(idList[seq], pos, o, me.childNodes[pos]);
     },
     select(){
       me.style.backgroundColor = "red";
-    }
+    },
   });
+  me = this;
+
 
   //* Event handler /////////////////////////////////////////////////////////////
   this.onclick = (e) => {
@@ -61,6 +66,12 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
   idList = setIdList();
+
+  for (let index = 0; index < header.length; index++){
+    const element = header[index];
+    if ('undefined' !== element.display && 'none' === element.display) me.children[index + 1].style.display = 'none';
+  }
+
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;

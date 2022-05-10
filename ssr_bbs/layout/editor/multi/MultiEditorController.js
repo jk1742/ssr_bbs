@@ -111,7 +111,7 @@ const MultiEditorController   = function (multiEditorHandler) {
     },
   });
   let sortingTable = $SR.View('MultiEditor-SortingTable').inject(SortingTableController, {
-    onclick_tableRow      :(o, i, data) => {
+    onclick_tableRow      : (o, i, data) => {
       const id = data[1];
       const match = selectedPtcls.findIndex((e)=>(e === id));
       if(0 > match) selectedPtcls.push(id);
@@ -120,16 +120,16 @@ const MultiEditorController   = function (multiEditorHandler) {
       // to process double click, one click event need to slow down
       _.debounce(()=>multiEditorHandler.simulator_addselectedPaticle(selectedPtcls), 200)();
     },
-    ondblclick_tableRow   :(o, i, data) => {
+    ondblclick_tableRow   : (o, i, data) => {
       const id = data[1];
       const carriage = multiEditorHandler.simulator_focusOn(id);
       multiEditorHandler.focusEditor_activateSection('', carriage);
     },
-    load_prePage:(page) => {
+    load_prePage          : (page) => {
       // load page
       return multiEditorHandler.simulator_getCavansParticles(page);
     },
-    load_nextPage:(page) => {
+    load_nextPage         : (page) => {
       // load page
       return multiEditorHandler.simulator_getCavansParticles(page);
     },

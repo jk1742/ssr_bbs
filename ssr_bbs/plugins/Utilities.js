@@ -851,7 +851,6 @@ module.exports = {
           })(this, Handler, ...args);
         },
         setTooltip: function (msg, outline, color, opacity, width, height) {
-          // console.log(msg, outline, color, opacity, width, height);
           const toolTipEvent = ssr.Event.register('ToolTipEvent');
           const t = this.getBoundingClientRect();
           this.onmouseenter = (e) => {

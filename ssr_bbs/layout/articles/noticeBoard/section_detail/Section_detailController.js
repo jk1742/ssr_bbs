@@ -34,12 +34,22 @@ const Section_detailController = function (section_detailHandler) {
 
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
-    // activateSection() {
-    //   queueEvent.push({
-    //      id: this.id
-    //   });
-    //   $SR.moveScreen_bak(this);
-    // }
+    viewById(id) {
+      console.log("render viewById: ",id);
+      this.activate();
+      axios({
+        method: 'get',
+        url: 'http://localhost:9000/api/psr',
+        // withCredentials: true,
+        params: { RULE_ID: id }
+        // params: { _page: 7, _limit: 20 }
+      }).then((Response) => {
+        frameMid.firstChild.firstChild.firstChild.children[1].firstChild.innerText = JSON.stringify(Response.data);
+        console.log('Response', Response.data, frameMid.firstChild.firstChild.firstChild.children[1].firstChild.innerText);
+      }).catch((_Error) => {
+        console.log('error', Response.data);
+      });
+    }
   });
 
   //* Event handler ///////////////////////////////////////////////////////////

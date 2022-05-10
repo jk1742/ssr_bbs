@@ -3,8 +3,6 @@
 
 /***
  * SliderBarController
- * 행복을 위해 살아라
- *  다만 행복은 네 곁의 사람들에 숨어 있다.
  * @constructor
  * @param {*} _sliderBarHandler
  * @returns
@@ -75,14 +73,14 @@ const SliderBarController   = function (_sliderBarHandler) {
       const sHeight = end - start;
       this.pos = this.pos + sHeight / totalTic
       slideMove(this.pos);
-      console.log('scrollNextTic', page, n, ticSize);
+      //console.log('scrollNextTic', page, n, ticSize);
     },
     scrollPreTic(ticSize, n, page){
       const totalTic = Math.ceil(page.total / ticSize) - page.size / ticSize;
       const sHeight = end - start;
       this.pos = this.pos - sHeight / totalTic
       slideMove(this.pos);
-      console.log('scrollPreTic', page, n, ticSize);
+      //console.log('scrollPreTic', page, n, ticSize);
     }
   });
 

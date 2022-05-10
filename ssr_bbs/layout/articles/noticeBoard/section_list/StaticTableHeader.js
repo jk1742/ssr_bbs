@@ -4,6 +4,7 @@
  * static-object use as a function when it called: ex) staticCovid19()
  ***/
 // Describe StaticMultiEditorTableHeader Class below
+
 const StaticTableHeader = function() {
   return [
     {
@@ -14,18 +15,27 @@ const StaticTableHeader = function() {
       width: '2%',
     },
     {
+      name: 'RULE_ID',
+      id: 'RULE_ID',
+      type: 'number',
+      icon: '',
+      width: '2%',
+      display: 'none',
+      isKey: true
+    },
+    {
       name: 'FTA_CODE',
       id: 'FTA_CODE',
       type: 'string',
       icon: '',
-      width: '10%',
+      width: '5%',
     },
     {
       name: 'HS_CODE',
       id: 'HS_CODE',
       type: 'number',
       icon: '',
-      width: '10%',
+      width: '5%',
     },
     {
       name: 'RULE',

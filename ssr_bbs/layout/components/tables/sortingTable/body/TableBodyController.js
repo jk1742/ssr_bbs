@@ -13,7 +13,6 @@ import { TableBodyRowController } from '/layout/components/tables/sortingTable/b
  */
 const TableBodyController   = function (tableBodyHandler, header) {
 
-
   //* Private variable & mapping ////////////////////////////////////////////////
   const me            = this;
   let   rows          = [];

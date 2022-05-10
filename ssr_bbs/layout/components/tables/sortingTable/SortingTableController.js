@@ -5,16 +5,23 @@
 import { Page                     } from './class/Page';
 import { CHART_ICONS              } from '/class/static/BasicChartIcons';
 import { TableBodyController      } from '/layout/components/tables/sortingTable/body/TableBodyController';
-import { SpaceRow } from './body/SpaceRow';
 import { TableHeaderRow           } from '/layout/components/tables/sortingTable/header/TableHeaderRow';
 import { TableHeaderRowController } from '/layout/components/tables/sortingTable/header/TableHeaderRowController';
 import { SliderBarController      } from './index/SliderBarController';
-import _ from 'lodash';
+import _, { map } from 'lodash';
 
 /**
  * Layout:  SortingTableController
  * @constructor
  * @param {[Function]} sortingTableHandler
+ * @function generateTable
+ *  first load table
+ * @function updateTable
+ *  when data changed
+ * @function renderTableRow
+ * @function renderNext
+ * @function renderPre
+ *
  * @param {*} headerInfo
  * headerInfo
  * [
@@ -31,7 +38,6 @@ import _ from 'lodash';
 const SortingTableController   = function (sortingTableHandler, headerInfo) {
 
   //* private variable & mapping //////////////////////////////////////////////
-  const   PAGE_TIC          = 5;
   let     me                = this;
   const   table             = me.firstChild.firstChild;
   const   thead             = table.firstChild;
@@ -40,12 +46,32 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   let     tableArrayData    = [];
   let     tableHeader       = headerInfo;
   let     page              = new Page();
-  let     _private ={
-    rowHeight:null
+  let     _private          = {
+            rowHeight   : null,
+            tic         : 5,
+            clickedItems: new Set(),
+            keys        : []
   }
-  // console.log("SortingTableController/indexBar:", indexBar);
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
+  const getKeys = function(){
+    const array = headerInfo.filter(obj => obj.isKey);
+    let carriage = [];
+    array.forEach(element => {
+      carriage.push(element.id);
+    });
+    return carriage;
+  }
+  const selectMarker = (_rows)=>{
+    let tmpArray = _.cloneDeep(_rows);
+    me.clickedItems.forEach(element => {
+      tmpArray.map(obj => {
+        if (obj[me.keys[0]] === element) obj['isSelected'] = true;
+      });
+    });
+    return tmpArray;
+  }
   /**
    * sorting
    * @param {[Array]} array
@@ -79,7 +105,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     }
     return header.concat(array);
   };//
-
   /**
    * fabricTableArray
    * @param {[Object]} objArray
@@ -103,7 +128,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     }
     return carriage;
   };
-
 	/**
 	 * mergeTableArrays
 	 * @param {*} o1
@@ -120,33 +144,31 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     const body = a1.concat(a2);
     return head.concat(body);
   }
-
   /**
    * appendTrAfter
    *  Generate Table
    * @param {Page} _p
    */
   const appendTrAfter = function(_p) {
+    _p.rows = selectMarker(_p.rows);
     // sorting and fabricTableArray
 		let arrTemp = fabricTableArray(_p.rows, tableHeader);
 		tableArrayData = mergeTableArrays(tableArrayData, arrTemp);
 		// generate tbody
-    // console.log("SortingTableController/appendTrAfter:",_p.rows, page.rows);
     tbody.generateRows(arrTemp, _p);
   };
-
   /**
    * appendTrBefore
    * @param {Page} _p
    */
   const appendTrBefore = function(_p) {
+    _p.rows = selectMarker(_p.rows);
     // sorting and fabricTableArray
     let arrTemp = fabricTableArray(_p.rows, tableHeader);
 		tableArrayData = mergeTableArrays(arrTemp, tableArrayData);
 		// generate tbody
     tbody.generateRvrsRows(arrTemp, _p);
   };
-
   /**
    * modifyTable(array)
    *  Modify Table
@@ -162,7 +184,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       }
     }
   };
-
   /**
    * compareArray
    *  compare array a1 to a2
@@ -173,11 +194,10 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   const compareArray = function(a1, a2){
     let i = a1.length;
     while (i--) {
-        if (a1[i] !== a2[i]) return false;
+      if (a1[i] !== a2[i]) return false;
     }
     return true;
   };
-
   /**
    * Cut Head Rows
    * @param {Number} size
@@ -188,7 +208,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     }
     tableArrayData.splice(1, size);
   }
-
   /**
    * Cut Tail Rows
    * @param {Number} size
@@ -202,37 +221,57 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     }
     tableArrayData.splice((tableArrayData.length-cnt), cnt);
   }
-
   /**
    * clear Rows
    */
-  const clearRows = function(){
+  const clearRows = function() {
     while (tbody.hasChildNodes()) tbody.removeChild(tbody.firstChild);
     tableArrayData = [];
   }
+
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
     tableArrayData: {
       get: ()   => tableArrayData,
+      enumerable: true
     },
     tableHeader: {
       get: ()   => tableHeader,
+      enumerable: true
     },
-    pageInfo:{
+    page:{
       get: ()   => page,
+      enumerable: true
     },
     rowHeight:{
       get: () => _private.rowHeight,
       set: (o)=> {_private.rowHeight = o},
       configurable:true,
+      enumerable: true
+    },
+    tic:{
+      get: () => _private.tic,
+      set: (o) => { _private.tic = o },
+      configurable: true,
+      enumerable: true
+    },
+    clickedItems: {
+      get: () => [..._private.clickedItems],
+      configurable: true,
+      enumerable: true
+    },
+    keys:{
+      get: () => getKeys(),
+      configurable: true,
+      enumerable: true
     }
   });
 
 
   //* Access Control: public functions ////////////////////////////////////////
   Object.assign(this, {
-    // !important update tabledata
+    // !important update tableData
     generateTable(_p){
       page = _p;
       // reset table and array data
@@ -240,6 +279,11 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       // append tr
       appendTrAfter(_p);
     },
+    /**
+     * updateTable
+     * @param {*} _p
+     * @returns
+     */
     updateTable (_p) {
       if(null === _p) {
         clearRows();
@@ -254,23 +298,19 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     },
     renderTableRow (name, pos, data, dom) {
       // select item
-      if(pos == 1) {
+      if(pos == 0) {
         if(data) dom.innerHTML = CHART_ICONS.CHECK;
-        else dom.removeChild(dom.firstChild);
-      } else dom.textContent = data;
+        else dom.innerHTML = '';
+      } // else if (pos == 1);
+      else dom.textContent = data;
     },
     /**
      * Render Next page
      * @param {*} nextPage
      */
-    renderNext(nextPage){
+    renderNext(nextPage) {
       // append rows on bottom
-      console.log(`renderNext1: ${nextPage.endNum} ${tbody.lastChild.rowNum}`);
-      if (nextPage.endNum == tbody.lastChild.rowNum || nextPage.endNum > page.total) {
-        const k = nextPage.endNum % nextPage.size;
-        console.log(`    renderNext2: ${nextPage.endNum} ${tbody.lastChild.rowNum}`, k);
-        return;
-      }
+      if (nextPage.endNum <= tbody.lastChild.rowNum || nextPage.endNum > page.total) return;
       page.endNum = page.endNum + nextPage.size;
       appendTrAfter(nextPage);
       page.rows = page.rows.concat(nextPage.rows);
@@ -278,7 +318,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       page.startNum = page.startNum + nextPage.size;
       cutHeadRows(nextPage.size);
       page.rows = page.rows.slice(nextPage.size);
-      indexBar.scrollNextTic(PAGE_TIC, tbody.firstChild.rowNum, page);
+      indexBar.scrollNextTic(me.tic, tbody.firstChild.rowNum, page);
     },
     renderPre(prePage) {
       // append rows on top
@@ -296,7 +336,24 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       page.rows.splice((page.rows.length - r) , r);
       // cut table rows form tail
       cutTailRows(prePage.size);
-      indexBar.scrollPreTic(PAGE_TIC, tbody.firstChild.rowNum, page);
+      indexBar.scrollPreTic(me.tic, tbody.firstChild.rowNum, page);
+    },
+    markSelectRow(id){
+      const row = document.getElementById(id);
+      const key = this.keys[0];
+      // _private.keys[0]
+      const qId = row.getDataByName(key);
+      let tmpArray = _.cloneDeep(page.rows);
+      const r = tmpArray.findIndex(e => e[key] === qId);
+      if (typeof tmpArray[r].isSelected !== 'undefined' && tmpArray[r].isSelected === true) tmpArray[r].isSelected = undefined;
+      else tmpArray[r].isSelected = true;
+      page.rows = tmpArray;
+      me.updateTable(me.page);
+      if (_private.clickedItems.has(qId)) _private.clickedItems.delete(qId);
+      else _private.clickedItems.add(qId);
+    },
+    selectedRowsClear(){
+      _private.clickedItems.clear();
     }
   });
   me = this;
@@ -307,18 +364,43 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
 
   //* Inject controller ///////////////////////////////////////////////////////
   const tableHeaderRow = $SR.View(thead.id).inject(TableHeaderRowController, {
+    onclick_asteriskTh(e, dom){
+      console.log('onclick_asteriskTh/1/',e, dom);
+      const key = me.keys[0];
+      let sw = false;
+      // has any selected rows then change @sw to true
+      const tmpArray = _.cloneDeep(page.rows);
+      if (undefined === tmpArray.find(o => o.isSelected === true)) sw = true;
+      if(sw) {
+        page.rows = tmpArray.map(obj => {
+          obj.isSelected = true;
+          _private.clickedItems.add(obj[key]);
+          return obj;
+        });
+      } else {
+        page.rows = tmpArray.map(obj => {
+          _private.clickedItems.delete(obj[key]);
+          obj.isSelected = undefined;
+          return obj;
+        });
+      }
+      me.updateTable(page);
+    },
     stortingTable_sort(e, selectedId, selectedType){
-      page.toggleOrderBy();
-      page.orderId    = selectedId;
+      // order by
+      page.orderBy = page.toggleOrderBy();
+      page.orderId = selectedId;
       // page update call
       if('undefined' !== typeof sortingTableHandler.sort_tableByPageInfo) sortingTableHandler.sort_tableByPageInfo(page);
     }
   }, tableHeader);
   tbody = $SR.View(tbody.id).inject(TableBodyController, {
     onclick_row(e, id, data){
-      if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(e, id, data);
+      const row = document.getElementById(id);
+      if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(id, data, row);
     },
     ondblclick_row(e, id, data){
+      const row = document.getElementById(id);
       if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
     },
     changeTableCells(name, pos, data, dom){
@@ -329,10 +411,9 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       if(0 > e.deltaY){
         // up
         cnt = (table.scrollTop / table.scrollHeight) * 100;
-        console.log("SortingTableController/wheel:",cnt);
         if('undefined' !== typeof sortingTableHandler.load_prePage && 0 <= cnt && 20 > cnt) {
           let firstNum = tbody.firstChild.rowNum;
-          let prePage = new Page(PAGE_TIC, page.orderId, page.orderBy, page.total, page.startNum);
+          let prePage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.startNum);
           prePage.preTic();
           if (1 < firstNum) sortingTableHandler.load_prePage(prePage);
         }
@@ -341,7 +422,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
         cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
         if('undefined' !== typeof sortingTableHandler.load_nextPage && 85 < cnt) {
           let endNum = tbody.lastChild.rowNum;
-          let nextPage = new Page(PAGE_TIC, page.orderId, page.orderBy, page.total, page.endNum);
+          let nextPage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.endNum);
           if (nextPage.total > endNum) sortingTableHandler.load_nextPage(nextPage);
         }
       }
@@ -355,17 +436,14 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     getTableHeight: () => this.getBoundingClientRect().height,
     onMoved_slideDot: _.debounce(function (start, end, p) {
       const toll = end - start;
-      const pos = p - start
-      const totalTic = Math.ceil(page.total/PAGE_TIC);
-      const startPageTic = Math.floor(pos / (toll / (totalTic - page.size / PAGE_TIC)));
-      // console.log("fire", toll, pos, `${pos / (toll / 100)}%`, `${startPageTic} tic`);
-      // console.log(`start ${startPageTic * PAGE_TIC + 1} ${(startPageTic + 4) * PAGE_TIC}`);
-      // console.log(page);
-      const scrollPage = new Page(page.size, page.orderId, page.orderBy, page.total, startPageTic * PAGE_TIC)
-      sortingTableHandler.load_scrollPage(scrollPage);
+      const pos = p - start;
+      const totalTic = Math.ceil(page.total/me.tic);
+      const startPageTic = Math.floor(pos / (toll / (totalTic - page.size / me.tic)));
+      const scrollPage = new Page(page.size, page.orderId, page.orderBy, page.total, startPageTic * me.tic);
+      if (null !== sortingTableHandler.load_scrollPage) sortingTableHandler.load_scrollPage(scrollPage);
     }, 1000)
   });
-  console.log("SortingTableController", table);
+
 
   //* Event handler ///////////////////////////////////////////////////////////
 
@@ -376,4 +454,3 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
 export {
   SortingTableController
 };
-

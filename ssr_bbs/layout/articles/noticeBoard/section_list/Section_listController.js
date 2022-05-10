@@ -9,6 +9,7 @@ import { StaticTableHeader as getTableHeader } from './StaticTableHeader';
 // Describe constant Class below
 const Section_listController = function (section_listHandler) {
 
+
   //* private variable & mapping //////////////////////////////////////////////
   const _private              = {};
   const contents              = this.firstChild;
@@ -16,6 +17,7 @@ const Section_listController = function (section_listHandler) {
   const frameMid              = contents.children[1];
   let panelNavBtns            = frameTop.firstChild.childNodes[2];
   let sortingTable            = frameMid.firstChild.firstChild.firstChild.children[0];
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
   const getPositionInfo = function(e, t){
@@ -29,6 +31,7 @@ const Section_listController = function (section_listHandler) {
     }
   }
 
+
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
     // articleId:{
@@ -38,37 +41,39 @@ const Section_listController = function (section_listHandler) {
     // }
   });
 
+
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
     // activateSection() {
     // }
   });
 
+
   //* inject controller ///////////////////////////////////////////////////////
   panelNavBtns = $SR.registerModel(panelNavBtns).inject(TopNavBtnsController, {});
 
   sortingTable = $SR.registerModel(sortingTable).inject(SortingTableController, {
-  //   onclick_tableRow: (o, i, data) => {
-  //     const id = data[1];
-  //     const match = selectedPtcls.findIndex((e) => (e === id));
-  //     if (0 > match) selectedPtcls.push(id);
-  //     else selectedPtcls.splice(match, 1);
-  //     console.log('MultiEditor - onclick_tableRow:', data);
-  //     // to process double click, one click event need to slow down
-  //     _.debounce(() => multiEditorHandler.simulator_addselectedPaticle(selectedPtcls), 200)();
-  //   },
-  //   ondblclick_tableRow: (o, i, data) => {
-  //     const id = data[1];
-  //     const carriage = multiEditorHandler.simulator_focusOn(id);
-  //     multiEditorHandler.focusEditor_activateSection('', carriage);
-  //   },
+    onclick_tableRow: (i, data, row) => {
+      sortingTable.markSelectRow(row.id);
+      // console.log("sortingTable.clickedItems:",sortingTable.clickedItems);
+    },
+    ondblclick_tableRow: (e, i, data) => {
+      const id = data[1];
+      console.log(id);
+      if ('undefined' !== typeof section_listHandler.detail_viewById) section_listHandler.detail_viewById(id);
+    },
     load_prePage: (prePage) => {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
         // withCredentials: true, _start=20&_limit=10
         // params: { _start: prePage.startNum, _end: prePage.endNum }
-        params: { _start: prePage.startNum, _end: (prePage.endNum) }
+        params: {
+          _start: prePage.startNum,
+          _end: prePage.endNum,
+          _sort: prePage.orderId,
+          _order: prePage.orderBy
+        }
       }).then((Response) => {
         prePage.rows = Response.data;
         sortingTable.renderPre(prePage);
@@ -83,7 +88,12 @@ const Section_listController = function (section_listHandler) {
         url: 'http://localhost:9000/api/psr',
         // withCredentials: true, _start=20&_limit=10
         // params: { _start: nextPage.startNum, _end: nextPage.endNum }
-        params: { _start: nextPage.startNum, _end: nextPage.endNum }
+        params: {
+          _start: nextPage.startNum,
+          _end: nextPage.endNum,
+          _sort: nextPage.orderId,
+          _order: nextPage.orderBy
+        }
       }).then((Response) => {
         nextPage.rows = Response.data;
         sortingTable.renderNext(nextPage);
@@ -96,28 +106,46 @@ const Section_listController = function (section_listHandler) {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
-        // withCredentials: true,
         // params: { location: this.id, date: Date.now() }
-        params: { _start: scrollPage.startNum, _end: scrollPage.endNum }
+        params: {
+          _start: scrollPage.startNum,
+          _end  : scrollPage.endNum,
+          _sort : scrollPage.orderId,
+          _order: scrollPage.orderBy
+        }
       }).then((Response) => {
-        // const page = new Page(20, 'RULE_ID', 'asc', 302, 0);
         scrollPage.rows = Response.data;
         sortingTable.generateTable(scrollPage);
       }).catch((_Error) => {
         console.log('error', Response.data);
       });
     },
-  //   sort_tableByPageInfo(p) {
-  //     page = sortingTable.pageInfo;
-  //     console.log('MultiEditor - sort_tableByPageInfo:', page);
-  //     sortingTable.generateTable(multiEditorHandler.simulator_getCavansParticles(page));
-  //   }
+    sort_tableByPageInfo(_p) {
+      const _page = _.cloneDeep(_p);
+      axios({
+        method: 'get',
+        url: 'http://localhost:9000/api/psr',
+        params: {
+          _start: _page.startNum,
+          _end  : _page.endNum,
+          _sort : _page.orderId,
+          _order: _page.orderBy
+        }
+      }).then((Response) => {
+        _page.rows = Response.data;
+        sortingTable.generateTable(_page);
+      }).catch((_Error) => {
+        console.log('error', Response.data);
+      });
+    }
   }, getTableHeader());
+
 
   //* Event handler ///////////////////////////////////////////////////////////
   panelNavBtns.marker.onclick = (e) => {
     if ('undefined' !== typeof section_listHandler.onclick_write) section_listHandler.onclick_write(e);
   }
+
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // json-server --watch psrSample.json --port 9005
@@ -134,6 +162,7 @@ const Section_listController = function (section_listHandler) {
   }).catch((_Error) => {
     console.log('error', Response.data);
   });
+
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;

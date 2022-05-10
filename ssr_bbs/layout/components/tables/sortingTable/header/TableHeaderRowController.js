@@ -10,48 +10,67 @@ import { TableHeaderDataController     } from '/layout/components/tables/sorting
 const TableHeaderRowController   = function (tableHeaderRowHandler, header) {
 
   //* private variable & mapping /////////////////////////////////////////////////
-  const me            = this;
-  const arrayHeaders  = me.getElementsByTagName('th');
-  let   selectedId    = '';
-  let   selectedType  = '';
+  const arrayHeaders  = this.getElementsByTagName('th');
+  const asteriskTh    = arrayHeaders[0];
+  const _private      = {
+        allSwitch   : false,
+        selectedId  : '',
+        selectedType: ''
+  };
+
 
   //* Privilege Static Functions ////////////////////////////////////////////////
+
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     selectedId: {
-      get: ()   => selectedId,
-      set: (o)  => {selectedId = o}
+      get: () => _private.selectedId,
+      set: (o) => {_private.selectedId = o},
+      enumerable: true, configurable: true
     },
     selectedType: {
-      get: ()   => selectedType,
-      set: (o)  => {selectedType = o}
+      get: () => _private.selectedType,
+      set: (o) => {_private.selectedType = o},
+      enumerable: true, configurable: true
+    },
+    allSwitch: {
+      get: () => _private.allSwitch,
+      set: (o) => { if(typeof o === 'boolean') _private.allSwitch = o },
+      enumerable: true, configurable: true
     },
   });
+
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
-    // onmouseover_btn (e) {
-    //   console.log('onmouseover_btn');
-    // }
+    toggleAll () {
+      if(!this.allSwitch) this.allSwitch = true;
+      else this.allSwitch = false;
+      return this.allSwitch;
+    }
   });
+  const me = this;
+
 
   //* Event handler /////////////////////////////////////////////////////////////
-  // this.onclick = (e) => {
-  //   if('undefined' !== typeof tableHeaderRowHandler.onclick_th) tableHeaderRowHandler.onclick_th(e, this.id);
-  // }
+  asteriskTh.onclick = (e) => {
+    if ('undefined' !== typeof tableHeaderRowHandler.onclick_asteriskTh) tableHeaderRowHandler.onclick_asteriskTh(e, asteriskTh);
+  }
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  for (let i = 1; i < arrayHeaders.length; i++) {
-    const h = header[i-1];
+  for (let i = 2; i < arrayHeaders.length; i++) {
+    const h = header[i - 1];
     $SR.View(arrayHeaders[i].id).inject(TableHeaderDataController, {
       onclick_th(e, id){
-        selectedId    = h.id;
-        selectedType  = h.type;
-        if('undefined' !== typeof tableHeaderRowHandler.stortingTable_sort) tableHeaderRowHandler.stortingTable_sort(e, selectedId, selectedType);
+        me.selectedId    = h.id;
+        me.selectedType  = h.type;
+        if ('undefined' !== typeof tableHeaderRowHandler.stortingTable_sort) tableHeaderRowHandler.stortingTable_sort(e, me.selectedId, me.selectedType);
       }
     });
   }
+
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;
