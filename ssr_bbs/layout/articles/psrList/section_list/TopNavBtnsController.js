@@ -1,5 +1,5 @@
 import { DynamicBoxController as Super } from "/layout/components/panel/dynamicBox/DynamicBoxController";
-// import { PanelNavBtnsController as Super} from "/layout/components/panel/navBtns/PanelNavBtnsController";
+
 
 /***
  * layout:  PanelNavBtnsController control buttons

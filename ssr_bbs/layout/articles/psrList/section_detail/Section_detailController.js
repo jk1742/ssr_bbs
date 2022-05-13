@@ -1,5 +1,6 @@
 import { PanelNavBtnsController } from './PanelNavBtnsController';
 import { BoardCtlPanelController } from './BoardCtlPanelController';
+import { DatePickerController } from '/layout/components/datePicker/defaultDatePicker/DatePickerController';
 
 /***
  * block:  Section_detailController
@@ -13,8 +14,12 @@ const Section_detailController = function (section_detailHandler) {
   const frameTop      = contents.children[0];
   const frameMid      = contents.children[1];
   let panelNavBtns    = frameTop.firstChild.childNodes[2];
-  let boardCtrl       = frameMid.firstChild.children[1].firstChild.firstChild.children[1];
-  console.log('Section_detailController:', frameMid.firstChild.children[1].firstChild.firstChild.children[1]);
+  const lvl0_fm       = frameMid.firstChild.children[0].firstChild.firstChild.firstChild;
+  const lvl1_fm       = frameMid.firstChild.children[2].firstChild.firstChild;
+  let calender        = lvl0_fm.children[0];
+  let boardCtrl       = lvl1_fm.children[1];
+  console.log('Section_detailController:', boardCtrl);
+
   //* Privilege Static Functions //////////////////////////////////////////////
   // const getPositionInfo = function(e, t){
   //   return {
@@ -22,6 +27,7 @@ const Section_detailController = function (section_detailHandler) {
   //     top   : t.top,
   //   }
   // }
+
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -31,6 +37,7 @@ const Section_detailController = function (section_detailHandler) {
     //   enumerable:true
     // }
   });
+
 
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
@@ -52,6 +59,7 @@ const Section_detailController = function (section_detailHandler) {
     }
   });
 
+
   //* Event handler ///////////////////////////////////////////////////////////
   // register menu event
   // item.onclick = (e) => {
@@ -62,6 +70,10 @@ const Section_detailController = function (section_detailHandler) {
   panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController, {});
   boardCtrl = $SR.registerModel(boardCtrl).inject(BoardCtlPanelController, {});
   boardCtrl.brain.setTooltip('Am I brain ?', 'bottom', '#555', 1, 0, 0);
+  // document.getElementById('SampleCalendar');
+  calender = $SR.registerModel(calender).inject(DatePickerController,{});
+
+  console.log(calender);
 
   //* Event handler ///////////////////////////////////////////////////////////
   panelNavBtns.list.onclick = (e) => {

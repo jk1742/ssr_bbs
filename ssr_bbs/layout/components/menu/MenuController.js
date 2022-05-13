@@ -14,8 +14,8 @@ const MenuController   = function(menuHandler) {
   const array                 = [
     {
       category: 'Sample type',
-      name: 'Notice Board',
-      loc: 'noticeBoard',
+      name: 'PSR List',
+      loc: 'psrList',
       group: 'all'
     }, {
       category: 'Sample type',

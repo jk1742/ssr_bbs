@@ -46,10 +46,10 @@ const ArticleController   = function(_articleHandler) {
   // }
 
   //* inject controller ///////////////////////////////////////////////////////
-  let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
+  let section_list = $SR.registerFrameById(this.id + '-Section_list').inject(Section_listController, {
     section02_activate: (e) => section_02.activate()
   });
-  let section_02 = $SR.getModelById(this.id + '-Section_02').inject(Section_02Controller, {
+  let section_02 = $SR.registerFrameById(this.id + '-Section_02').inject(Section_02Controller, {
     sectionList_activate: (e) => section_list.activate()
   });
 

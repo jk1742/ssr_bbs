@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { isNull } = require("lodash");
+const { isNull, isBoolean } = require("lodash");
 
 /*****
   * name  : getBrowser
@@ -165,6 +165,99 @@ module.exports = {
      while (new Date().getTime() < start + delay);
   },
   /**
+   * Date
+   *
+   */
+  Date: (function () {
+    let instance;
+    const _DateClass = function () {
+      const _private = {
+        weekdays  : [],
+        months    : [],
+        years     : [],
+        thisYear  : 0,
+        thisMonth : 0,
+        today     : 0
+      }
+      // extract weekdays
+      for (let i = 1; i < 8; i++) {
+        const init = new Date(Date.UTC(2021, 7, i, 0, 0, 0));
+        const date = new Date(init.getTime() + (init.getTimezoneOffset() * 60 * 1000));
+        const _o = {};
+        _o.short = date.toLocaleString(window.navigator.language, { weekday: 'short' });
+        _o.long = date.toLocaleString(window.navigator.language, { weekday: 'long' });
+        _private.weekdays.push(_o);
+      }
+      // extract months
+      const getMonths = (i)=>{
+        const init = new Date(Date.UTC(2021, i, 0, 0, 0, 0));
+        const m = new Date(init.getTime() + (init.getTimezoneOffset() * 60 * 1000));
+        const _o = {};
+        _o.short = m.toLocaleString(window.navigator.language, { month: 'short' });
+        _o.long = m.toLocaleString(window.navigator.language, { month: 'long' });
+        return _o;
+      }
+      for (let i = 1; i < 12; i++) {
+        _private.months.push(getMonths(i));
+      }
+      _private.months.push(getMonths(0));
+      // current timestamp
+      const timestamp = new Date();
+      _private.thisYear = timestamp.getFullYear();
+      _private.thisMonth = timestamp.getMonth() + 1;
+      _private.today = timestamp.getDate();
+      const start_year = _private.thisYear - 50;
+      for (let i = 0; i < 99; i++) {
+        _private.years.push(start_year + i);
+      }
+      // set public
+      Object.defineProperties(this, {
+        weekdays: {
+          get: () => _private.weekdays,
+          enumerable: true
+        },
+        months: {
+          get: () => _private.months,
+          enumerable: true
+        },
+        years: {
+          get: () => _private.years,
+          enumerable: true
+        },
+        thisYear: {
+          get: () => _private.thisYear,
+          enumerable: true
+        },
+        thisMonth: {
+          get: () => _private.thisMonth,
+          enumerable: true
+        },
+        today:{
+          get: () => _private.today,
+          enumerable: true
+        }
+      });
+      Object.assign(this, {
+        getFirstDayOfMonth(yyyy, m) {
+          m = m - 1;
+          return new Date(yyyy, m, 1);
+        },
+        getLastDayOfMonth(yyyy, m) {
+          return new Date(yyyy, m, 0);
+        }
+      });
+    }
+    return {
+      getInstance: function () {
+        if (instance == null) {
+          instance = new _DateClass();
+          instance.constructor = null;
+        }
+        return instance;
+      }
+    };
+  })(),
+   /**
    * Skeleton
    *  load html visual skeleton form css
    */
@@ -228,7 +321,7 @@ module.exports = {
         if (instance == null) {
           instance = new SkeletonClass();
           instance.constructor = null;
-          localStorage.clear();
+          // localStorage.clear();
         }
         return instance;
       }
@@ -771,11 +864,12 @@ module.exports = {
     }, 600);
   },
   /**
-   *
+   * generate Id and ready to inject controller
    * @param {*} documentObject
+   * @param {boolean} hasFixedId
    * @returns
    */
-  registerModel: function (documentObject) {
+  registerModel: function (documentObject, hasFixedId) {
     // DOM check
     let dom = documentObject;
     if (!isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
@@ -785,12 +879,14 @@ module.exports = {
       let name;
       // private
       let _private = {
-        hasController: '',
-        parentSectionId: '',
-        parentArticleId: '',
-        isInteractDOM: false,
-        interactiveAction: ()=> null
+        hasFixedId        : (_.isBoolean(hasFixedId) && hasFixedId),
+        hasController     : '',
+        parentSectionId   : '',
+        parentArticleId   : '',
+        isInteractDOM     : false,
+        interactiveAction : ()=> null
       };
+
       // private functions
       const getParentId = function (target, o) {
         const _fx = function (_target, _o) {
@@ -905,9 +1001,11 @@ module.exports = {
         }
       });
       // new id set
-      if (this.id != '') name = this.id;
-      else name = this.tagName.toLowerCase();
-      this.id = name + '-' + instantIdStamp(this);
+      if (!_private.hasFixedId) {
+        if (this.id != '') name = this.id;
+        else name = this.tagName.toLowerCase();
+        this.id = name + '-' + instantIdStamp(this);
+      }
       // get section-id
       this.parentSectionId = getParentId('SECTION', this);
       this.parentArticleId = getParentId('ARTICLE', this);
@@ -968,13 +1066,13 @@ module.exports = {
     });
     return dom;
   },
-  /*****
- * core : getModelById
- * return: html object with functions
- * const model = (dom, handler) => Controller.call(dom, handler);
- * dom = model(dom,{});
- ******/
-  getModelById: function (id) {
+  /***
+   * core : registerFrameById
+   * return: html object with functions
+   * const model = (dom, handler) => Controller.call(dom, handler);
+   * dom = model(dom,{});
+   ***/
+  registerFrameById: function (id) {
     let dom = document.getElementById(id);
     let hasController = '';
     Object.defineProperties(dom, {

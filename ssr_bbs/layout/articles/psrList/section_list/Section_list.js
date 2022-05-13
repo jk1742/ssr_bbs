@@ -3,8 +3,6 @@
 // import { FRAME_SETTING  } from '/class/static/DefineConst';
 import { DynamicBox as PanelNavBtns } from '/layout/components/panel/dynamicBox/DynamicBox';
 import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
-// import { SampleTable } from '/layout/articles/noticeBoard/section_list/SampleTable';
-
 
 const Section_list = function (id) {
 
@@ -20,7 +18,7 @@ const Section_list = function (id) {
       <div class="frame-top">
         <div class="columns is-vcentered" style="height:100%;">
           <div class= "column">
-            <div class="content"><h3 class="article-subject"> Notice Board </h3></div>
+            <div class="content"><h3 class="article-subject"> PSR List </h3></div>
           </div>
           <!-- top-right nav-bar -->
           ${panelNavBtns.outerHTML}

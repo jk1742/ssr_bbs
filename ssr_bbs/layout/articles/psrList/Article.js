@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 //* import view block with controller /////////////////////////////////////////
 import { ToolTip } from '/layout/components/toolTip/ToolTip';
-import { Section_list } from '/layout/articles/noticeBoard/section_list/Section_list';
-import { Section_detail } from '/layout/articles/noticeBoard/section_detail/Section_detail';
+import { Section_list } from '/layout/articles/psrList/section_list/Section_list';
+import { Section_detail } from '/layout/articles/psrList/section_detail/Section_detail';
 
 
 /**
@@ -17,7 +17,7 @@ const Article = function (id) {
   const section_detail = new Section_detail(id + '-Section_detail');
 
   return $SR.generateHtml `
-  <article id="${id}" data-icon="fa-solid fa-radio" data-scroll-lock="true" alt="this is a alt contents of this sample page">
+  <article id="${id}" data-icon="fa-regular fa-rectangle-list" data-scroll-lock="true" alt="this is a alt contents of this sample page">
     <!-- ToolTip -->
     ${toolTip.outerHTML}
     <!-- Section_list -->

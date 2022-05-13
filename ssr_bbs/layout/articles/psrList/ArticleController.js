@@ -1,6 +1,6 @@
 import { ToolTipController } from '/layout/components/toolTip/ToolTipController';
-import { Section_listController } from '/layout/articles/noticeBoard/section_list/Section_listController';
-import { Section_detailController } from '/layout/articles/noticeBoard/section_detail/Section_detailController';
+import { Section_listController } from '/layout/articles/psrList/section_list/Section_listController';
+import { Section_detailController } from '/layout/articles/psrList/section_detail/Section_detailController';
 
 /***
  * block:  ArticleController
@@ -48,11 +48,11 @@ const ArticleController   = function(_articleHandler) {
 
   //* inject controller ///////////////////////////////////////////////////////
   $SR.registerModel(toolTip).inject(ToolTipController, {});
-  let section_list = $SR.getModelById(this.id + '-Section_list').inject(Section_listController, {
+  let section_list = $SR.registerFrameById(this.id + '-Section_list').inject(Section_listController, {
     onclick_write     : (e) => section_detail.activate(),
     detail_viewById   : (id) => section_detail.viewById(id)
   });
-  let section_detail = $SR.getModelById(this.id + '-Section_detail').inject(Section_detailController, {
+  let section_detail = $SR.registerFrameById(this.id + '-Section_detail').inject(Section_detailController, {
     onclick_list: (e) => section_list.activate()
   });
 

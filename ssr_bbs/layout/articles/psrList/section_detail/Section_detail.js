@@ -1,13 +1,15 @@
 /* eslint-disable no-undef */
 //* import view block /////////////////////////////////////////////////////////
-import { PanelNavBtns } from '/layout/components/panel/navBtns/PanelNavBtns';
+import { PanelNavBtns               } from '/layout/components/panel/navBtns/PanelNavBtns';
 import { DynamicBox as BoardCtrlBox } from '/layout/components/panel/dynamicBox/DynamicBox';
+import { DatePicker             } from '/layout/components/datePicker/defaultDatePicker/DatePicker';
 
 const Section_detail = function (id) {
 
   //* View Register ///////////////////////////////////////////////////////////
-  const panelNavBtns = new PanelNavBtns('PanelNavBtns');
-  const boardCtrlBox = new BoardCtrlBox('BoardCtrlBox');
+  const panelNavBtns  = new PanelNavBtns('PanelNavBtns');
+  const boardCtrlBox  = new BoardCtrlBox('BoardCtrlBox');
+  const datePicker = new DatePicker('SampleCalendar','style','range');
 
   //* Describe Tags ///////////////////////////////////////////////////////////
   return $SR.generateHtml `
@@ -28,6 +30,19 @@ const Section_detail = function (id) {
         <div class="container is-fluid">
           <div class = "columns is-centered">
             <div class = "column is-three-fifths">
+              <div class = "columns">
+                <div class = "column">
+                  ${datePicker.outerHTML}
+                </div>
+                <div class = "column">
+                </div>
+                <div class = "column">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "columns is-centered">
+            <div class = "column is-three-fifths">
               <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                   <li><a href="#">Bulma</a></li>
@@ -45,7 +60,6 @@ const Section_detail = function (id) {
             <div class = "column is-three-fifths">
               <div class = "columns">
                 <div class = "column">
-                hello world
                 </div>
                 <!-- Board control button box -->
                 ${boardCtrlBox.outerHTML}

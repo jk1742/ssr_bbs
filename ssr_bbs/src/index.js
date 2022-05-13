@@ -155,7 +155,7 @@ window.onload = function () {
   // fix nav bar width
   navBar.style.width = window.innerWidth;
 
-  intro = $SR.getModelById('Intro').inject(IntroController, {});
+  intro = $SR.registerFrameById('Intro').inject(IntroController, {});
 
   // queueEvent
   activities.onQueuePush = (e) => {
