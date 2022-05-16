@@ -30,10 +30,7 @@ const NavController = function (_navHandler) {
   Object.defineProperties(this, {
     month: {
       get: () => month.innerText,
-      set: (o) => {
-        if ('number' === typeof o) month.innerText = getMonthName(o);
-        console.log(month.innerText, o);
-      },
+      set: (o) => { if ('number' === typeof o) month.innerText = getMonthName(o) },
       enumerable: true, configurable: true
     },
     year: {

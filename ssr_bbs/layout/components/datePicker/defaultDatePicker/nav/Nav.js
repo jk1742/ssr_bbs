@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 
-const Nav = function (id) {
+const Nav = function () {
     //* Describe Tags
     return $SR.generateHtml `
-    <div class="datepicker-nav" id="${id}">
+    <div class="datepicker-nav" data-id="datepicker-nav">
         <button type="button" class="datepicker-nav-previous button is-small is-text">
             <svg viewBox="0 0 50 80" xml:space="preserve">
                 <polyline fill="none" stroke-width=".5em" stroke-linecap="round" stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 "></polyline>

@@ -8,37 +8,56 @@ import { Days } from './body/Days';
 import { Nav } from './nav/Nav';
 import { Footer } from './footer/Footer';
 import { Header } from './header/Header';
+import { Dummy } from './dummy/Dummy';
+import { isNull } from 'lodash';
 /**
  * DatePicker
- * @param {*} id
- * @param {*} style
+ * @param {*} name
  * @param {*} mode
- *  undefined = single, range = range select
+ *  undefined = single-date, range = range-date
+ * @param {*} datetype
+ *  date style
+ *  yyyy-mm-dd, yyyy/mm/dd, dd-mon-yyyy
+ * @param {*} position
+ *  below above modal
+ * @param {*} color
+ *  is-info, is-primary, is-link, is-success, is-warning, is-danger,
+ *  is-black-bis, is-black-ter, is-grey-darker, is-grey-dark, is-grey,
+ *  is-grey-light, is-grey-lighter, is-white-ter, is-white-bis
  * @returns DocumentObject
  */
-const DatePicker = function (id, style, mode) {
+const DatePicker = function (name, mode, datetype, position, color) {
+    const dummy     = new Dummy(mode);
+    const header    = new Header(mode);
+    const months    = new Months();
+    const years     = new Years();
+    const days      = new Days();
+    const nav       = new Nav();
+    const footer    = new Footer();
 
-    const header    = new Header('calender_header', mode);
-    const months    = new Months('calendar_months');
-    const years     = new Years('calendar_years');
-    const days      = new Days('calendar_days');
-    const nav       = new Nav('calendar_nav');
-    const footer    = new Footer('calendar_footer');
+    if (isNull(datetype) || 'undefined' === typeof datetype ) datetype = 'yyyy-mm-dd';
+    if (isNull(position) || 'undefined' === typeof position) position = 'below';
+    if (isNull(color) || 'undefined' === typeof position) color = 'is-primary';
+
+    let writePositionStyle;
+    let writePositionClass;
+    if (position == 'above') {
+        writePositionStyle = 'position: absolute;top: 27%;';
+        writePositionClass = 'datetimepicker-container-reverse';
+    } else {
+        writePositionStyle = 'position: absolute;';
+        writePositionClass = 'datetimepicker-container';
+    }
 
     //* Describe Tags
     return $SR.generateHtml `
-    <div id="${id}" data-mode="${mode}">
-        <div class="datetimepicker-dummy is-primary">
-            <div class="datetimepicker-dummy-wrapper">
-                <input placeholder="" readonly="readonly" class="datetimepicker-dummy-input" type="text" />
-                <input id="datepickerDemoDefault" class="input is-hidden" type="text" value="09/25/2018" />
-            </div>
-            <button class="datetimepicker-clear-button" type="button"> + </button>
-        </div>
+    <div data-id="${name}" data-mode="${mode}" data-datetype="${datetype}">
+        <!-- dummy -->
+        ${dummy.outerHTML}
         <div class="datetimepicker-wrapper">
             <div class="modal-background is-hidden"></div>
-            <div class="datetimepicker is-primary is-datetimepicker-default is-active" style="position: absolute;">
-                <div class="datetimepicker-container">
+            <div class="datetimepicker ${color} is-datetimepicker-default is-active" style="${writePositionStyle}">
+                <div class="${writePositionClass}">
                     <!-- header -->
                     ${header.outerHTML}
                     <div class="datepicker is-active">

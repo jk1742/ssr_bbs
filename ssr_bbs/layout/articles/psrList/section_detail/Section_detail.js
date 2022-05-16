@@ -9,8 +9,8 @@ const Section_detail = function (id) {
   //* View Register ///////////////////////////////////////////////////////////
   const panelNavBtns  = new PanelNavBtns('PanelNavBtns');
   const boardCtrlBox  = new BoardCtrlBox('BoardCtrlBox');
-  const datePicker = new DatePicker('SampleCalendar','style','range');
-
+  const datePicker = new DatePicker('SampleCalendar','range','dd-mon-yyyy');
+  const datePicker2 = new DatePicker('single-datepicker', 'single', 'dd-mon-yyyy', 'above', 'is-info');
   //* Describe Tags ///////////////////////////////////////////////////////////
   return $SR.generateHtml `
   <section id="${id}">
@@ -52,7 +52,7 @@ const Section_detail = function (id) {
                 </ul>
               </nav>
               <div class="control">
-                <textarea class="textarea" placeholder="Normal textarea"  style="height:40vh;"></textarea>
+                <textarea class="textarea" placeholder="Normal textarea"  data-id="input-textarea" style="height:40vh;"></textarea>
               </div>
             </div>
           </div>
@@ -60,6 +60,7 @@ const Section_detail = function (id) {
             <div class = "column is-three-fifths">
               <div class = "columns">
                 <div class = "column">
+                ${datePicker2.outerHTML}
                 </div>
                 <!-- Board control button box -->
                 ${boardCtrlBox.outerHTML}

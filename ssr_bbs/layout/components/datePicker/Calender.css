@@ -535,7 +535,42 @@
 .datetimepicker .datetimepicker-footer>* {
   text-decoration: none !important
 }
+/* added start by jeeeeeek*/
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse {
+  display: flex;
+  flex-direction: column
+}
 
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse:after,
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse:before {
+  bottom: -6.6%;
+  left: 15%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none
+}
+
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-top-color: #fff;
+  border-width: .75rem;
+  margin-left: -.75rem
+}
+
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse:before {
+  border-color: rgba(74, 74, 74, 0);
+  border-top-color: #4a4a4a;
+  border-width: .75rem;
+  margin-left: -.75rem
+}
+
+.datetimepicker.is-datetimepicker-default .datetimepicker-container-reverse.has-header-bottom {
+  flex-direction: column-reverse
+}
+/* added end*/
 .datetimepicker.is-datetimepicker-default .datetimepicker-container {
   display: flex;
   flex-direction: column
@@ -632,7 +667,7 @@
   text-align: left;
   text-overflow: ellipsis;
   vertical-align: baseline;
-  white-space: nowrap
+  white-space: nowrap;
 }
 
 .datetimepicker.is-large .datepicker-event.is-white {
@@ -726,7 +761,7 @@
 .datetimepicker .timepicker .timepicker-end .timepicker-minutes .timepicker-input.is-input .timepicker-input-number,
 .datetimepicker .timepicker .timepicker-start .timepicker-hours .timepicker-input.is-input .timepicker-input-number,
 .datetimepicker .timepicker .timepicker-start .timepicker-minutes .timepicker-input.is-input .timepicker-input-number {
-  visability: hidden;
+  visibility: hidden;
   opacity: 0;
   transition: opacity .1s ease-in
 }
@@ -735,7 +770,7 @@
 .datetimepicker .timepicker .timepicker-end .timepicker-minutes .timepicker-input.is-input input,
 .datetimepicker .timepicker .timepicker-start .timepicker-hours .timepicker-input.is-input input,
 .datetimepicker .timepicker .timepicker-start .timepicker-minutes .timepicker-input.is-input input {
-  visability: visible;
+  visibility: visible;
   opacity: 1;
   transition: opacity .1s ease-in
 }
@@ -764,7 +799,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  visability: visible;
+  visibility: visible;
   opacity: 1;
   transition: opacity 1s ease-in;
   font-weight: 300

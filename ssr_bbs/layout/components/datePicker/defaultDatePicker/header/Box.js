@@ -7,10 +7,10 @@ const Box = function (clazz) {
         <div class="datetimepicker-selection-from is-hidden"></div>
         <div class="${clazz}">
             <div class="datetimepicker-selection-wrapper">
-                <div class="datetimepicker-selection-day">11</div>
+                <div class="datetimepicker-selection-day"></div>
                 <div class="datetimepicker-selection-date">
-                    <div class="datetimepicker-selection-month">5월 2022</div>
-                    <div class="datetimepicker-selection-weekday">수요일</div>
+                    <div class="datetimepicker-selection-month"></div>
+                    <div class="datetimepicker-selection-weekday"></div>
                 </div>
             </div>
         </div>

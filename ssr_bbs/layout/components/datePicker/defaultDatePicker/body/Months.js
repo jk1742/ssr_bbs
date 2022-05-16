@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 
-const Months = function (id) {
+const Months = function () {
     const dateRepository = $SR.Date.getInstance();
     // set carriage
     const carriage = document.createElement("DIV");
-    carriage.id = id;
+    carriage.setAttribute('data-id', 'datepicker-months');
     carriage.classList.add('datepicker-months');
     // fabric Month
     const months = dateRepository.months;

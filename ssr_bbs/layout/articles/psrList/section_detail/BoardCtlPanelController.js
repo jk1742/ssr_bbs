@@ -27,6 +27,7 @@ const BoardCtlPanelController = function (boardCtlPanelHandler) {
   this.adaptStyleAllBtns('is-primary', 'is-inverted');
   this.classList.add('has-text-right');
 
+  console.log(' board', this.getData('Section_detailController'));
   // //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }

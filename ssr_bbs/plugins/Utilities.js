@@ -49,7 +49,7 @@ const scrollToSmoothly = function (pos, time) {
 /*****
  * security policy
  *****/
- let klp;
+let klp;
 const getCertifyKey = function() {
    return klp;
  }
@@ -60,7 +60,7 @@ const setCertifyKey =  function(o) {
 /*****
  * server stamp
  *****/
- let tkCnt = 0;
+let tkCnt = 0;
 const stampCnt = function() {
    return tkCnt++;
 }
@@ -321,7 +321,6 @@ module.exports = {
         if (instance == null) {
           instance = new SkeletonClass();
           instance.constructor = null;
-          // localStorage.clear();
         }
         return instance;
       }
@@ -758,12 +757,12 @@ module.exports = {
           set: function (boolScrollLock){
             _private.scrollLock = boolScrollLock;
             if (boolScrollLock){
-              this.addEventListener('mouseenter', e => {
+              this.addEventListener('mouseenter', _e => {
                 document.childNodes[1].style.overflowY = 'hidden';
                 document.body.style.overflowY = 'hidden';
               });
             } else {
-              this.addEventListener('mouseenter', e => {
+              this.addEventListener('mouseenter', _e => {
                 document.childNodes[1].style.overflowY = 'scroll';
                 document.body.style.overflowY = 'scroll';
               });
@@ -884,7 +883,8 @@ module.exports = {
         parentSectionId   : '',
         parentArticleId   : '',
         isInteractDOM     : false,
-        interactiveAction : ()=> null
+        interactiveAction : ()=> null,
+        dataToken             : ()=> null,
       };
 
       // private functions
@@ -929,6 +929,9 @@ module.exports = {
             _private.isInteractDOM = p;
           },
           configurable: true,
+        },
+        dataToken:{
+          get:()=> _private.dataToken
         }
       });
       // public function
@@ -975,7 +978,7 @@ module.exports = {
               }
             });
           }
-          this.onmouseleave = (e) => {
+          this.onmouseleave = (_e) => {
             toolTipEvent.emit({
               id: this.id,
               name: 'onmouseleave',
@@ -998,11 +1001,69 @@ module.exports = {
         launchInteractive:()=>{
           _private.interactiveAction(this);
           return this;
+        },
+        getData(controllerName){
+          const getParent = function (target, o) {
+            let cnt = 0;
+            const _fx = function (_target, _o) {
+              const node = _o;
+              if (node.tagName == 'ARTICLE') return undefined;
+              if (node.hasController == _target) return node.dataToken;
+              cnt++;
+              return _fx(_target, node.parentNode);
+            }
+            return _fx(target, o);
+          }
+          const _data = getParent(controllerName, this);
+          if(typeof _data == 'undefined') return;
+          return _data;
+        },
+        setData(_fx) {
+          const carriage = {};
+          const _tmp = _fx();
+          const checkDepth = (obj) => {
+            let c = true;
+            for (const key in obj) {
+              if (Object.hasOwnProperty.call(obj, key)) {
+                const element = obj[key];
+                if (Array.isArray(element) || 'object' === typeof element) {
+                  c = false;
+                  console.warn('Data transfer object is Not allow deep depth');
+                } else if ('function' === typeof element) {
+                  c = false;
+                  console.warn('Data transfer object is Not allow function');
+                }
+              }
+            }
+            return c;
+          }
+          Object.getOwnPropertyNames(_tmp).forEach(
+            function (val) {
+              if ('function' === typeof _tmp[val]) {
+                console.warn('Data transfer object is Not allow function');
+                return;
+              }
+              if (Array.isArray(_tmp[val]) || 'object' === typeof _tmp[val]) {
+                const _obj = _tmp[val];
+                if (!checkDepth(_obj)) return;
+              }
+              carriage[val] = _tmp[val];
+            }
+          );
+          _private.dataToken = carriage;
+        },
+        getModelByDataClass(_name) {
+          return this.querySelectorAll(`[data-class="${_name}"]`);
+        },
+        getModelById(_name) {
+          return this.querySelectorAll(`[data-id="${_name}"]`)[0];
         }
       });
       // new id set
       if (!_private.hasFixedId) {
-        if (this.id != '') name = this.id;
+        const className = this.getAttribute('data-id');
+        if (!isNull(className) && 'undefined' != typeof className) name = className.toLowerCase();
+        else if (this.id != '') name = this.id;
         else name = this.tagName.toLowerCase();
         this.id = name + '-' + instantIdStamp(this);
       }
@@ -1074,13 +1135,19 @@ module.exports = {
    ***/
   registerFrameById: function (id) {
     let dom = document.getElementById(id);
-    let hasController = '';
+    let _private = {
+      hasController: '',
+      dataToken: () => null,
+    };
     Object.defineProperties(dom, {
       hasController: {
         get: function () {
-          return hasController;
+          return _private.hasController;
         },
         configurable: true,
+      },
+      dataToken: {
+        get: () => _private.dataToken
       }
     });
     const tagName = dom.tagName.toLowerCase();
@@ -1089,17 +1156,54 @@ module.exports = {
     Object.assign(dom, {
       inject: function (Controller, Handler) {
         // double inject check
-        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject Frame once`);
         // transfer params
         let args = Array.from(arguments);
         args.splice(0, 2);
         // marge controller & view
         //  - register Controller
-        hasController = Controller.name;
+        _private.hasController = Controller.name;
         return (function (_dom, _Handler, ...Args) {
           return Controller.call(_dom, _Handler, ...Args);
         })(dom, Handler, ...args);
       },
+      setData(_fx) {
+        const carriage = {};
+        const _tmp = _fx();
+        const checkDepth = (obj) => {
+          let c = true;
+          for (const key in obj) {
+            if (Object.hasOwnProperty.call(obj, key)) {
+              const element = obj[key];
+              if (Array.isArray(element) || 'object' === typeof element ) {
+                c = false;
+                console.warn('Data transfer object is Not allow deep depth');
+              } else if ('function' === typeof element){
+                c = false;
+                console.warn('Data transfer object is Not allow function');
+              }
+            }
+          }
+          return c;
+        }
+        Object.getOwnPropertyNames(_tmp).forEach(
+          function (val) {
+            if ('function' === typeof _tmp[val]) {
+              console.warn('Data transfer object is Not allow function');
+              return;
+            }
+            if (Array.isArray(_tmp[val]) || 'object' === typeof _tmp[val]) {
+              const _obj = _tmp[val];
+              if (!checkDepth(_obj)) return;
+            }
+            carriage[val] = _tmp[val];
+          }
+        );
+        _private.dataToken = carriage;
+      },
+      getModelById(_name) {
+        return this.querySelectorAll(`[data-id="${_name}"]`)[0];
+      }
     });
     return dom;
   },

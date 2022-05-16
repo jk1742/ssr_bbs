@@ -1,6 +1,7 @@
 import { DaysController } from "./body/DaysController";
 import { MonthsController } from "./body/MonthsController";
 import { YearsController } from "./body/YearsController";
+import { DummyController } from "./dummy/DummyController";
 import { FooterController } from "./footer/FooterController";
 import { HeaderController } from "./header/HeaderController";
 import { NavController } from "./nav/NavController";
@@ -13,23 +14,21 @@ import { NavController } from "./nav/NavController";
 const DatePickerController = function (_datePickerHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
-  const dateRepository = $SR.Date.getInstance();
-  let years = document.getElementById('calendar_years');
-  let months = document.getElementById('calendar_months');
-  let days = document.getElementById('calendar_days');
-
-  const inputDummy      = this.children[0];
-  const container       = this.children[1].children[1].firstChild;
-  const footer          = this.children[1].children[1].children[1];
-  let   header          = container.children[0];
-  const datePicker      = container.children[1];
-  let   datePicker_nav  = datePicker.children[0];
-  const datePicker_body = datePicker.children[1];
-  const _private = {
-    year  : dateRepository.thisYear,
-    month : dateRepository.thisMonth,
-    day   : dateRepository.today,
-    mode  : 'single'
+  const dateRepository  = $SR.Date.getInstance();
+  let   dummy           = this.children[0];
+  const wrapper         = this.children[1];
+  let   header          = this.getModelById('datepicker-header');
+  let   datePicker_nav  = this.getModelById('datepicker-nav');
+  let   days            = this.getModelById('datepicker-days');
+  let   months          = this.getModelById('datepicker-months');
+  let   years           = this.getModelById('datepicker-years');
+  const footer          = this.getModelById('datepicker-footer');
+  const _private        = {
+    year    : dateRepository.thisYear,
+    month   : dateRepository.thisMonth,
+    day     : dateRepository.today,
+    mode    : 'single',
+    datetype: this.getAttribute('data-datetype')
   }
 
 
@@ -41,6 +40,7 @@ const DatePickerController = function (_datePickerHandler) {
       day: me.day
     }
   }
+
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
@@ -61,13 +61,36 @@ const DatePickerController = function (_datePickerHandler) {
     },
     mode: {
       get: () => _private.mode, enumerable: true
-    }
+    },
+    datetype:{
+      get: () => _private.datetype, enumerable: true
+    },
+    pickedDateArray:{
+      get: () => {
+        const _carriage = [];
+        dummy.getArray().forEach(element => {
+          _carriage.push(dummy.formattedDate(element, me.datetype));
+          console.log(element, me.datetype);
+        });
+        return _carriage;
+      },
+      set:(arr) => {
+        if(!_.isArray(arr)) console.worn('please. check datatype, Date type array only');
+        const _array = [];
+        arr.forEach(element => {
+          _array.push(new Date(element).getTime());
+        });
+        header.que = _array;
+        days.que = _array;
+      },
+      enumerable: true, configurable:true
+    },
   });
 
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
-    // onmouseover_btn (e) {
+    // onmouseover_btn (_e) {
     //   console.log('onmouseover_btn');
     // }
   });
@@ -75,17 +98,40 @@ const DatePickerController = function (_datePickerHandler) {
 
 
   //* Event handler /////////////////////////////////////////////////////////////
-  // this.onclick = (e) => {
+  // this.onclick = (_e) => {
   //   if ('undefined' !== typeof _datePickerHandler.onclick_th) _datePickerHandler.onclick_th(e, this.id);
   // }
 
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  const mode = me.getAttribute('data-mode')
+  const mode = me.getAttribute('data-mode');
   _private.mode =  (typeof mode === 'undefined') ? 'single':mode;
+  wrapper.classList.add('is-hidden');
+  dummy = $SR.registerModel(dummy).inject(DummyController,{
+    onclick_dummy() {
+      wrapper.classList.remove('is-hidden');
+      if (me.mode == 'single') {
+        header.que = dummy.getArray();
+        days.que = dummy.getArray();
+        header.generate();
+        days.paintSingle();
+      }
+      if (me.mode != 'range') return;
+      header.que = dummy.getArray();
+      days.que = dummy.getArray();
+      header.generate();
+      days.repaintRange();
+    },
+    onclick_erase() {
+      days.clear();
+      header.clear();
+      dummy.clear();
+      _.debounce(() => { wrapper.classList.add('is-hidden')},200)();
+    },
+  }, me.datetype);
   header = $SR.registerModel(header).inject(HeaderController, {}, me.mode);
   datePicker_nav = $SR.registerModel(datePicker_nav).inject(NavController, {
-    onclick_navPre(e) {
+    onclick_navPre(_e) {
       let k = me.month - 1;
       let j = 0;
       if (k < 1) {
@@ -102,17 +148,17 @@ const DatePickerController = function (_datePickerHandler) {
       // generate
       days.generateCalendar(num_year, num_month);
     },
-    onclick_navMonth(e) {
-      months.style.display = 'flex';
-      years.style.display = 'none';
-      days.style.display = 'none';
+    onclick_navMonth(_e) {
+      years.classList.remove('is-active');
+      months.classList.add('is-active');
+      days.classList.add('is-hidden');
     },
-    onclick_navYear(e) {
-      months.style.display = 'none';
-      years.style.display = 'flex';
-      days.style.display = 'none';
+    onclick_navYear(_e) {
+      months.classList.remove('is-active');
+      days.classList.add('is-hidden');
+      years.classList.add('is-active');
     },
-    onclick_navNext(e) {
+    onclick_navNext(_e) {
       let k = me.month + 1;
       let   j = 0;
       if (k > 12) {
@@ -132,33 +178,47 @@ const DatePickerController = function (_datePickerHandler) {
   });
   years = $SR.registerModel(years).inject(YearsController,{
     get_DatePickerData: get_DatePickerData,
-    onclick_year(e, _year){
+    onclick_year(_e, _year){
       const num_year = Number(_year);
       me.year = num_year;
       datePicker_nav.year = num_year;
       days.generateCalendar(_year, me.month);
-      months.style.display = 'none';
-      years.style.display = 'none';
-      days.style.display = 'flex';
+      years.classList.remove('is-active');
+      months.classList.remove('is-active');
+      days.classList.remove('is-hidden');
     }
   });
   months = $SR.registerModel(months).inject(MonthsController,{
     get_DatePickerData: get_DatePickerData,
-    onclick_month(e, _month){
+    onclick_month(_e, _month){
       const num_month = Number(_month);
       me.month = num_month;
       datePicker_nav.month = num_month;
       days.generateCalendar(me.year, num_month);
-      months.style.display = 'none';
-      years.style.display = 'none';
-      days.style.display = 'flex';
+      years.classList.remove('is-active');
+      months.classList.remove('is-active');
+      days.classList.remove('is-hidden');
     }
   });
   days = $SR.registerModel(days).inject(DaysController,{
-    onclick_day (e, _date) {
-      header.push(Number(_date));
+    onclick_day (_e, _date) {
+      header.que = days.que;
+      if (me.mode == 'single') {
+        if (days.que.length > 1) {
+          days.que.shift();
+        }
+        header.generate();
+        dummy.printDummy(header.que);
+      }
+      if (me.mode != 'range') return;
       header.generate();
-      console.log('DatePickerController/', _date, header.length);
+      if (days.que.length == 2){
+        days.repaintRange();
+        dummy.printDummy(header.que);
+      } else if (days.que.length > 2) {
+        days.clear();
+        header.clear();
+      }
     }
   }, me.mode);
   $SR.registerModel(footer).inject(FooterController,{
@@ -167,7 +227,14 @@ const DatePickerController = function (_datePickerHandler) {
       header.clear();
     },
     onclick_today(){
-      days.paintRange();
+      me.year = dateRepository.thisYear;
+      me.month = dateRepository.thisMonth;
+      datePicker_nav.year = dateRepository.thisYear;
+      datePicker_nav.month = dateRepository.thisMonth;
+      days.generateCalendar(dateRepository.thisYear, dateRepository.thisMonth);
+    },
+    onclick_cancel(){
+      _.debounce(() => { wrapper.classList.add('is-hidden') }, 500)();
     }
   });
 

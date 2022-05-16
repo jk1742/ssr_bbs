@@ -30,11 +30,11 @@ const HeaderController = function (_headerHandler, mode) {
       get: () => _private.que.length,
       enumerable: true, configurable: true
     },
-    // year: {
-    //   get: () => year.innerText,
-    //   set: (o) => { if ('number' === typeof o) year.innerText = o },
-    //   enumerable: true, configurable: true
-    // },
+    que: {
+      get: () => _private.que,
+      set: (o) => { if (Array.isArray(o)) _private.que = o },
+      enumerable: true, configurable: true
+    },
   });
   const me           = this;
 
@@ -47,6 +47,7 @@ const HeaderController = function (_headerHandler, mode) {
     },
     generate(){
       const array = Array.from(me.children);
+      if (2 <= _private.que.length) _private.que.sort();
       for (let index = 0; index < array.length; index++) {
         const element = array[index];
         // mapping object
@@ -58,7 +59,7 @@ const HeaderController = function (_headerHandler, mode) {
         // write day
         if ('undefined' !== typeof _private.que[index]){
           const date = new Date(_private.que[index]);
-          day.innerText = date.getDate(); //
+          day.innerText = date.getDate();
           yyyymm.innerText = date.toLocaleString(window.navigator.language, { month: 'long' })+' '+ date.getFullYear();
           weekday.innerText = date.toLocaleString(window.navigator.language, { weekday: 'long' });
         } else {

@@ -6,12 +6,10 @@
 const FooterController = function (_footerHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
-  const dateRepository = $SR.Date.getInstance();
-  const today = this.children[0];
-  const clear = this.children[1];
-  const cancel = this.children[2];
-
-  // console.log('FooterController',this);
+  const validate  = this.children[0];
+  const today     = this.children[1];
+  const clear     = this.children[2];
+  const cancel    = this.children[3];
 
   //* Privilege Static Functions ////////////////////////////////////////////////
   // const getMonthName = (n) => {
@@ -23,32 +21,28 @@ const FooterController = function (_footerHandler) {
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   // Object.defineProperties(this, {
-  //   month: {
-  //     get: () => month.innerText,
-  //     set: (o) => {
-  //       if ('number' === typeof o) month.innerText = getMonthName(o);
-  //       console.log(month.innerText, o);
-  //     },
-  //     enumerable: true, configurable: true
-  //   },
   //   year: {
   //     get: () => year.innerText,
   //     set: (o) => { if ('number' === typeof o) year.innerText = o },
   //     enumerable: true, configurable: true
   //   },
   // });
-  // // const me           = this;
+  // const me           = this;
 
 
   //* Access Control: public functions //////////////////////////////////////////
-  // // Object.assign(this, {
-  //   // onmouseover_btn (e) {
-  //   //   console.log('onmouseover_btn');
-  //   // }
-  // // });
+  // Object.assign(this, {
+    // onmouseover_btn (e) {
+    //   console.log('onmouseover_btn');
+    // }
+  // });
 
 
   //* Event handler /////////////////////////////////////////////////////////////
+  validate.onclick = (e) => {
+    console.log('_footerHandler.onclick_validate');
+    if ('undefined' !== typeof _footerHandler.onclick_validate) _footerHandler.onclick_validate(e);
+  }
   today.onclick = (e) => {
     console.log('_footerHandler.onclick_today');
     if ('undefined' !== typeof _footerHandler.onclick_today) _footerHandler.onclick_today(e);

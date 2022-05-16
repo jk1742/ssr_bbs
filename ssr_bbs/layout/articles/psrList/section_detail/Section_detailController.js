@@ -14,11 +14,12 @@ const Section_detailController = function (section_detailHandler) {
   const frameTop      = contents.children[0];
   const frameMid      = contents.children[1];
   let panelNavBtns    = frameTop.firstChild.childNodes[2];
-  const lvl0_fm       = frameMid.firstChild.children[0].firstChild.firstChild.firstChild;
   const lvl1_fm       = frameMid.firstChild.children[2].firstChild.firstChild;
-  let calender        = lvl0_fm.children[0];
+  let calender        = this.getModelById('SampleCalendar');
+  let dayPick         = this.getModelById('single-datepicker');
+  const textarea      = this.getModelById('input-textarea');
   let boardCtrl       = lvl1_fm.children[1];
-  console.log('Section_detailController:', boardCtrl);
+  console.log(textarea);
 
   //* Privilege Static Functions //////////////////////////////////////////////
   // const getPositionInfo = function(e, t){
@@ -51,15 +52,23 @@ const Section_detailController = function (section_detailHandler) {
         params: { RULE_ID: id }
         // params: { _page: 7, _limit: 20 }
       }).then((Response) => {
-        frameMid.firstChild.firstChild.firstChild.children[1].firstChild.innerText = JSON.stringify(Response.data);
-        console.log('Response', Response.data, frameMid.firstChild.firstChild.firstChild.children[1].firstChild.innerText);
+        textarea.innerText = JSON.stringify(Response.data);
       }).catch((_Error) => {
         console.log('error', Response.data);
       });
     }
   });
 
-
+  this.setData(() => {
+    return {
+      test: 'hello',
+      test1: 1,
+      test2: true,
+      test3: function(){return null},
+      test4: { d: 1, d2: 2, d3: function () { return null }},
+      test5: [1,2,3,2,[3,4]]
+    }
+  });
   //* Event handler ///////////////////////////////////////////////////////////
   // register menu event
   // item.onclick = (e) => {
@@ -70,10 +79,8 @@ const Section_detailController = function (section_detailHandler) {
   panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController, {});
   boardCtrl = $SR.registerModel(boardCtrl).inject(BoardCtlPanelController, {});
   boardCtrl.brain.setTooltip('Am I brain ?', 'bottom', '#555', 1, 0, 0);
-  // document.getElementById('SampleCalendar');
   calender = $SR.registerModel(calender).inject(DatePickerController,{});
-
-  console.log(calender);
+  dayPick = $SR.registerModel(dayPick).inject(DatePickerController, {});
 
   //* Event handler ///////////////////////////////////////////////////////////
   panelNavBtns.list.onclick = (e) => {
@@ -94,7 +101,7 @@ const Section_detailController = function (section_detailHandler) {
     });
   }
   boardCtrl.briefcase.onclick = (e) => {
-    console.log('briefcase !!');
+    console.log('briefcase !!', calender.pickedDateArray);
   }
 
   //* Lazy Initialization /////////////////////////////////////////////////////

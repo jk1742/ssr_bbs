@@ -21,7 +21,9 @@ const DaysController = function (_daysHandler, mode) {
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     que: {
-      get: () => _private.que, enumerable:true
+      get: () => _private.que,
+      set: (o) => { if (Array.isArray(o)) _private.que = o },
+      enumerable:true
     },
   });
   const me           = this;
@@ -86,18 +88,27 @@ const DaysController = function (_daysHandler, mode) {
         iterator.onclick = (e) => {
           const date = Number(iterator.getAttribute('data-date'));
           _private.que.push(date);
+          me.removePaint();
+          iterator.firstChild.classList.add('is-active');
           if ('undefined' !== typeof _daysHandler.onclick_day) _daysHandler.onclick_day(e, date);
+        }
+      }
+      me.repaintRange();
+    },
+    paintSingle(){
+      // sort que
+      const _que = _private.que;
+      // start when 2 que
+      for (const iterator of Array.from(days.children)) {
+        const date = Number(iterator.getAttribute('data-date'));
+        const from = _que[0];
+        if (from === date) {
+          iterator.firstChild.classList.add('is-active');
+          iterator.classList.add('datepicker-range-start');
         }
       }
     },
     paintRange(){
-      // erase range painter
-      for (const iterator of Array.from(days.children)) {
-        iterator.classList.remove('datepicker-range');
-        iterator.classList.remove('datepicker-range-start');
-        iterator.classList.remove('datepicker-range-end');
-        iterator.firstChild.classList.remove('is-active');
-      }
       // sort que
       const _que = _private.que;
       _que.sort();
@@ -110,7 +121,7 @@ const DaysController = function (_daysHandler, mode) {
         if (from === date) {
           iterator.classList.add('datepicker-range');
           iterator.classList.add('datepicker-range-start');
-        } else if (from < date && date < to){
+        } else if (from < date && date < to) {
           iterator.classList.add('datepicker-range');
         } else if (to === date) {
           iterator.classList.add('datepicker-range');
@@ -118,14 +129,22 @@ const DaysController = function (_daysHandler, mode) {
         }
       }
     },
-    clear(){
-      _private.que = [];
+    removePaint(){
+      // erase range painter
       for (const iterator of Array.from(days.children)) {
         iterator.classList.remove('datepicker-range');
         iterator.classList.remove('datepicker-range-start');
         iterator.classList.remove('datepicker-range-end');
         iterator.firstChild.classList.remove('is-active');
       }
+    },
+    repaintRange(){
+      me.removePaint();
+      me.paintRange();
+    },
+    clear(){
+      _private.que = [];
+      me.removePaint();
     }
   });
 
