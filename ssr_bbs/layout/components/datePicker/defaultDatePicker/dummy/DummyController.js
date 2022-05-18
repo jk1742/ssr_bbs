@@ -4,30 +4,45 @@
  * @event onclick_dummy
  * @event onclick_erase
  ***/
+
+import { LocalDate } from "../class/LocalDate";
+
 //* Describe DummyController Class below
 const DummyController = function (_dummyHandler, datetype) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const box = this.children[0];
   const erase = this.children[1];
-
+  const localDate = new LocalDate();
+  const _private = {
+    inactive: false
+  };
 
   //* Privilege Static Functions ////////////////////////////////////////////////
 
 
   //* Access Control: getter & setter ///////////////////////////////////////////
-  // Object.defineProperties(this, {
-  //   picked: {
-  //     get: () => year.innerText,
-  //     set: (o) => { if ('number' === typeof o) year.innerText = o },
-  //     enumerable: true, configurable: true
-  //   },
-  // });
+  Object.defineProperties(this, {
+    inactive: {
+      get: () => _private.inactive,
+      enumerable: true
+    },
+  });
   const me           = this;
 
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
+    setInactive(){
+      _private.inactive = true;
+      erase.classList.add('is-hidden');
+      box.classList.replace('datetimepicker-dummy-wrapper', 'datetimepicker-dummy-wrapper-inactive');
+    },
+    setActive(){
+      _private.inactive = false;
+      erase.classList.remove('is-hidden');
+      box.classList.replace('datetimepicker-dummy-wrapper-inactive', 'datetimepicker-dummy-wrapper');
+    },
     printDummy (que) {
       const array = Array.from(box.children);
       for (let index = 0; index < array.length; index++) {
@@ -52,20 +67,7 @@ const DummyController = function (_dummyHandler, datetype) {
         o.value = '';
       });
     },
-    formattedDate (date, _datetype) {
-      switch (_datetype) {
-        case 'yyyy-mm-dd':
-          return new Date(date).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
-        case 'yyyy/mm/dd':
-          return new Date(date).toLocaleDateString('en-ZA');
-        case 'mm/dd/yyyy':
-          return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-        case 'dd-mon-yyyy':
-          return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).replace(/ /g, '-');
-        default:
-          return new Date(date).toLocaleDateString('en-CA');
-      }
-    }
+    formattedDate: localDate.dateParseString
   });
 
 

@@ -12,11 +12,8 @@ const Section_listController = function (section_listHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private              = {};
-  const contents              = this.firstChild;
-  const frameTop              = contents.children[0];
-  const frameMid              = contents.children[1];
-  let panelNavBtns            = frameTop.firstChild.childNodes[2];
-  let sortingTable            = frameMid.firstChild.firstChild.firstChild.children[0];
+  let panelNavBtns            = this.getModelById('panelNavBtns');
+  let sortingTable            = this.getModelById('SortingTable')
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
@@ -51,15 +48,12 @@ const Section_listController = function (section_listHandler) {
 
   //* inject controller ///////////////////////////////////////////////////////
   panelNavBtns = $SR.registerModel(panelNavBtns).inject(TopNavBtnsController, {});
-
   sortingTable = $SR.registerModel(sortingTable).inject(SortingTableController, {
     onclick_tableRow: (i, data, row) => {
       sortingTable.markSelectRow(row.id);
-      // console.log("sortingTable.clickedItems:",sortingTable.clickedItems);
     },
     ondblclick_tableRow: (e, i, data) => {
       const id = data[1];
-      console.log(id);
       if ('undefined' !== typeof section_listHandler.detail_viewById) section_listHandler.detail_viewById(id);
     },
     load_prePage: (prePage) => {
@@ -106,7 +100,6 @@ const Section_listController = function (section_listHandler) {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
-        // params: { location: this.id, date: Date.now() }
         params: {
           _start: scrollPage.startNum,
           _end  : scrollPage.endNum,
@@ -145,7 +138,15 @@ const Section_listController = function (section_listHandler) {
   panelNavBtns.marker.onclick = (e) => {
     if ('undefined' !== typeof section_listHandler.onclick_write) section_listHandler.onclick_write(e);
   }
-
+  panelNavBtns.briefcase.onclick = (e) => {
+    console.log('helloworld', sortingTable.clickedItems);
+    if ('undefined' !== typeof section_listHandler.onclick_briefcase) section_listHandler.onclick_briefcase(e);
+  }
+  panelNavBtns.arrowRotateLeft.onclick = (e) => {
+    console.log('de select all', sortingTable.clickedItems);
+    sortingTable.selectedRowsClear();
+    if ('undefined' !== typeof section_listHandler.onclick_arrowRotateLeft) section_listHandler.onclick_arrowRotateLeft(e);
+  }
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // json-server --watch psrSample.json --port 9005

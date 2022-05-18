@@ -353,7 +353,14 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       else _private.clickedItems.add(qId);
     },
     selectedRowsClear(){
+      // erase isSelected
+      let _tmpRows = _.cloneDeep(page.rows);
+      _tmpRows.forEach(element => { element.isSelected = false});
+      me.page.rows = _tmpRows;
+      // clear isSelected data set
       _private.clickedItems.clear();
+      // renew table
+      me.updateTable(me.page);
     }
   });
   me = this;

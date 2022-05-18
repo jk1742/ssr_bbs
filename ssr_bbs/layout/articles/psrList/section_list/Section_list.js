@@ -8,7 +8,7 @@ const Section_list = function (id) {
 
   //* View Register
   const panelNavBtns = new PanelNavBtns('panelNavBtns');
-  const table = new SortingTable(id+'-SortingTable','67vh','width:80vw');
+  const table = new SortingTable('SortingTable','67vh','width:80vw');
 
   //* Describe Tags
   return $SR.generateHtml `

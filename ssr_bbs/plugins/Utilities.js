@@ -119,7 +119,7 @@ const instantIdStamp = function(DOM){
     DOM.parentNode.children.length
   ], '-');
 }
-
+//module.exports = {
 module.exports = {
   uuidv4: function() {
     let ieSupporter = function(ie, mo, obj) {
@@ -884,9 +884,8 @@ module.exports = {
         parentArticleId   : '',
         isInteractDOM     : false,
         interactiveAction : ()=> null,
-        dataToken             : ()=> null,
+        dataToken         : ()=> null,
       };
-
       // private functions
       const getParentId = function (target, o) {
         const _fx = function (_target, _o) {
@@ -1177,10 +1176,10 @@ module.exports = {
               const element = obj[key];
               if (Array.isArray(element) || 'object' === typeof element ) {
                 c = false;
-                console.warn('Data transfer object is Not allow deep depth');
+                console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow deep depth');
               } else if ('function' === typeof element){
                 c = false;
-                console.warn('Data transfer object is Not allow function');
+                console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow function');
               }
             }
           }

@@ -1,0 +1,29 @@
+[
+    {
+        "RULE_ID": 3,
+        "FTA_CODE": "PMXBO",
+        "HS_CODE": 731816,
+        "HS_CODE_SUB_CATEGORY": 1,
+        "RULE_SEQ": 1,
+        "HS_CODE_DESCRIPTION": null,
+        "RULE_DESCRIPTION": "Threaded articles: 731 816 - Nuts.",
+        "RULE_CONTENTS_N": "C",
+        "RULE_CONTENTS": "CTH",
+        "WO_RULE": null,
+        "CTH_RULE": "CTH",
+        "BD_RULE": null,
+        "BU_RULE": null,
+        "NC_RULE": null,
+        "MC_RULE": null,
+        "DE_MINIMIS_UNIT": "A",
+        "DE_MINIMIS_RATE": 7,
+        "EXCLUSION_RULE_YN": "Y",
+        "CREATE_DATE": "00:00.0",
+        "CREATE_BY": "fta",
+        "UPDATE_DATE": "00:00.0",
+        "UPDATE_BY": "fta",
+        "APPLY_DATE": 20160101,
+        "END_DATE": 29991231,
+        "TRACKING_YN": null
+    }
+]

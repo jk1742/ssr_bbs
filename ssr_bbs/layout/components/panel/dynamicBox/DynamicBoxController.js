@@ -1,4 +1,5 @@
 
+import _ from 'lodash';
 import { DynamicBtn } from '/layout/components/panel/dynamicBox/DynamicBtn';
 
 /***
@@ -30,8 +31,11 @@ const DynamicBoxController = function (_dynamicBoxHandler) {
       const tagArray = Array.from(me.children);
       for (const iterator of tagArray) {
         const obj = $SR.registerModel(iterator).setInteractive();
-        const classNames = obj.firstChild.className.split('-');
-        Object.defineProperty(this, classNames[classNames.length - 1], {
+        const classNames = obj.firstChild.className.split(' ');
+        const tempNaming = classNames[classNames.length - 1].split('-');
+        tempNaming.shift();
+        const naming = _.camelCase(_.join(tempNaming, '-'));
+        Object.defineProperty(this, naming, {
           value: obj,
           writable: false
         });

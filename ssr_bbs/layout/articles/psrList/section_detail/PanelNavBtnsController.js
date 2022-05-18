@@ -3,7 +3,7 @@ import { PanelNavBtnsController as Super} from "/layout/components/panel/navBtns
 /***
  * layout:  PanelNavBtnsController control buttons
  ***/
-const PanelNavBtnsController = function (panelNavBtnsHandler) {
+const PanelNavBtnsController = function (_panelNavBtnsHandler) {
   //* private variable ////////////////////////////////////////////////////////
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -28,6 +28,8 @@ const PanelNavBtnsController = function (panelNavBtnsHandler) {
   this.alert.setTooltip('alert', 'bottom', '#555', 1, 0, 0);
   this.list.setTooltip('list', 'bottom', '#555', 1, 0, 0);
 
+  // Teacher.prototype = Object.create(Person.prototype);
+  // Teacher.prototype.constructor = Teacher;
   // //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }

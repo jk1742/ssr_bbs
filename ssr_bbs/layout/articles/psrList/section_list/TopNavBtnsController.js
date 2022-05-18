@@ -5,29 +5,36 @@ import { DynamicBoxController as Super } from "/layout/components/panel/dynamicB
  * layout:  PanelNavBtnsController control buttons
  ***/
 const TopNavBtnsController = function (_topNavBtnsHandler) {
-  //* private variable ////////////////////////////////////////////////////////
-
-  //* Access Control: getter & setter /////////////////////////////////////////
-  // Object.defineProperties(this, {
-  //   left: { get: () => left },
-  // });
-
-  //* Access control: Public functions ////////////////////////////////////////
-  Object.assign(this, Super.prototype);
 
   //* Inheritance /////////////////////////////////////////////////////////////
-  //! keep sequence
   Super.call(this);
+  TopNavBtnsController.prototype = Object.create(Super.prototype);
+  TopNavBtnsController.prototype.constructor = TopNavBtnsController;
+
+
+  //* private variable ////////////////////////////////////////////////////////
+
+
+  //* Access Control: getter & setter /////////////////////////////////////////
+
+
+  //* Access control: Public functions ////////////////////////////////////////
+
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   //! keep sequence
   this.appendToOven('fa-solid fa-marker');
   this.appendToOven('fa-solid fa-briefcase');
   this.appendToOven('fa-solid fa-lock');
+  this.appendToOven('fa-solid fa-arrow-rotate-left');
   this.bake();
   //! Bake first before paint.
   this.adaptStyleAllBtns('is-primary', 'is-inverted');
   this.classList.add('has-text-right');
+  //! set tooltip
+  //? fa-arrow-rotate-left => arrowRotateLeft
+  this.arrowRotateLeft.setTooltip('deselect all', 'bottom', '#555', 1, 0, 0);
+
 
   // //* End of Structure ////////////////////////////////////////////////////////
   return this;

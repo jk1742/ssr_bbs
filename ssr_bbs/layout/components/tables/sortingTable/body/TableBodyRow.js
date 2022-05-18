@@ -22,7 +22,9 @@ const TableBodyRow = function(parentId, seq, apxRow, apxData, rowData) {
   for (let j = 1; j < rowData.length; j++) {
     const cell = document.createElement("td");
     cell.id = parentId + '-' + apxData + '_' + seq + '_' + j;
-    cell.appendChild(document.createTextNode(rowData[j]));
+    let cellData = rowData[j];
+    if (_.isNull(cellData) || cellData == null || cellData == 'null') cellData = '';
+    cell.appendChild(document.createTextNode(cellData));
     dom.appendChild(cell);
   }
   return dom;

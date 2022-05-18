@@ -12,7 +12,7 @@ const SortingTable = function(id, height, styles) {
   const sliderDot = new SliderDot('sliderDot');
 
   return $SR.generateHtml `
-  <div id ="${id}" style="height:${height};${styles};" class='sorting-table'>
+  <div data-id ="${id}" style="height:${height};${styles};" class='sorting-table'>
     <div class="table-container is-size-7 sorting-table-container" >
       <table class="table is-striped is-hoverable">
         <thead id ="${id + '-Header'}"></thead>

@@ -2,7 +2,7 @@
 //* import view block /////////////////////////////////////////////////////////
 import { PanelNavBtns               } from '/layout/components/panel/navBtns/PanelNavBtns';
 import { DynamicBox as BoardCtrlBox } from '/layout/components/panel/dynamicBox/DynamicBox';
-import { DatePicker             } from '/layout/components/datePicker/defaultDatePicker/DatePicker';
+import { DatePicker                 } from '/layout/components/datePicker/defaultDatePicker/DatePicker';
 
 const Section_detail = function (id) {
 
@@ -11,6 +11,7 @@ const Section_detail = function (id) {
   const boardCtrlBox  = new BoardCtrlBox('BoardCtrlBox');
   const datePicker = new DatePicker('SampleCalendar','range','dd-mon-yyyy');
   const datePicker2 = new DatePicker('single-datepicker', 'single', 'dd-mon-yyyy', 'above', 'is-info');
+
   //* Describe Tags ///////////////////////////////////////////////////////////
   return $SR.generateHtml `
   <section id="${id}">

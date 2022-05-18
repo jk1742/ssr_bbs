@@ -1,6 +1,7 @@
 import { DaysController } from "./body/DaysController";
 import { MonthsController } from "./body/MonthsController";
 import { YearsController } from "./body/YearsController";
+import { LocalDate } from "./class/LocalDate";
 import { DummyController } from "./dummy/DummyController";
 import { FooterController } from "./footer/FooterController";
 import { HeaderController } from "./header/HeaderController";
@@ -15,6 +16,7 @@ const DatePickerController = function (_datePickerHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const dateRepository  = $SR.Date.getInstance();
+  const localDate       = new LocalDate();
   let   dummy           = this.children[0];
   const wrapper         = this.children[1];
   let   header          = this.getModelById('datepicker-header');
@@ -65,34 +67,51 @@ const DatePickerController = function (_datePickerHandler) {
     datetype:{
       get: () => _private.datetype, enumerable: true
     },
-    pickedDateArray:{
-      get: () => {
-        const _carriage = [];
-        dummy.getArray().forEach(element => {
-          _carriage.push(dummy.formattedDate(element, me.datetype));
-          console.log(element, me.datetype);
-        });
-        return _carriage;
+    inactive:{
+      get: () => dummy.inactive,
+      set: (o) => {
+        if ('boolean' !== typeof o) {
+          console.warn('boolean datatype only');
+          return;
+        }
+        if(o)dummy.setInactive();
+        else dummy.setActive();
       },
-      set:(arr) => {
-        if(!_.isArray(arr)) console.worn('please. check datatype, Date type array only');
-        const _array = [];
-        arr.forEach(element => {
-          _array.push(new Date(element).getTime());
-        });
-        header.que = _array;
-        days.que = _array;
-      },
-      enumerable: true, configurable:true
-    },
+      enumerable: true, configurable: true
+    }
+    // pickedDateArray:{
+    //   get: () => {
+    //     const _carriage = [];
+    //     dummy.getArray().forEach(element => {
+    //       _carriage.push(dummy.formattedDate(element, me.datetype));
+    //       console.log(element, me.datetype);
+    //     });
+    //     return _carriage;
+    //   },
+    //   set:(arr) => {
+    //     if(!_.isArray(arr)) console.worn('please. check datatype, Date type array only');
+    //     const _array = [];
+    //     arr.forEach(element => {
+    //       _array.push(new Date(element).getTime());
+    //     });
+    //     console.log(_array);
+    //     header.que = _array;
+    //     days.que = _array;
+    //   },
+    //   enumerable: true, configurable:true
+    // },
   });
 
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
-    // onmouseover_btn (_e) {
-    //   console.log('onmouseover_btn');
-    // }
+    onmouseover_btn (_e) {
+      console.log('onmouseover_btn');
+    },
+    load (arr){
+      dummy.printDummy(arr);
+    },
+    stringParseDate: localDate.stringParseDate
   });
   const me           = this;
 
@@ -109,6 +128,7 @@ const DatePickerController = function (_datePickerHandler) {
   wrapper.classList.add('is-hidden');
   dummy = $SR.registerModel(dummy).inject(DummyController,{
     onclick_dummy() {
+      if (dummy.inactive) return;
       wrapper.classList.remove('is-hidden');
       if (me.mode == 'single') {
         header.que = dummy.getArray();
@@ -123,6 +143,7 @@ const DatePickerController = function (_datePickerHandler) {
       days.repaintRange();
     },
     onclick_erase() {
+      if (dummy.inactive) return;
       days.clear();
       header.clear();
       dummy.clear();

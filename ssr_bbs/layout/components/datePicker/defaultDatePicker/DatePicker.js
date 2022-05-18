@@ -35,7 +35,7 @@ const DatePicker = function (name, mode, datetype, position, color) {
     const nav       = new Nav();
     const footer    = new Footer();
 
-    if (isNull(datetype) || 'undefined' === typeof datetype ) datetype = 'yyyy-mm-dd';
+    if (isNull(datetype) || 'undefined' === typeof datetype ) datetype = 'yyyy-MM-dd';
     if (isNull(position) || 'undefined' === typeof position) position = 'below';
     if (isNull(color) || 'undefined' === typeof position) color = 'is-primary';
 

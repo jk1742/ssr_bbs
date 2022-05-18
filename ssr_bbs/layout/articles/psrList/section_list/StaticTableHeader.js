@@ -19,16 +19,9 @@ const StaticTableHeader = function() {
       id: 'RULE_ID',
       type: 'number',
       icon: '',
-      width: '2%',
+      width: '0%',
       display: 'none',
       isKey: true
-    },
-    {
-      name: 'FTA_CODE',
-      id: 'FTA_CODE',
-      type: 'string',
-      icon: '',
-      width: '5%',
     },
     {
       name: 'HS_CODE',
@@ -38,11 +31,32 @@ const StaticTableHeader = function() {
       width: '5%',
     },
     {
+      name: 'FTA_CODE',
+      id: 'FTA_CODE',
+      type: 'string',
+      icon: '',
+      width: '5%',
+    },
+    {
+      name: 'SEQ',
+      id: 'RULE_SEQ',
+      type: 'string',
+      icon: '',
+      width: '2%',
+    },
+    {
       name: 'RULE',
       id: 'RULE_CONTENTS',
       type: 'number',
       icon: '',
-      width: '8%',
+      width: '5%',
+    },
+    {
+      name: 'De Minimis',
+      id: 'DE_MINIMIS_RATE',
+      type: 'string',
+      icon: '',
+      width: '7%',
     },
     {
       name: 'RULE_DESCRIPTION',

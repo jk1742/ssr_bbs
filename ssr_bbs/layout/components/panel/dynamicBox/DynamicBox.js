@@ -3,9 +3,9 @@
  ***/
 // Describe PanelNavBtns layout below
 // has-text-right
-const DynamicBox   = function(preId) {
+const DynamicBox   = function(modelId) {
   return $SR.generateHtml `
-  <div class="column" id="${preId}">
+  <div class="column" data-id="${modelId}">
   </div>
   `; // HTML end
 }

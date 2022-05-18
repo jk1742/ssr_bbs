@@ -3,7 +3,13 @@ import { DynamicBoxController as Super} from "/layout/components/panel/dynamicBo
 /***
  * layout:  PanelNavBtnsController control buttons
  ***/
-const BoardCtlPanelController = function (boardCtlPanelHandler) {
+const BoardCtlPanelController = function (_boardCtlPanelHandler) {
+
+  //* Inheritance /////////////////////////////////////////////////////////////
+  Super.call(this);
+  BoardCtlPanelController.prototype = Object.create(Super.prototype);
+  BoardCtlPanelController.prototype.constructor = BoardCtlPanelController;
+
   //* private variable ////////////////////////////////////////////////////////
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -12,11 +18,7 @@ const BoardCtlPanelController = function (boardCtlPanelHandler) {
   // });
 
   //* Access control: Public functions ////////////////////////////////////////
-  Object.assign(this, Super.prototype);
 
-  //* Inheritance /////////////////////////////////////////////////////////////
-  //! keep sequence
-  Super.call(this);
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   this.appendToOven('fa-solid fa-brain');
@@ -27,6 +29,7 @@ const BoardCtlPanelController = function (boardCtlPanelHandler) {
   this.adaptStyleAllBtns('is-primary', 'is-inverted');
   this.classList.add('has-text-right');
 
+
   console.log(' board', this.getData('Section_detailController'));
   // //* End of Structure ////////////////////////////////////////////////////////
   return this;
@@ -34,4 +37,4 @@ const BoardCtlPanelController = function (boardCtlPanelHandler) {
 
 export {
   BoardCtlPanelController
-};
+}

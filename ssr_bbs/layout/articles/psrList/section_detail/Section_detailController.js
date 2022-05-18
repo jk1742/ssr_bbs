@@ -2,6 +2,7 @@ import { PanelNavBtnsController } from './PanelNavBtnsController';
 import { BoardCtlPanelController } from './BoardCtlPanelController';
 import { DatePickerController } from '/layout/components/datePicker/defaultDatePicker/DatePickerController';
 
+
 /***
  * block:  Section_detailController
  ***/
@@ -12,14 +13,12 @@ const Section_detailController = function (section_detailHandler) {
   const _private      = {};
   const contents      = this.firstChild;
   const frameTop      = contents.children[0];
-  const frameMid      = contents.children[1];
   let panelNavBtns    = frameTop.firstChild.childNodes[2];
-  const lvl1_fm       = frameMid.firstChild.children[2].firstChild.firstChild;
   let calender        = this.getModelById('SampleCalendar');
   let dayPick         = this.getModelById('single-datepicker');
   const textarea      = this.getModelById('input-textarea');
-  let boardCtrl       = lvl1_fm.children[1];
-  console.log(textarea);
+  let boardCtrl       = this.getModelById('BoardCtrlBox');
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
   // const getPositionInfo = function(e, t){
@@ -43,16 +42,20 @@ const Section_detailController = function (section_detailHandler) {
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
     viewById(id) {
-      console.log("render viewById: ",id);
       this.activate();
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
         // withCredentials: true,
         params: { RULE_ID: id }
-        // params: { _page: 7, _limit: 20 }
       }).then((Response) => {
         textarea.innerText = JSON.stringify(Response.data);
+        const result = Response.data[0];
+        calender.load([
+          calender.stringParseDate(String(result.APPLY_DATE), 'yyyyMMdd').getTime(),
+          calender.stringParseDate(String(result.END_DATE), 'yyyyMMdd').getTime()
+        ]);
+        calender.inactive = true;
       }).catch((_Error) => {
         console.log('error', Response.data);
       });
@@ -69,11 +72,14 @@ const Section_detailController = function (section_detailHandler) {
       test5: [1,2,3,2,[3,4]]
     }
   });
+
+
   //* Event handler ///////////////////////////////////////////////////////////
   // register menu event
   // item.onclick = (e) => {
   //   if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
   // }
+
 
   //* inject controller ///////////////////////////////////////////////////////
   panelNavBtns = $SR.registerModel(panelNavBtns).inject(PanelNavBtnsController, {});
@@ -82,17 +88,17 @@ const Section_detailController = function (section_detailHandler) {
   calender = $SR.registerModel(calender).inject(DatePickerController,{});
   dayPick = $SR.registerModel(dayPick).inject(DatePickerController, {});
 
+
   //* Event handler ///////////////////////////////////////////////////////////
   panelNavBtns.list.onclick = (e) => {
     if ('undefined' !== typeof section_detailHandler.onclick_list) section_detailHandler.onclick_list(e);
   }
 
-  boardCtrl.brain.onclick = (e) => {
+  boardCtrl.brain.onclick = (_e) => {
     axios({
       method: 'get',
       url: 'http://localhost:9000/api/psr',
       // withCredentials: true,
-      // params: { location: this.id, date: Date.now() }
       params: { _page: 7, _limit: 20 }
     }).then((Response) => {
       console.log('Response',Response.data);
@@ -100,12 +106,13 @@ const Section_detailController = function (section_detailHandler) {
       console.log('error', Response.data);
     });
   }
-  boardCtrl.briefcase.onclick = (e) => {
+  boardCtrl.briefcase.onclick = (_e) => {
     console.log('briefcase !!', calender.pickedDateArray);
   }
 
+
   //* Lazy Initialization /////////////////////////////////////////////////////
-  // viewFilter.style.display    = 'none';
+
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;

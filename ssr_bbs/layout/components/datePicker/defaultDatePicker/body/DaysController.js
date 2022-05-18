@@ -1,7 +1,24 @@
-/***
+/**
  * DaysController
- * @constructor
- ***/
+ *  enumerate days of month
+ * @constructor DaysController
+ * @param {Function} _daysHandler
+ * @param {String} mode
+ * @var {Array} que to print days which is user selected
+ * @function generateCalendar
+ *  enumerate days of selected month, year
+ * @function paintSingle
+ *  paint user selected day
+ * @function paintRange
+ *  paint user selected range
+ * @function removePaint
+ *  erase selected Range from enumerated Div
+ * @function repaintRange
+ *  remove and paint range.
+ * @function clear
+ *  truncate que
+ * @returns HTMLObject
+ */
 //* Describe DaysController Class below
 const DaysController = function (_daysHandler, mode) {
 
@@ -12,7 +29,6 @@ const DaysController = function (_daysHandler, mode) {
     mode: mode,
     que: []
   };
-  console.log('days', _private);
 
 
   //* Privilege Static Functions ////////////////////////////////////////////////
@@ -96,13 +112,12 @@ const DaysController = function (_daysHandler, mode) {
       me.repaintRange();
     },
     paintSingle(){
-      // sort que
       const _que = _private.que;
-      // start when 2 que
       for (const iterator of Array.from(days.children)) {
         const date = Number(iterator.getAttribute('data-date'));
-        const from = _que[0];
-        if (from === date) {
+        // compare days and selectedDay if was it same then mark the day.
+        const selectedDay = _que[0];
+        if (selectedDay === date) {
           iterator.firstChild.classList.add('is-active');
           iterator.classList.add('datepicker-range-start');
         }

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Virus Model</title>
+    <link rel="stylesheet" media="screen" href="style.css">
+  </head>
+  <body>
+    <p id="instruct"><button>click to start the animation</button></p>
+
+    <script>
+    function work() {
+      console.log('Some work...');
+    }
+
+    function helloWrapper(wrapped) {
+      return function (...args) {
+          console.log('Hello!');
+          wrapped.apply(this, args);
+      }
+    }
+
+    const wrapped = helloWrapper(work);
+    console.log('wrapper start  ................................................');
+    wrapped();
+    console.log('wrapper end    ................................................');
+
+    </script>
+  </body>
+</html>
