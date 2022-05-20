@@ -69,4 +69,4 @@ const DynamicBoxController = function (_dynamicBoxHandler) {
 }
 export {
   DynamicBoxController
-};
+}

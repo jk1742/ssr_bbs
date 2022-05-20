@@ -7,6 +7,7 @@ const SampleController   = function(_sampleHandler) {
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
 
+
   //* Privilege Static Functions ////////////////////////////////////////////////
   const getPositionInfo = function(e, t){
     return {
@@ -19,6 +20,7 @@ const SampleController   = function(_sampleHandler) {
     }
   }
 
+
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     // articleId:{
@@ -28,25 +30,22 @@ const SampleController   = function(_sampleHandler) {
     // }
   });
 
+
   // Access control: Public functions //////////////////////////////////////////
   Object.assign(this, {
     // setViewFilter(arr){
     //   let carriage = ['None'].concat(arr);
     //   viewerSelect.generateList(carriage);
     // },
-    // trigger_onclickViewer(){
-    //   viewerIcon.onclick();
-    // },
-    // setTooltipAdd(msg, outline, color, opacity, width, height){
-    //   tooltipAdd = {msg:msg, outline:outline, color:color, opacity:opacity, width:width, height:height};
-    // }
   });
+
 
   //* Event handler ///////////////////////////////////////////////////////////
   // register menu event
   // item.onclick = (e) => {
   //   if('undefined' !== typeof navTabHandler.onclick_item) navTabHandler.onclick_item(e);
   // }
+
 
   //* inject controller ///////////////////////////////////////////////////////
   // viewerSelect            = $SR.View(viewerSelect.id).inject(DropListController, {
@@ -56,12 +55,13 @@ const SampleController   = function(_sampleHandler) {
   //   }
   // });
 
+  
   //* Lazy Initialization /////////////////////////////////////////////////////
-  // viewFilter.style.display    = 'none';
+
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;
 }
 export {
   SampleController
-};
+}

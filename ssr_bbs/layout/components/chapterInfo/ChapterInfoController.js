@@ -44,4 +44,4 @@ const ChapterInfoController   = function (chapterInfoHandler) {
 }
 export {
   ChapterInfoController
-};
+}

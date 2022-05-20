@@ -27,7 +27,7 @@ import { IntroController } from '/layout/intro/IntroController';
 
 //* layout ////////////////////////////////////////////////////////////////////
 let menu = new Menu('MenuTop');
-let navBar = new NavBar('NavBar');
+let navBar = new NavBar('NavBar','width:100%;');
 let intro = new Intro('Intro');
 
 //* initialize appending ///////////////////////////////////////////////////////

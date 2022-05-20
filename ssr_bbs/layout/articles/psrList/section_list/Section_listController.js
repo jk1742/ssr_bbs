@@ -1,19 +1,19 @@
 import { Page                   } from '/layout/components/tables/sortingTable/class/Page';
 import { SortingTableController } from '/layout/components/tables/sortingTable/SortingTableController';
 import { TopNavBtnsController   } from './TopNavBtnsController';
-import { StaticTableHeader as getTableHeader } from './StaticTableHeader';
-
+import { StaticTableHeader as  getTableHeader  } from './StaticTableHeader';
+import { SearchBarController    } from './SearchBarController';
 /***
  * block:  Section_listController
  ***/
 // Describe constant Class below
 const Section_listController = function (section_listHandler) {
 
-
   //* private variable & mapping //////////////////////////////////////////////
   const _private              = {};
-  let panelNavBtns            = this.getModelById('panelNavBtns');
-  let sortingTable            = this.getModelById('SortingTable')
+  let sortingTable            = this.getModelById(this.id+'-SortingTable');
+  let searchBar               = this.getModelById('SearchBar');
+  let selectCancelBtn         = this.getModelById('btn-select-cancel');
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
@@ -47,13 +47,36 @@ const Section_listController = function (section_listHandler) {
 
 
   //* inject controller ///////////////////////////////////////////////////////
-  panelNavBtns = $SR.registerModel(panelNavBtns).inject(TopNavBtnsController, {});
+  searchBar = $SR.registerModel(searchBar).inject(SearchBarController, {
+    onclick_adaptFilter: (_e, c) => {
+      axios({
+        method: 'get',
+        url: 'http://localhost:9000/api/psr',
+        // withCredentials: true,
+        params: {
+          _start: 0,
+          _limit: 20,
+          HS_CODE_like: c.hsCode
+        }
+      }).then((Response) => {
+        const page = new Page(20, 'RULE_ID', 'asc', 302, 0);
+        page.rows = Response.data;
+        sortingTable.generateTable(page);
+      }).catch((_Error) => {
+        console.log('error', Response.data);
+      });
+    },
+    onclick_resetFilter: (_e) => {
+      console.log(_e);
+    }
+  });
   sortingTable = $SR.registerModel(sortingTable).inject(SortingTableController, {
     onclick_tableRow: (i, data, row) => {
       sortingTable.markSelectRow(row.id);
     },
     ondblclick_tableRow: (e, i, data) => {
       const id = data[1];
+      searchBar.close();
       if ('undefined' !== typeof section_listHandler.detail_viewById) section_listHandler.detail_viewById(id);
     },
     load_prePage: (prePage) => {
@@ -64,8 +87,8 @@ const Section_listController = function (section_listHandler) {
         // params: { _start: prePage.startNum, _end: prePage.endNum }
         params: {
           _start: prePage.startNum,
-          _end: prePage.endNum,
-          _sort: prePage.orderId,
+          _end  : prePage.endNum,
+          _sort : prePage.orderId,
           _order: prePage.orderBy
         }
       }).then((Response) => {
@@ -84,8 +107,8 @@ const Section_listController = function (section_listHandler) {
         // params: { _start: nextPage.startNum, _end: nextPage.endNum }
         params: {
           _start: nextPage.startNum,
-          _end: nextPage.endNum,
-          _sort: nextPage.orderId,
+          _end  : nextPage.endNum,
+          _sort : nextPage.orderId,
           _order: nextPage.orderBy
         }
       }).then((Response) => {
@@ -123,7 +146,7 @@ const Section_listController = function (section_listHandler) {
           _end  : _page.endNum,
           _sort : _page.orderId,
           _order: _page.orderBy
-        }
+        },// withCredentials: true,
       }).then((Response) => {
         _page.rows = Response.data;
         sortingTable.generateTable(_page);
@@ -135,15 +158,10 @@ const Section_listController = function (section_listHandler) {
 
 
   //* Event handler ///////////////////////////////////////////////////////////
-  panelNavBtns.marker.onclick = (e) => {
-    if ('undefined' !== typeof section_listHandler.onclick_write) section_listHandler.onclick_write(e);
-  }
-  panelNavBtns.briefcase.onclick = (e) => {
-    console.log('helloworld', sortingTable.clickedItems);
-    if ('undefined' !== typeof section_listHandler.onclick_briefcase) section_listHandler.onclick_briefcase(e);
-  }
-  panelNavBtns.arrowRotateLeft.onclick = (e) => {
-    console.log('de select all', sortingTable.clickedItems);
+  // search.onclick = (_e) => {
+  //   console.log('magnifyingGlass');
+  // }
+  selectCancelBtn.onclick = (e) => {
     sortingTable.selectedRowsClear();
     if ('undefined' !== typeof section_listHandler.onclick_arrowRotateLeft) section_listHandler.onclick_arrowRotateLeft(e);
   }

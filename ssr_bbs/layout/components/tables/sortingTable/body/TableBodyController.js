@@ -86,13 +86,16 @@ const TableBodyController   = function (tableBodyHandler, header) {
     }
   });
 
+
   //* Event handler /////////////////////////////////////////////////////////////
-  this.onmousewheel = (e) => {
-    if('undefined' !== typeof tableBodyHandler.onmousewheel_tbody) tableBodyHandler.onmousewheel_tbody(e);
-  };
+  this.onwheel =(e)=>{
+    if ('undefined' !== typeof tableBodyHandler.onmousewheel_tbody) tableBodyHandler.onmousewheel_tbody(e);
+  }
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
 
+  
   //* End of Structure //////////////////////////////////////////////////////////
   return this;
 };

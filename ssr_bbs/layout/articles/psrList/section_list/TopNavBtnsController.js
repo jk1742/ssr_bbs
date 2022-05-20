@@ -23,9 +23,7 @@ const TopNavBtnsController = function (_topNavBtnsHandler) {
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   //! keep sequence
-  this.appendToOven('fa-solid fa-marker');
-  this.appendToOven('fa-solid fa-briefcase');
-  this.appendToOven('fa-solid fa-lock');
+  this.appendToOven('fa-solid fa-magnifying-glass');
   this.appendToOven('fa-solid fa-arrow-rotate-left');
   this.bake();
   //! Bake first before paint.
@@ -34,6 +32,7 @@ const TopNavBtnsController = function (_topNavBtnsHandler) {
   //! set tooltip
   //? fa-arrow-rotate-left => arrowRotateLeft
   this.arrowRotateLeft.setTooltip('deselect all', 'bottom', '#555', 1, 0, 0);
+  this.magnifyingGlass.setTooltip('search', 'bottom', '#555', 1, 0, 0);
 
 
   // //* End of Structure ////////////////////////////////////////////////////////

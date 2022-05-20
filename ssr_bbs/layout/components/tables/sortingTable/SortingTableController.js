@@ -407,7 +407,6 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(id, data, row);
     },
     ondblclick_row(e, id, data){
-      const row = document.getElementById(id);
       if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
     },
     changeTableCells(name, pos, data, dom){
