@@ -1,5 +1,5 @@
 import { NavTab } from "./NavTab";
-import { NavTabController } from "/layout/components/navBar/NavTabController";
+import { NavTabController } from "./NavTabController";
 
 
 /***
@@ -17,7 +17,7 @@ const NavBarController   = function(navBarHandler) {
   const menuOpen = this.firstChild.firstChild.firstChild;
   const menuClose = this.firstChild.firstChild.childNodes[1];
   const FOCUS                 = 'is-active';
-  // console.log("NavBarController:", navFrame);
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
   const arrayTabs = () => {

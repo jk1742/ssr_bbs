@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 import '/static/css/style.css';
 import '/static/css/bulma.css';
-// import '/static/css/bulma_style.css';
+
 
 //* import utility ////////////////////////////////////////////////////////////
 // logger
@@ -16,14 +16,14 @@ logger.status = true;
 import favicon from '/static/favicon/Favicon';
 
 //* import layout /////////////////////////////////////////////////////////////
-import { NavBar } from '/layout/components/navBar/NavBar';
-import { Menu   } from '/layout/components/menu/Menu';
+import { NavBar } from './templateResolver/navBar/NavBar';
+import { Menu   } from './templateResolver/menu/Menu';
 import { Intro  } from '/layout/intro/Intro';
 
 //* import controller /////////////////////////////////////////////////////////
-import { NavBarController } from '/layout/components/navBar/NavBarController';
-import { MenuController } from '/layout/components/menu/MenuController';
-import { IntroController } from '/layout/intro/IntroController';
+import { NavBarController } from './templateResolver/navBar/NavBarController';
+import { MenuController   } from './templateResolver/menu/MenuController';
+import { IntroController  } from '/layout/intro/IntroController';
 
 //* layout ////////////////////////////////////////////////////////////////////
 let menu = new Menu('MenuTop');
@@ -98,6 +98,30 @@ const articleRePosition = function (articleId, seq) {
   }
 }// articleRePosition end
 
+const menuList = [
+  {
+    category: 'Editor',
+    name: 'Editor',
+    loc: 'editor',
+    group: 'all'
+  }, {
+    category: 'Sample type',
+    name: 'PSR List',
+    loc: 'psrList',
+    group: 'all'
+  }, {
+    category: 'Sample type',
+    name: 'sample1',
+    loc: 'sample1',
+    group: ''
+  }, {
+    category: 'Sample type',
+    name: 'sample2',
+    loc: 'sample2',
+    group: ''
+  }
+];
+
 //* component load ////////////////////////////////////////////////////////////
 window.onload = function () {
 
@@ -115,13 +139,10 @@ window.onload = function () {
       navBar.revealNavbar();
       intro.hideIntro();
     },
-  });
+  }, menuList);
 
   navBar = $SR.View('NavBar').inject(NavBarController, {
     onclick_menuOpen: (_e) => {
-      // logger.step(0, 'navBar.onclick_menu');
-      // console.log(logger.ind(1), 'menu.position:', menu.position, 'scrollY:', window.scrollY);
-      // console.log(logger.ind(1), 'navBar.position:', navBar.position, 'scrollY:', window.scrollY);
       menu.open();
       navBar.shiftDown();
     },
@@ -159,15 +180,15 @@ window.onload = function () {
 
   // queueEvent
   activities.onQueuePush = (e) => {
-    const cur = document.getElementById(e.detail.getMessage().id);
-    const loc = cur.getBoundingClientRect().top;
-    const msg = e.detail.getMessage();
-    console.log('activities.onQueuePush');
-    console.log('  message ', msg.id);
-    console.log('  message ', msg.name);
-    console.log('  message ', msg.detail);
-    console.log('  message ', msg.timestamp);
-    console.log('  message ', msg.hash);
+    // const cur = document.getElementById(e.detail.getMessage().id);
+    // const loc = cur.getBoundingClientRect().top;
+    // const msg = e.detail.getMessage();
+    // console.log('activities.onQueuePush');
+    // console.log('  message ', msg.id);
+    // console.log('  message ', msg.name);
+    // console.log('  message ', msg.detail);
+    // console.log('  message ', msg.timestamp);
+    // console.log('  message ', msg.hash);
   }
   // navBar.position.height
 }

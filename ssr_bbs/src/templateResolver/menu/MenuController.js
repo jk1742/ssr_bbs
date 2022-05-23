@@ -1,46 +1,19 @@
-import { MenuItem } from "/layout/components/menu/MenuItem";
-import { MenuItemController } from "/layout/components/menu/MenuItemController";
+import { MenuItem } from "./MenuItem";
+import { MenuItemController } from "./MenuItemController";
 
 /***
  * block:  MenuController
  ***/
 // Describe constant Class below
-const MenuController   = function(menuHandler) {
+const MenuController   = function(menuHandler, menuList) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
   const menuTemplate          = this.childNodes[1].firstChild.firstChild.childNodes[1];
   const close                 = this.firstChild;
-  const array                 = [
-    {
-      category: 'Sample type',
-      name: 'PSR List',
-      loc: 'psrList',
-      group: 'all'
-    }, {
-      category: 'Sample type',
-      name: 'sample1',
-      loc: 'sample1',
-      group: ''
-    }, {
-      category: 'Sample type',
-      name: 'sample2',
-      loc: 'sample2',
-      group: ''
-    }
-  ];
 
   //* Privilege Static Functions ////////////////////////////////////////////////
-  // const  getPositionInfo = function(e, t){
-  //   return {
-  //     left  : t.left,
-  //     top   : t.top,
-  //     width : t.width,
-  //     height: t.height,
-  //     pageX : e.pageX,
-  //     pageY : e.pageY
-  //   }
-  // }
+
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   // store in private
@@ -95,7 +68,7 @@ const MenuController   = function(menuHandler) {
   // });
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  for (const element of array) {
+  for (const element of menuList) {
     let menuItem = new MenuItem(element.name);
     menuTemplate.appendChild(menuItem);
     menuItem = $SR.marge(MenuItemController, menuItem, {

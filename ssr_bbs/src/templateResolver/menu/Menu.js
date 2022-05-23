@@ -1,4 +1,4 @@
-import '/layout/components/menu/Menu.css';
+import './Menu.css';
 
 /**
  * block:  Menu
@@ -19,7 +19,6 @@ const Menu = function (id, styles) {
           </p>
           <ul class="menu-list">
             <li><a>Dashboard</a></li>
-            <li><a>Customers</a></li>
           </ul>
         </aside>
       </div>

@@ -1,0 +1,28 @@
+.list-Editor>div.list-Editor-container {
+  float:left;
+  width:95%;
+}
+.list-Editor>div.list-Editor-recordLine {
+  float: left;
+  width: 5%;
+  position: relative;
+}
+.list-Editor-recordLine-bar{
+  border-left: 2px solid #dbdbdb;
+  position: absolute;
+  left: 50%;
+  margin-left: -3px;
+  top: 0;
+}
+.recordLine-slider {
+  position: absolute;
+  z-index: 9;
+  cursor: ns-resize;
+  /*set the appearance of the slider:*/
+  left: 38%;
+  width: 15px;
+  height: 15px;
+  background-color: #2196F3;
+  opacity: 0.7;
+  border-radius: 50%;
+}

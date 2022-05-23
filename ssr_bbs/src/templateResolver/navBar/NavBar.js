@@ -1,4 +1,4 @@
-import '/layout/components/navBar/NavBar.css';
+import './NavBar.css';
 
 /***
  * block:  navigation tab

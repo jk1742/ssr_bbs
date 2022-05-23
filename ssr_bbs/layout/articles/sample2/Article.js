@@ -107,7 +107,57 @@ const Article = function (id) {
                       </figcaption>
                     </figure>
                     <h6>Sixth level</h6>
-                    <p>Cras in nibh lacinia, venenatis nisi et, auctor urna. Donec pulvinar lacus sed diam dignissim, ut eleifend eros accumsan. Phasellus non tortor eros. Ut sed rutrum lacus. Etiam purus nunc, scelerisque quis enim vitae, malesuada ultrices turpis. Nunc vitae maximus purus, nec consectetur dui. Suspendisse euismod, elit vel rutrum commodo, ipsum tortor maximus dui, sed varius sapien odio vitae est. Etiam at cursus metus.</p>
+                    <p>Regarding ‘S’ Weapons
+
+                    Pulse: Low dps, best cooling, Anti-Fighter weapon or allround weapon when in great numbers (Nemesis + Dragon)
+
+                    Bolts: Allround weapon, medium dps + cooling, useful against almost anything
+
+                    Beams: Anti-Fighter weapon, hitscan accuracy, but bad cooling, only useful in lower numbers (frigates, fighters and gunboats)
+
+                    Plasma: Anti-capital weapon, great range, high dps, but bad cooling, useful in low numbers
+
+                    Shards: Allround weapon with Plasma level dps, better cooling, but short ranged and inaccurate
+
+                    Burst rays: Short ranged, low dps, hitscan, but can penetrate shields with dps bonus. Anti-Module weapon
+
+                    Mortar: Comparable to Plasma, but with Flak-esque aoe damage and higher projectile speed. Currently stronger in IS combat due to double damage mechanic
+
+                    Mass drivers: Railgun, long range support weapon. Lowish dps and cooling problems
+
+                    Thermal Desintergrators: Pulse-Laser-styled weapon but with shield penetration and dot effect. Very effective weapon, M sized variant very inaccurate though
+
+                    Split Minigun: Bolts but with higher dps and inaccurate, useful against bigger targets, but Shards and Tau’s are better suited for that. Underperforming imo
+
+                    Tau Accelerators: Shards but with more dps and higher accuracy. Very effective allround weapon
+
+                    Boson Lances:
+                    Mass drivers with way higher damage but with less range and even more cooling problems. Still testing around, but seems too unreliable. 
+                    Strongest OOS weapon though Regarding ‘M’ Weapons/Turrets
+
+                    Pulse: Anti-Fighter turret with highest rotation speed but low dps
+
+                    Bolts: Higher damage than Pulse with slower rotation speed
+
+                    Shards: Higher damage than Bolts but short ranged and inaccurate. Useful against M+ sized ships but so is Plasma
+
+                    Plasma: Insane dps for its size (L Pulse level), useful against M and above sized ships. Outperforms their fixed gimballed version due to lack of cooling problems
+
+                    Flak: Anti-Fighter – Allround turret. Somewhat short ranged but with aoe explosion effect and thus with higher dps than shards (~140 ARG, ~210 SPL). 
+                    Very useful turrets if you have access to them
+
+                    Beams: Don’t bother, they can’t kill space flies
+                    </p>
+                    <p>
+                    Regarding ‘L’ Weapons/Turrets
+
+                    Pulse: Allround turret, useful against anything. Struggles with XL shield regeneration in low numbers though
+
+                    Plasma: 3x Pulse’s dps, Siege and Anti-capital turret. May sometimes struggle hitting moving targets (even large ones), but most potent against impaired targets
+
+                    Beams: Very dissappointing turret. Hitscan makes them effective against fighters but their dps is comparable to 1 M sized Pulse Lasers. Never use them against anything M+ sized targets. L+ targets don’t even get damaged by them and Pulse is way more effective against M sized ships.
+
+                    </p>
                   </div>
               </div>
             </div>
