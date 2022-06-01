@@ -48,8 +48,8 @@ const TableBodyController   = function (tableBodyHandler, header) {
           onclick_row(e, id, data){
             if('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(e, id, data);
           },
-          ondblclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.ondblclick_row) tableBodyHandler.ondblclick_row(e, id, data);
+          ondbclick_row(e, id, data){
+            if('undefined' !== typeof tableBodyHandler.ondbclick_row) tableBodyHandler.ondbclick_row(e, id, data);
           },
           changeTableCells(name, pos, data, dom){
             if('undefined' !== typeof tableBodyHandler.changeTableCells) tableBodyHandler.changeTableCells(name, pos, data, dom);
@@ -76,8 +76,8 @@ const TableBodyController   = function (tableBodyHandler, header) {
           onclick_row(e, id, data){
             if('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(e, id, data);
           },
-          ondblclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.ondblclick_row) tableBodyHandler.ondblclick_row(e, id, data);
+          ondbclick_row(e, id, data){
+            if('undefined' !== typeof tableBodyHandler.ondbclick_row) tableBodyHandler.ondbclick_row(e, id, data);
           },
           changeTableCells(name, pos, data, dom){
             if('undefined' !== typeof tableBodyHandler.changeTableCells) tableBodyHandler.changeTableCells(name, pos, data, dom);

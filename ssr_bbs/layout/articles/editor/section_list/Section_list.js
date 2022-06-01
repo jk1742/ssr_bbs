@@ -5,7 +5,7 @@ import { SortingTable } from '/layout/components/tables/sortingTable/SortingTabl
 const Section_list = function (id) {
 
   //* View Register
-  const table = new SortingTable(id+'-SortingTable','67vh','width:80vw');
+  const table = new SortingTable('sorting-table','67vh','width:80vw');
 
   //* Describe Tags
   return $SR.generateHtml `
@@ -20,10 +20,10 @@ const Section_list = function (id) {
           <div class= "column" style="padding-right:5vw;">
             <div class="is-pulled-right">
               <a class="button is-primary is-inverted" data-id="btn-line-editor" style="float:left;">
-                  <i class="fa-solid fa-table-columns"></i>
+                  <i class="fa-solid fa-check-to-slot"></i>
               </a>
               <a class="button is-primary is-inverted" data-id="btn-select-cancel" style="float:left;">
-                  <i class="fa-solid fa-arrow-rotate-left"></i>
+                  <i class="fa-solid fa-ban"></i>
               </a>
             </div>
           </div>

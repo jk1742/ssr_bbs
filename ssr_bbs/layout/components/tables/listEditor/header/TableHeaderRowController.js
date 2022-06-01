@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { TableHeaderDataController     } from '/layout/components/tables/sortingTable/header/TableHeaderDataController';
+import { TableHeaderDataController     } from './TableHeaderDataController';
 
 /***
  * Layout:  TableHeaderRowController

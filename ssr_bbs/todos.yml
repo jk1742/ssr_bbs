@@ -26,7 +26,19 @@ TODO:
         sub 5: 알림 저장소 구현                         # 진행 중
         sub 6: 게시 테이블 구현                         # 완료 5/10
         sub 7: 날짜 선택 창 구현                        # 완료 5/17
-        sub 8: 에디터 테이블 구현                       # 진행 중
+      step 4: 에디터 테이블 구현                        # 진행 중
+        sub 1: 기본 에디터                              # 완료 5/30
+        sub 2: select option                            # 완료 5/31
+        sub 3: 체크 박스
+        sub 4: 날짜
+        sub 5: focus css
+        sub 6: enter event
+        sub 7: tab event
+        sub 8: arrow event
+        sub 9: paste event
+        sub 10: 대량 데이터 구성
+        sub 11: 스크롤                                  # 진행 중
+        sub 12: 파일 업로드 데이터 컨트롤
       step 4: 데이터 전송 폼
         sub 1: Json 데모                                # 완료 5/4
         sub 2: 로그인 구현
@@ -72,4 +84,17 @@ TODO:
 
 
 
-
+code: https://junhokims.tistory.com/10
+code: Math.random().toString(36).substr(2,11);
+code: ~
+  이벤트 검사: https://stackoverflow.com/questions/27321672/listen-for-all-events-in-javascript
+  Object.keys(window).forEach(key => {
+      if (/^on/.test(key)) {
+          window.addEventListener(key.slice(2), event => {
+              console.log(event);
+          });
+      }
+  });
+  cmd: ~
+    cd /home/jin/workspace_js/ssr_bbs/;npx webpack serve
+    cd /home/jin/workspace_js/temp_server/;json-server --watch psrSample.json --port 9005

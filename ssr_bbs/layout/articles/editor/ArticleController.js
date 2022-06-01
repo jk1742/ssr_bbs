@@ -1,5 +1,6 @@
 import { ToolTipController } from '/layout/components/toolTip/ToolTipController';
 import { Section_listController } from './section_list/Section_listController';
+import { Section_listEditorController } from './section_listEditor/Section_listEditorController';
 
 /***
  * block:  ArticleController
@@ -10,7 +11,7 @@ const ArticleController   = function(_articleHandler) {
   //* private variable & mapping //////////////////////////////////////////////
   const _private          = {};
   let toolTip             = this.children[0];
-  console.log("ArticleController/",this);
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
 
@@ -22,6 +23,7 @@ const ArticleController   = function(_articleHandler) {
     //   enumerable:true
     // },
   });
+
 
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
@@ -37,13 +39,22 @@ const ArticleController   = function(_articleHandler) {
     // }
   });
 
+
   //* Event handler ///////////////////////////////////////////////////////////
 
 
   //* inject controller ///////////////////////////////////////////////////////
   $SR.registerModel(toolTip).inject(ToolTipController, {});
   let section_list = $SR.registerFrameById(this.id + '-Section_list').inject(Section_listController, {
+    onclick_lineEditor: (e, selectedArray) => {
+      section_listEditor.renderTable(selectedArray);
+      section_listEditor.activate();
+    }
   });
+  let section_listEditor = $SR.registerFrameById(this.id + '-Section_listEditor').inject(Section_listEditorController,{
+    onclick_arrowRotateLeft: (_e) => section_list.activate()
+  });
+
 
   //* Lazy Initialization /////////////////////////////////////////////////////
 

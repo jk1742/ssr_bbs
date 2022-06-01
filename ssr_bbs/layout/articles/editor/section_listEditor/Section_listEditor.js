@@ -1,13 +1,11 @@
 /* eslint-disable no-undef */
 // import view block with controller
-import { FilterBar } from '/layout/components/panel/filterBar/FilterBar';
-import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
+import { ListEditor } from "/layout/components/tables/listEditor/ListEditor";
 
-const Section_list = function (id) {
+const Section_listEditor = function (id) {
 
   //* View Register
-  const table = new SortingTable('sorting-table','67vh','width:80vw');
-  const searchBar = new FilterBar('SearchBar', 'fa-solid fa-magnifying-glass', 'float: left;', 'right:7vw;width:30vw;background-color:white;z-index:15;');
+  const table = new ListEditor('list-editor','67vh','width:80vw');
 
   //* Describe Tags
   return $SR.generateHtml `
@@ -17,13 +15,14 @@ const Section_list = function (id) {
       <div class="frame-top">
         <div class="columns is-vcentered" style="height:100%;">
           <div class= "column">
-            <div class="content"><h3 class="article-subject"> PSR List </h3></div>
+            <div class="content"><h3 class="article-subject"> List Editor </h3></div>
           </div>
           <div class= "column" style="padding-right:5vw;">
             <div class="is-pulled-right">
-              <!-- searchBar -->
-              ${searchBar.outerHTML}
-              <a class="button is-primary is-inverted" data-id="btn-select-cancel" style="float:left;">
+              <a class="button is-primary is-inverted" data-id="btn-get-data" style="float:left;">
+                  <i class="fa-solid fa-info"></i>
+              </a>
+              <a class="button is-primary is-inverted" data-id="btn-back-list" style="float:left;">
                   <i class="fa-solid fa-arrow-rotate-left"></i>
               </a>
             </div>
@@ -48,5 +47,5 @@ const Section_list = function (id) {
   `; // HTML end
 }
 export {
-  Section_list
+  Section_listEditor
 };

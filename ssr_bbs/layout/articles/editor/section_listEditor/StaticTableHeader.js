@@ -5,7 +5,12 @@
  ***/
 // Describe StaticMultiEditorTableHeader Class below
 
+import { SelectController } from "./SelectController";
+import { Select } from "/layout/components/form/select/Select";
+
 const StaticTableHeader = function() {
+  const rule = new Select();
+  rule.classList.add('is-small');
   return [
     {
       name: '',
@@ -15,6 +20,13 @@ const StaticTableHeader = function() {
       width: '2%',
     },
     {
+      name: 'HS_CODE',
+      id: 'HS_CODE',
+      type: 'number',
+      icon: '',
+      width: '5%',
+    },
+    {
       name: 'RULE_ID',
       id: 'RULE_ID',
       type: 'number',
@@ -22,13 +34,6 @@ const StaticTableHeader = function() {
       width: '0%',
       display: 'none',
       isKey: true
-    },
-    {
-      name: 'HS_CODE',
-      id: 'HS_CODE',
-      type: 'number',
-      icon: '',
-      width: '5%',
     },
     {
       name: 'FTA_CODE',
@@ -47,9 +52,18 @@ const StaticTableHeader = function() {
     {
       name: 'RULE',
       id: 'RULE_CONTENTS',
-      type: 'number',
+      type: 'string',
       icon: '',
       width: '5%',
+      editor: {
+        dom: rule,
+        controller: SelectController,
+        // handler: {
+        //   onload: (obj, json)=>{
+        //     console.log(obj, json);
+        //   }
+        // }
+      }
     },
     {
       name: 'De Minimis',

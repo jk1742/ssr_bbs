@@ -16,4 +16,4 @@ const TableColgroup = function(array) {
 }
 export {
   TableColgroup
-};
+}

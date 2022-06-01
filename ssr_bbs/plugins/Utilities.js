@@ -110,11 +110,20 @@ const instantIdStamp = function(DOM){
       if (o.isSameNode(element)) return index;
     }
   }
+  const countFrameByHorizontal = function (o) {
+    if (_.isNull(o) || typeof o === 'undefined') return 'F';
+    const array = [...o['parentNode']['children']];
+    let carriage = 0;
+    for (const iterator of array) {
+      if (o.isSameNode(iterator)) return carriage;
+      if (o.tagName == iterator.tagName) carriage++;
+    }
+  }
   return _.join([
-    countToTop('SECTION', DOM),
-    countToTop('ARTICLE', DOM),
-    countToTop('BODY', DOM),
     Math.floor(new Date().getTime() / 1000).toString(16),
+    countFrameByHorizontal(DOM.closest('ARTICLE')),
+    countFrameByHorizontal(DOM.closest('SECTION')),
+    countToTop('BODY', DOM),
     countToHorizontal(DOM),
     DOM.parentNode.children.length
   ], '-');
@@ -871,7 +880,7 @@ module.exports = {
   registerModel: function (documentObject, hasFixedId) {
     // DOM check
     let dom = documentObject;
-    if (!isDOM(documentObject)) console.warn(`Instance error: ${typeof documentObject} is not a DOM object`);
+    if (!isDOM(documentObject)) console.error(`Instance error: ${typeof documentObject} is not a DOM object`);
     const ssr = this;
     const fx = function () {
       // variables
@@ -930,7 +939,8 @@ module.exports = {
           configurable: true,
         },
         dataToken:{
-          get:()=> _private.dataToken
+          get:()=> _private.dataToken,
+          configurable: true,
         }
       });
       // public function
@@ -1186,7 +1196,7 @@ module.exports = {
           return c;
         }
         Object.getOwnPropertyNames(_tmp).forEach(
-          function (val) {
+          (val) => {
             if ('function' === typeof _tmp[val]) {
               console.warn('Data transfer object is Not allow function');
               return;

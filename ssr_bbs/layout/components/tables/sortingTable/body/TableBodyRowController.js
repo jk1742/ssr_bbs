@@ -58,10 +58,10 @@ const TableBodyRowController   = function (tableBodyRowHandler, array, header) {
 
   //* Event handler /////////////////////////////////////////////////////////////
   this.onclick = (e) => {
-    if('undefined' !== typeof tableBodyRowHandler.onclick_row) tableBodyRowHandler.onclick_row(e, this.id, array);
+    if('undefined' !== typeof tableBodyRowHandler.onclick_row) tableBodyRowHandler.onclick_row(e, this.id, this.rowNum, this, array);
   }
   this.ondblclick = (e) => {
-    if('undefined' !== typeof tableBodyRowHandler.ondblclick_row) tableBodyRowHandler.ondblclick_row(e, this.id, array);
+    if ('undefined' !== typeof tableBodyRowHandler.ondbclick_row) tableBodyRowHandler.ondbclick_row(e, this.id, this.rowNum, this, array);
   }
 
   //* Lazy Initialization ///////////////////////////////////////////////////////

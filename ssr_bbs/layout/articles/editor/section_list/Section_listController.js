@@ -10,7 +10,7 @@ const Section_listController = function (section_listHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private        = {};
-  let sortingTable      = this.getModelById(this.id+'-SortingTable');
+  let sortingTable      = this.getModelById('sorting-table');
   let selectCancelBtn   = this.getModelById('btn-select-cancel');
   let lineEditorBtn     = this.getModelById('btn-line-editor');
 
@@ -37,14 +37,14 @@ const Section_listController = function (section_listHandler) {
 
   //* inject controller ///////////////////////////////////////////////////////
   sortingTable = $SR.registerModel(sortingTable).inject(SortingTableController, {
-    onclick_tableRow: (i, data, row) => {
-      sortingTable.markSelectRow(row.id);
+    onclick_tableRow: (_e, _id, _rowNum, _element, _data) => {
+      sortingTable.markSelectRow(_id);
     },
-    ondblclick_tableRow: (e, i, data) => {
-      const id = data[1];
+    ondblclick_tableRow: (_e, _id, _rowNum, _element, _data) => {
+      const id = _data[1];
       if ('undefined' !== typeof section_listHandler.detail_viewById) section_listHandler.detail_viewById(id);
     },
-    load_prePage: (prePage) => {
+    onscroll_prePaging: (prePage) => {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
@@ -64,7 +64,7 @@ const Section_listController = function (section_listHandler) {
         console.log('    ', prePage);
       });
     },
-    load_nextPage: (nextPage) => {
+    onscroll_nextPaging: (nextPage) => {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
@@ -84,7 +84,7 @@ const Section_listController = function (section_listHandler) {
         console.log('    ', nextPage);
       });
     },
-    load_scrollPage: (scrollPage) => {
+    onscrollBarTouch_paging: (scrollPage) => {
       axios({
         method: 'get',
         url: 'http://localhost:9000/api/psr',
@@ -101,7 +101,7 @@ const Section_listController = function (section_listHandler) {
         console.log('error', Response.data);
       });
     },
-    sort_tableByPageInfo(_p) {
+    onheaderclick_sorting(_p) {
       const _page = _.cloneDeep(_p);
       axios({
         method: 'get',
@@ -128,8 +128,9 @@ const Section_listController = function (section_listHandler) {
     if ('undefined' !== typeof section_listHandler.onclick_arrowRotateLeft) section_listHandler.onclick_arrowRotateLeft(e);
   }
   lineEditorBtn.onclick = (e) => {
-    const selectedArray = sortingTable.page.rows.filter(e => e.isSelected);
+    const selectedArray = sortingTable.page.rows.filter(o => o.isSelected);
     console.log("lineEditorBtn/", selectedArray);
+    if ('undefined' !== typeof section_listHandler.onclick_lineEditor) section_listHandler.onclick_lineEditor(e, selectedArray);
   }
   //* Lazy Initialization /////////////////////////////////////////////////////
   // json-server --watch psrSample.json --port 9005

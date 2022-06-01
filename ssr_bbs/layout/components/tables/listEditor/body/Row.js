@@ -5,7 +5,7 @@ import { CHART_ICONS } from '/class/static/BasicChartIcons';
  * block:  focusView
  ***/
 // Describe Layout below
-const TableBodyRow = function(parentId, seq, apxRow, apxData, rowData) {
+const Row = function(parentId, seq, apxRow, apxData, rowData) {
   // set table row 
   let dom = document.createElement("tr");
   dom.id =  parentId + '-' + apxRow + '_' + seq;
@@ -30,5 +30,5 @@ const TableBodyRow = function(parentId, seq, apxRow, apxData, rowData) {
   return dom;
 }
 export {
-  TableBodyRow
+  Row
 };

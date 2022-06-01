@@ -42,12 +42,12 @@ const TableBodyController   = function (tableBodyHandler, header) {
       //* inject controller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
-        const row = $SR.View(arrTemp[i].id).inject(TableBodyRowController, {
-          onclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(e, id, data);
+        const row = $SR.registerModel(arrTemp[i], true).inject(TableBodyRowController, {
+          onclick_row(_e, _id, _rowNum, _element, _data){
+            if ('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(_e, _id, _rowNum, _element, _data);
           },
-          ondblclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.ondblclick_row) tableBodyHandler.ondblclick_row(e, id, data);
+          ondbclick_row(_e, _id, _rowNum, _element, _data){
+            if ('undefined' !== typeof tableBodyHandler.ondbclick_row) tableBodyHandler.ondbclick_row(_e, _id, _rowNum, _element, _data);
           },
           changeTableCells(name, pos, data, dom){
             if('undefined' !== typeof tableBodyHandler.changeTableCells) tableBodyHandler.changeTableCells(name, pos, data, dom);
@@ -70,12 +70,12 @@ const TableBodyController   = function (tableBodyHandler, header) {
       //* inject controller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
-        const row = $SR.View(arrTemp[i].id).inject(TableBodyRowController, {
-          onclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(e, id, data);
+        const row = $SR.registerModel(arrTemp[i], true).inject(TableBodyRowController, {
+          onclick_row(_e, _id, _rowNum, _element, _data) {
+            if ('undefined' !== typeof tableBodyHandler.onclick_row) tableBodyHandler.onclick_row(_e, _id, _rowNum, _element, _data);
           },
-          ondblclick_row(e, id, data){
-            if('undefined' !== typeof tableBodyHandler.ondblclick_row) tableBodyHandler.ondblclick_row(e, id, data);
+          ondbclick_row(_e, _id, _rowNum, _element, _data) {
+            if ('undefined' !== typeof tableBodyHandler.ondbclick_row) tableBodyHandler.ondbclick_row(_e, _id, _rowNum, _element, _data);
           },
           changeTableCells(name, pos, data, dom){
             if('undefined' !== typeof tableBodyHandler.changeTableCells) tableBodyHandler.changeTableCells(name, pos, data, dom);

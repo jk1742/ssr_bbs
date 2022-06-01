@@ -37,9 +37,9 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   let   tableArrayData    = [];
   let   tableHeader       = headerInfo;
   let   page              = new Page(100, 'id', 'string');
-    
 
-  // Privilige Static Functions ////////////////////////////////////////////////
+
+  //* Privilige Static Functions ////////////////////////////////////////////////
   /**
    * sorting
    * @param {[Array]} array 
@@ -145,15 +145,15 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   };
 
   /**
-   * modifyTable(array)
+   * updateTable_modify(array)
    *  Modify Table
    * @param {Array} array tableArrayData
    */
-  const modifyTable = function(array){
+  const updateTable_modify = function(array){
     for (let i = 0; i < tbody.rows.length; i++) {
       const e   = array[i+1];
       const row = tbody.rows[i];
-      // console.log(`modifyTable length:${tbody.rows.length}, cur:${i}`, e, row.data);
+      // console.log(`updateTable_modify length:${tbody.rows.length}, cur:${i}`, e, row.data);
       if(compareArray(e, row.data)) continue;
       for (let i = 0; i < e.length; i++) {
         if(e[i] != row.data[i]) row.changeCells(i, e[i]);
@@ -243,7 +243,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       // sorting
       tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, page.orderBy, tableHeaderRow.selectedType);
       // data insert
-      modifyTable(tableArrayData);
+      updateTable_modify(tableArrayData);
     },
     renderTableRow (name, pos, data, dom) {
       // select item
@@ -275,7 +275,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     onclick_row(e, id, data){
       if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(e, id, data);
     },
-    ondblclick_row(e, id, data){
+    ondbclick_row(e, id, data){
       if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
     },
     changeTableCells(name, pos, data, dom){

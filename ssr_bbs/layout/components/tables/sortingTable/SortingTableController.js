@@ -2,25 +2,29 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-import { Page                     } from './class/Page';
 import { CHART_ICONS              } from '/class/static/BasicChartIcons';
-import { TableBodyController      } from '/layout/components/tables/sortingTable/body/TableBodyController';
-import { TableHeaderRow           } from '/layout/components/tables/sortingTable/header/TableHeaderRow';
-import { TableHeaderRowController } from '/layout/components/tables/sortingTable/header/TableHeaderRowController';
+import { Page                     } from './class/Page';
+import { TableBodyController      } from './body/TableBodyController';
+import { TableHeaderRow           } from './header/TableHeaderRow';
+import { TableHeaderRowController } from './header/TableHeaderRowController';
 import { SliderBarController      } from './index/SliderBarController';
-import _, { map } from 'lodash';
 
 /**
  * Layout:  SortingTableController
  * @constructor
  * @param {[Function]} sortingTableHandler
- * @function generateTable
- *  first load table
- * @function updateTable
- *  when data changed
- * @function renderTableRow
- * @function renderNext
- * @function renderPre
+ * public functions below
+ * @function generateTable    : first load table
+ * @function updateTable      : when data changed
+ * @function renderNext       : when next paging
+ * @function renderPre        : when pre paging
+ * event
+ * @event onclick_tableRow
+ * @event ondblclick_tableRow
+ * @event onscroll_prePaging
+ * @event onscroll_nextPaging
+ * @event onscrollBarTouch_paging
+ * @event onheaderclick_sorting
  *
  * @param {*} headerInfo
  * headerInfo
@@ -40,7 +44,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   //* private variable & mapping //////////////////////////////////////////////
   let     me                = this;
   const   table             = me.firstChild.firstChild;
-  const   thead             = table.firstChild;
+  let     thead             = table.firstChild;
   let     tbody             = table.lastChild;
   let     indexBar          = me.children[1];
   let     tableArrayData    = [];
@@ -170,11 +174,11 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     tbody.generateRvrsRows(arrTemp, _p);
   };
   /**
-   * modifyTable(array)
+   * updateTable_modify(array)
    *  Modify Table
    * @param {Array} array tableArrayData
    */
-  const modifyTable = function(array){
+  const updateTable_modify = function(array){
     for (let i = 0; i < tbody.rows.length; i++) {
       const e   = array[i+1];
       const row = tbody.rows[i];
@@ -228,7 +232,14 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     while (tbody.hasChildNodes()) tbody.removeChild(tbody.firstChild);
     tableArrayData = [];
   }
-
+  const renderTableRow= function(_name, pos, data, dom) {
+    // select item
+    if (pos == 0) {
+      if (data) dom.innerHTML = CHART_ICONS.CHECK;
+      else dom.innerHTML = '';
+    } // else if (pos == 1);
+    else dom.textContent = data;
+  }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -294,15 +305,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       // sorting
       tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, _p.orderBy, tableHeaderRow.selectedType);
       // data insert
-      modifyTable(tableArrayData);
-    },
-    renderTableRow (name, pos, data, dom) {
-      // select item
-      if(pos == 0) {
-        if(data) dom.innerHTML = CHART_ICONS.CHECK;
-        else dom.innerHTML = '';
-      } // else if (pos == 1);
-      else dom.textContent = data;
+      updateTable_modify(tableArrayData);
     },
     /**
      * Render Next page
@@ -367,10 +370,11 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // generate table HEADER
+  thead = $SR.registerModel(thead);
   thead.appendChild(new TableHeaderRow(thead.id, tableHeader));
 
   //* Inject controller ///////////////////////////////////////////////////////
-  const tableHeaderRow = $SR.View(thead.id).inject(TableHeaderRowController, {
+  const tableHeaderRow = thead.inject(TableHeaderRowController, {
     onclick_asteriskTh(e, dom){
       console.log('onclick_asteriskTh/1/',e, dom);
       const key = me.keys[0];
@@ -393,43 +397,43 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       }
       me.updateTable(page);
     },
-    stortingTable_sort(e, selectedId, selectedType){
+    stortingTable_sort(_e, selectedId, _selectedType){
       // order by
       page.orderBy = page.toggleOrderBy();
       page.orderId = selectedId;
       // page update call
-      if('undefined' !== typeof sortingTableHandler.sort_tableByPageInfo) sortingTableHandler.sort_tableByPageInfo(page);
+      if('undefined' !== typeof sortingTableHandler.onheaderclick_sorting) sortingTableHandler.onheaderclick_sorting(page);
     }
   }, tableHeader);
-  tbody = $SR.View(tbody.id).inject(TableBodyController, {
-    onclick_row(e, id, data){
-      const row = document.getElementById(id);
-      if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(id, data, row);
+  // tbody
+  tbody = $SR.registerModel(tbody).inject(TableBodyController, {
+    onclick_row(_e, _id, _rowNum, _element, _data){
+      if ('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(_e, _id, _rowNum, _element, _data);
     },
-    ondblclick_row(e, id, data){
-      if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
+    ondbclick_row(_e, _id, _rowNum, _element, _data){
+      if ('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(_e, _id, _rowNum, _element, _data);
     },
     changeTableCells(name, pos, data, dom){
-      me.renderTableRow(name, pos, data, dom);
+      renderTableRow(name, pos, data, dom);
     },
     onmousewheel_tbody(e){
       let cnt;
       if(0 > e.deltaY){
         // up
         cnt = (table.scrollTop / table.scrollHeight) * 100;
-        if('undefined' !== typeof sortingTableHandler.load_prePage && 0 <= cnt && 20 > cnt) {
+        if('undefined' !== typeof sortingTableHandler.onscroll_prePaging && 0 <= cnt && 20 > cnt) {
           let firstNum = tbody.firstChild.rowNum;
           let prePage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.startNum);
           prePage.preTic();
-          if (1 < firstNum) sortingTableHandler.load_prePage(prePage);
+          if (1 < firstNum) sortingTableHandler.onscroll_prePaging(prePage);
         }
       } else {
         // down
         cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
-        if('undefined' !== typeof sortingTableHandler.load_nextPage && 85 < cnt) {
+        if('undefined' !== typeof sortingTableHandler.onscroll_nextPaging && 85 < cnt) {
           let endNum = tbody.lastChild.rowNum;
           let nextPage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.endNum);
-          if (nextPage.total > endNum) sortingTableHandler.load_nextPage(nextPage);
+          if (nextPage.total > endNum) sortingTableHandler.onscroll_nextPaging(nextPage);
         }
       }
     }
@@ -446,7 +450,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       const totalTic = Math.ceil(page.total/me.tic);
       const startPageTic = Math.floor(pos / (toll / (totalTic - page.size / me.tic)));
       const scrollPage = new Page(page.size, page.orderId, page.orderBy, page.total, startPageTic * me.tic);
-      if (null !== sortingTableHandler.load_scrollPage) sortingTableHandler.load_scrollPage(scrollPage);
+      if (null !== sortingTableHandler.onScrollBarTouch_pageLoad) sortingTableHandler.onscrollBarTouch_paging(scrollPage);
     }, 1000)
   });
 

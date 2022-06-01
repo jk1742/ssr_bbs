@@ -2,6 +2,13 @@
   float:left;
   width:95%;
 }
+.list-Editor>div.list-Editor-container table tr {
+  height:44px;
+}
+.list-Editor>div.list-Editor-container table tr td,
+.list-Editor>div.list-Editor-container table tr th {
+  vertical-align: middle;
+}
 .list-Editor>div.list-Editor-recordLine {
   float: left;
   width: 5%;

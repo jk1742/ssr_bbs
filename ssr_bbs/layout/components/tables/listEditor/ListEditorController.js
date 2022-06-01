@@ -4,23 +4,28 @@
 
 import { Page                     } from './class/Page';
 import { CHART_ICONS              } from '/class/static/BasicChartIcons';
-import { TableBodyController      } from './body/TableBodyController';
+import { BodyController           } from './body/BodyController';
 import { TableHeaderRow           } from './header/TableHeaderRow';
 import { TableHeaderRowController } from './header/TableHeaderRowController';
 import { SliderBarController      } from './index/SliderBarController';
 
 
 /**
- * Layout:  SortingTableController
+ * Layout:  ListEditorController
  * @constructor
- * @param {[Function]} sortingTableHandler
- * @function generateTable
- *  first load table
- * @function updateTable
- *  when data changed
- * @function renderTableRow
- * @function renderNext
- * @function renderPre
+ * @param {Function} _listEditorHandler
+ * public functions below
+ * @function generateTable    : first load table
+ * @function updateTable      : when data changed
+ * @function renderNext       : when next paging
+ * @function renderPre        : when pre paging
+ * event
+ * @event onclick_tableRow
+ * @event ondblclick_tableRow
+ * @event onscroll_prePaging
+ * @event onscroll_nextPaging
+ * @event onscrollBarTouch_paging
+ * @event onheaderclick_sorting
  *
  * @param {*} headerInfo
  * headerInfo
@@ -35,12 +40,12 @@ import { SliderBarController      } from './index/SliderBarController';
  * ]
  * @returns
  */
-const ListEditorController   = function (sortingTableHandler, headerInfo) {
+const ListEditorController   = function (_listEditorHandler, headerInfo) {
 
   //* private variable & mapping //////////////////////////////////////////////
   let     me                = this;
   const   table             = me.firstChild.firstChild;
-  const   thead             = table.firstChild;
+  let     thead             = table.firstChild;
   let     tbody             = table.lastChild;
   let     indexBar          = me.children[1];
   let     tableArrayData    = [];
@@ -104,7 +109,7 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       array.sort(innerSort);
     }
     return header.concat(array);
-  };//
+  }
   /**
    * fabricTableArray
    * @param {[Object]} objArray
@@ -127,7 +132,7 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       carriage.push(array);
     }
     return carriage;
-  };
+  }
 	/**
 	 * mergeTableArrays
 	 * @param {*} o1
@@ -156,7 +161,7 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
 		tableArrayData = mergeTableArrays(tableArrayData, arrTemp);
 		// generate tbody
     tbody.generateRows(arrTemp, _p);
-  };
+  }
   /**
    * appendTrBefore
    * @param {Page} _p
@@ -170,20 +175,34 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
     tbody.generateRvrsRows(arrTemp, _p);
   };
   /**
-   * modifyTable(array)
+   * updateTable_modify(array)
    *  Modify Table
    * @param {Array} array tableArrayData
    */
-  const modifyTable = function(array){
+  const remapTable_adapt = function (array) {
     for (let i = 0; i < tbody.rows.length; i++) {
-      const e   = array[i+1];
+      const changedRow = array[i + 1]; // 1 header
       const row = tbody.rows[i];
-      if(compareArray(e, row.data)) continue;
-      for (let j = 0; j < e.length; j++) {
-        if(e[j] != row.data[j]) row.changeCells(j, e[j]);
+      for (let j = 0; j < changedRow.length; j++) {
+        row.changeCells(j, changedRow[j]);
       }
     }
-  };
+  }
+  /**
+   * updateTable_modify(array)
+   *  Modify Table
+   * @param {Array} array tableArrayData
+   */
+  const updateTable_modify = function(array){
+    for (let i = 0; i < tbody.rows.length; i++) {
+      const changedRow = array[i+1]; // 1 header
+      const row = tbody.rows[i];
+      if (compareArray(changedRow, row.data)) continue;
+      for (let j = 0; j < changedRow.length; j++) {
+        if (changedRow[j] != row.data[j]) row.changeCells(j, changedRow[j]);
+      }
+    }
+  }
   /**
    * compareArray
    *  compare array a1 to a2
@@ -197,7 +216,7 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       if (a1[i] !== a2[i]) return false;
     }
     return true;
-  };
+  }
   /**
    * Cut Head Rows
    * @param {Number} size
@@ -279,6 +298,12 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       // append tr
       appendTrAfter(_p);
     },
+    getNewPage(_p){
+      const size = _p.length;
+      const _page = new Page(size, '', '', size, 0);
+      _page.rows = _p
+      return _page;
+    },
     /**
      * updateTable
      * @param {*} _p
@@ -293,16 +318,20 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       const tempTableArray = fabricTableArray(_p.rows, tableHeader);
       // sorting
       tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, _p.orderBy, tableHeaderRow.selectedType);
-      // data insert
-      modifyTable(tableArrayData);
+      // updateTable by page array
+      updateTable_modify(tableArrayData);
     },
-    renderTableRow (name, pos, data, dom) {
-      // select item
-      if(pos == 0) {
-        if(data) dom.innerHTML = CHART_ICONS.CHECK;
-        else dom.innerHTML = '';
-      } // else if (pos == 1);
-      else dom.textContent = data;
+    remapTable(_p) {
+      if (null === _p) {
+        clearRows();
+        return;
+      }
+      // object to array
+      const tempTableArray = fabricTableArray(_p.rows, tableHeader);
+      // sorting
+      tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, _p.orderBy, tableHeaderRow.selectedType);
+      // updateTable by page array
+      remapTable_adapt(tableArrayData);
     },
     /**
      * Render Next page
@@ -367,10 +396,12 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // generate table HEADER
+  thead = $SR.registerModel(thead);
   thead.appendChild(new TableHeaderRow(thead.id, tableHeader));
 
+
   //* Inject controller ///////////////////////////////////////////////////////
-  const tableHeaderRow = $SR.View(thead.id).inject(TableHeaderRowController, {
+  const tableHeaderRow = thead.inject(TableHeaderRowController, {
     onclick_asteriskTh(e, dom){
       console.log('onclick_asteriskTh/1/',e, dom);
       const key = me.keys[0];
@@ -393,62 +424,58 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
       }
       me.updateTable(page);
     },
-    stortingTable_sort(e, selectedId, selectedType){
+    listEditor_sort(e, selectedId, selectedType){
       // order by
       page.orderBy = page.toggleOrderBy();
       page.orderId = selectedId;
       // page update call
-      if('undefined' !== typeof sortingTableHandler.sort_tableByPageInfo) sortingTableHandler.sort_tableByPageInfo(page);
+      if('undefined' !== typeof _listEditorHandler.onheaderclick_sorting) _listEditorHandler.onheaderclick_sorting(page);
     }
   }, tableHeader);
-  tbody = $SR.View(tbody.id).inject(TableBodyController, {
-    onclick_row(e, id, data){
-      const row = document.getElementById(id);
-      if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(id, data, row);
+  tbody = $SR.registerModel(tbody).inject(BodyController, {
+    onclick_row(_e, _id, _rowNum, _element, _data) {
+      if ('undefined' !== typeof _listEditorHandler.onclick_tableRow) _listEditorHandler.onclick_tableRow(_e, _id, _rowNum, _element, _data);
     },
-    ondblclick_row(e, id, data){
-      if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
+    ondbclick_row(_e, _id, _rowNum, _element, _data) {
+      if ('undefined' !== typeof _listEditorHandler.ondblclick_tableRow) _listEditorHandler.ondblclick_tableRow(_e, _id, _rowNum, _element, _data);
     },
-    changeTableCells(name, pos, data, dom){
-      me.renderTableRow(name, pos, data, dom);
+    onclick_cell(_e, _id, _rowNum, _element, _header) {
+      if ('undefined' !== typeof _listEditorHandler.onclick_cell) _listEditorHandler.onclick_cell(_e, _id, _rowNum, _element, _header);
     },
-    onmousewheel_tbody(e){
-      let cnt;
-      if(0 > e.deltaY){
-        // up
-        cnt = (table.scrollTop / table.scrollHeight) * 100;
-        if('undefined' !== typeof sortingTableHandler.load_prePage && 0 <= cnt && 20 > cnt) {
-          let firstNum = tbody.firstChild.rowNum;
-          let prePage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.startNum);
-          prePage.preTic();
-          if (1 < firstNum) sortingTableHandler.load_prePage(prePage);
-        }
-      } else {
-        // down
-        cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
-        if('undefined' !== typeof sortingTableHandler.load_nextPage && 85 < cnt) {
-          let endNum = tbody.lastChild.rowNum;
-          let nextPage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.endNum);
-          if (nextPage.total > endNum) sortingTableHandler.load_nextPage(nextPage);
-        }
-      }
+    ondblclick_cell(_e, _id, _rowNum, _element, _header) {
+      if ('undefined' !== typeof _listEditorHandler.ondblclick_cell) _listEditorHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
+    },
+    onchange_cell(_e, _element, _rowNum, _value, _header){
+      page.rows[_rowNum - 1][_header.id] = _value;
+      console.log('listEditor', _value, page.rows);
+      me.updateTable(page);
+    },
+    // onmousewheel_tbody(e){
+    //   let cnt;
+    //   if(0 > e.deltaY){  // up
+    //     cnt = (table.scrollTop / table.scrollHeight) * 100;
+    //     if('undefined' !== typeof _listEditorHandler.onscroll_prePaging && 0 <= cnt && 20 > cnt) {
+    //       let firstNum = tbody.firstChild.rowNum;
+    //       let prePage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.startNum);
+    //       prePage.preTic();
+    //       if (1 < firstNum) _listEditorHandler.onscroll_prePaging(prePage);
+    //     }
+    //   } else {            //down
+    //     cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
+    //     if('undefined' !== typeof _listEditorHandler.onscroll_nextPaging && 85 < cnt) {
+    //       let endNum = tbody.lastChild.rowNum;
+    //       let nextPage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.endNum);
+    //       if (nextPage.total > endNum) _listEditorHandler.onscroll_nextPaging(nextPage);
+    //     }
+    //   }
+    // },
+    ondblclick_tbody(_e){
+      me.remapTable(page);
+      _e.target.insertEditor();
     }
   }, tableHeader);
   // record index
   this.rowHeight = thead.getBoundingClientRect().height;
-  // indexBar
-  indexBar = $SR.registerModel(indexBar).inject(SliderBarController, {
-    getRowHeight:() => this.rowHeight,
-    getTableHeight: () => this.getBoundingClientRect().height,
-    onMoved_slideDot: _.debounce(function (start, end, p) {
-      const toll = end - start;
-      const pos = p - start;
-      const totalTic = Math.ceil(page.total/me.tic);
-      const startPageTic = Math.floor(pos / (toll / (totalTic - page.size / me.tic)));
-      const scrollPage = new Page(page.size, page.orderId, page.orderBy, page.total, startPageTic * me.tic);
-      if (null !== sortingTableHandler.load_scrollPage) sortingTableHandler.load_scrollPage(scrollPage);
-    }, 1000)
-  });
 
 
   //* Event handler ///////////////////////////////////////////////////////////
@@ -456,7 +483,7 @@ const ListEditorController   = function (sortingTableHandler, headerInfo) {
 
   //* End of Structure ////////////////////////////////////////////////////////
   return this;
-};
+}
 export {
   ListEditorController
-};
+}

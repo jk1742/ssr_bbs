@@ -12,4 +12,4 @@ const MessageBox   = function(id) {
 }
 export {
   MessageBox
-};
+}

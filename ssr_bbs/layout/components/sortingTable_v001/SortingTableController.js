@@ -144,11 +144,11 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
   };
 
   /**
-   * modifyTable(array)
+   * updateTable_modify(array)
    *  Modify Table
    * @param {Array} array tableArrayData
    */
-  const modifyTable = function(array){
+  const updateTable_modify = function(array){
     for (let i = 0; i < tbody.rows.length; i++) {
       const e   = array[i+1];
       const row = tbody.rows[i];
@@ -241,7 +241,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
       // sorting
       tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, _p.orderBy, tableHeaderRow.selectedType);
       // data insert
-      modifyTable(tableArrayData);
+      updateTable_modify(tableArrayData);
     },
     renderTableRow (name, pos, data, dom) {
       // select item
@@ -273,7 +273,7 @@ const SortingTableController   = function (sortingTableHandler, headerInfo) {
     onclick_row(e, id, data){
       if('undefined' !== typeof sortingTableHandler.onclick_tableRow) sortingTableHandler.onclick_tableRow(e, id, data);
     },
-    ondblclick_row(e, id, data){
+    ondbclick_row(e, id, data){
       if('undefined' !== typeof sortingTableHandler.ondblclick_tableRow) sortingTableHandler.ondblclick_tableRow(e, id, data);
     },
     changeTableCells(name, pos, data, dom){
