@@ -5,7 +5,12 @@
         "fontawesome",
         "fortawesome",
         "gapless",
+        "hoverable",
+        "Minimis",
         "ondbclick",
+        "onheaderclick",
+        "Rvrs",
+        "substr",
         "vcentered"
     ]
 }

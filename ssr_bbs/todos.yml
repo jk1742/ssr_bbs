@@ -34,7 +34,7 @@ TODO:
         sub 5: focus css
         sub 6: enter event
         sub 7: tab event
-        sub 8: arrow event
+        sub 8: arrow event                              # 완료 6/02
         sub 9: paste event
         sub 10: 대량 데이터 구성
         sub 11: 스크롤                                  # 진행 중

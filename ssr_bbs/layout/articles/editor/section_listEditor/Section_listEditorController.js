@@ -57,7 +57,7 @@ const Section_listEditorController = function (section_listEditorHandler) {
   btnArrowRotateLeft.onclick = (e) => {
     if ('undefined' !== typeof section_listEditorHandler.onclick_arrowRotateLeft) section_listEditorHandler.onclick_arrowRotateLeft(e);
   }
-  btnGetTableData.onclick = (e) => {
+  btnGetTableData.onclick = (_e) => {
     console.log("btnGetTableData/", listEditor.page);
   }
   // lineEditorBtn.onclick = (e) => {

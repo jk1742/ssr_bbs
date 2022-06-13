@@ -8,7 +8,7 @@ import { SelectController as Super } from "/layout/components/form/select/Select
  * @param {*} header
  * @returns
  */
-const SelectController = function (_handler, header, json) {
+const SelectController = function (_handler, _header, _json) {
 
   //* Inheritance /////////////////////////////////////////////////////////////
   Super.call(this);
@@ -18,7 +18,7 @@ const SelectController = function (_handler, header, json) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   let   me            = this;
-  console.log('SelectController',_handler);
+  const select        = this.getModelByDataClass('input-field')[0];
 
 
   //* Privilege Static Functions ////////////////////////////////////////////////
@@ -47,12 +47,17 @@ const SelectController = function (_handler, header, json) {
 
 
   //* Event handler /////////////////////////////////////////////////////////////
-
+  select.addEventListener("change", (_e) => {
+    if ('undefined' !== typeof _handler.onchange_input) _handler.onchange_input(_e, select.value);
+  });
+  select.addEventListener("click", (_e) => {
+    console.log('select.addEventListener.click');
+  });
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
   // get axios values by networks
   const response = [
-    { label: 'BD 40', value: 'BD40' }, { label: 'CTH', value: 'CTH'}
+    { label: 'BD 50', value: 'BD50' }, { label: 'CTH', value: 'CTH' }, { label: 'NC 41.66', value: 'NC41.66' }
   ]
   for (const iterator of response) {
     me.appendToOven(iterator.label, iterator.value);

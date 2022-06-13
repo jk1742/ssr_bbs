@@ -29,8 +29,26 @@ const BodyController   = function (_bodyHandler, header) {
     ondblclick_cell(_e, _id, _rowNum, _element, _header) {
       if ('undefined' !== typeof _bodyHandler.ondblclick_cell) _bodyHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
     },
-    onchange_cell(_e, _element, _rowNum, _value, _header) {
-      if ('undefined' !== typeof _bodyHandler.onchange_cell) _bodyHandler.onchange_cell(_e, _element, _rowNum, _value, _header);
+    onchange_cell(_e, _value, _rowNum,  _element,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onchange_cell) _bodyHandler.onchange_cell(_e, _value, _rowNum,  _element,  _header);
+    },
+    onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onkeyup_cursorUpCell) _bodyHandler.onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header);
+    },
+    onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onkeyup_cursorDownCell) _bodyHandler.onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header);
+    },
+    onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorNextCell) _bodyHandler.onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header);
+    },
+    onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorPreCell) _bodyHandler.onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header);
+    },
+    onkeydown_cursorTab(_e, _value, _cell, _row,  _header) {
+      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorTab) _bodyHandler.onkeydown_cursorTab(_e, _value, _cell, _row,  _header);
+    },
+    onblur_cursor(_e, _element) {
+      if ('undefined' !== typeof _bodyHandler.onblur_cursor) _bodyHandler.onblur_cursor(_e, _element);
     }
   }
 
@@ -61,7 +79,7 @@ const BodyController   = function (_bodyHandler, header) {
       //* inject controller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
-        const row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
+        const _row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
       }
       rows = me.childNodes;
     },
@@ -79,7 +97,7 @@ const BodyController   = function (_bodyHandler, header) {
       //* inject controller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
-        const row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
+        const _row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
       }
       rows = me.childNodes;
     }
@@ -94,7 +112,10 @@ const BodyController   = function (_bodyHandler, header) {
   this.addEventListener("dblclick", (_e) => {
     if ('undefined' !== typeof _bodyHandler.ondblclick_tbody) _bodyHandler.ondblclick_tbody(_e);
   });
-
+  this.addEventListener("keydown", (_e) => {
+    // enter
+    console.log('keydown _e.keyCode', _e.keyCode);
+  });
   //* Lazy Initialization ///////////////////////////////////////////////////////
 
 

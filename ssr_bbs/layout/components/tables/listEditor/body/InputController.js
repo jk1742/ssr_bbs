@@ -23,6 +23,7 @@ const InputController = function (_inputHandler) {
   //   return carriage;
   // }
 
+
   //* Access Control: getter & setter ///////////////////////////////////////////
   // Object.defineProperties(this, {
   //   data: {
@@ -32,21 +33,25 @@ const InputController = function (_inputHandler) {
 
 
   //* Access Control: public functions //////////////////////////////////////////
-  // Object.assign(this, {
-  //   select(){
-  //     me.style.backgroundColor = "red";
-  //   },
-  // });
+  Object.assign(this, {
+    onchange_this(_e, _value){
+      if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onchange_input(_e, _value);
+    },
+    onfocusout_this(_e, _value) {
+      if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onfocusout_input(_e, _value);
+    },
+  });
   me = this;
 
 
   //* Event handler /////////////////////////////////////////////////////////////
   this.onchange = (_e) => {
-    if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onchange_input(_e, me.value);
+    if ('undefined' !== typeof me.onchange_this) me.onchange_this(_e, me.value);
   }
   this.onfocusout = (_e) => {
-    if ('undefined' !== typeof _inputHandler.onfocusout_input) _inputHandler.onfocusout_input(_e, me.value);
+    if ('undefined' !== typeof me.onfocusout_this) me.onfocusout_this(_e, me.value);
   }
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
 

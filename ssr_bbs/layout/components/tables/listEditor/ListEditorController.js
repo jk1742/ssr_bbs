@@ -3,11 +3,10 @@
 /* eslint-disable no-undef */
 
 import { Page                     } from './class/Page';
-import { CHART_ICONS              } from '/class/static/BasicChartIcons';
 import { BodyController           } from './body/BodyController';
 import { TableHeaderRow           } from './header/TableHeaderRow';
 import { TableHeaderRowController } from './header/TableHeaderRowController';
-import { SliderBarController      } from './index/SliderBarController';
+import _ from 'lodash';
 
 
 /**
@@ -44,7 +43,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
 
   //* private variable & mapping //////////////////////////////////////////////
   let     me                = this;
-  const   table             = me.firstChild.firstChild;
+  const   table             = me.firstChild;
   let     thead             = table.firstChild;
   let     tbody             = table.lastChild;
   let     indexBar          = me.children[1];
@@ -247,7 +246,22 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     while (tbody.hasChildNodes()) tbody.removeChild(tbody.firstChild);
     tableArrayData = [];
   }
-
+  /**
+   * callSibling
+   **/
+  const callSibling = (sw, el) => {
+    let pos;
+    const NEXT = 'nextSibling';
+    const PRE = 'previousSibling';
+    if (sw == 'next') pos = NEXT;
+    else pos = PRE;
+    let _cursor = el[pos];
+    if (_.isNull(_cursor)) return null;
+    while (_cursor.style.display == 'none') {
+      _cursor = _cursor[pos];
+    }
+    return _cursor;
+  }
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -394,6 +408,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
   });
   me = this;
 
+
   //* Lazy Initialization /////////////////////////////////////////////////////
   // generate table HEADER
   thead = $SR.registerModel(thead);
@@ -424,7 +439,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       }
       me.updateTable(page);
     },
-    listEditor_sort(e, selectedId, selectedType){
+    listEditor_sort(_e, selectedId, _selectedType){
       // order by
       page.orderBy = page.toggleOrderBy();
       page.orderId = selectedId;
@@ -445,33 +460,85 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     ondblclick_cell(_e, _id, _rowNum, _element, _header) {
       if ('undefined' !== typeof _listEditorHandler.ondblclick_cell) _listEditorHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
     },
-    onchange_cell(_e, _element, _rowNum, _value, _header){
+    onchange_cell(_e, _value, _rowNum,  _element,  _header) {
       page.rows[_rowNum - 1][_header.id] = _value;
-      console.log('listEditor', _value, page.rows);
-      me.updateTable(page);
+      me.remapTable(page);
+      _element.insertEditor();
     },
-    // onmousewheel_tbody(e){
-    //   let cnt;
-    //   if(0 > e.deltaY){  // up
-    //     cnt = (table.scrollTop / table.scrollHeight) * 100;
-    //     if('undefined' !== typeof _listEditorHandler.onscroll_prePaging && 0 <= cnt && 20 > cnt) {
-    //       let firstNum = tbody.firstChild.rowNum;
-    //       let prePage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.startNum);
-    //       prePage.preTic();
-    //       if (1 < firstNum) _listEditorHandler.onscroll_prePaging(prePage);
-    //     }
-    //   } else {            //down
-    //     cnt = ((table.scrollTop + table.getBoundingClientRect().height) / table.scrollHeight) * 100;
-    //     if('undefined' !== typeof _listEditorHandler.onscroll_nextPaging && 85 < cnt) {
-    //       let endNum = tbody.lastChild.rowNum;
-    //       let nextPage = new Page(me.tic, page.orderId, page.orderBy, page.total, page.endNum);
-    //       if (nextPage.total > endNum) _listEditorHandler.onscroll_nextPaging(nextPage);
-    //     }
-    //   }
-    // },
     ondblclick_tbody(_e){
       me.remapTable(page);
       _e.target.insertEditor();
+    },
+    onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header) {
+      if (page.rows[_row.rowNum - 1][_header.id] != _value) console.log('cursorUpCell value', page.rows[_row.rowNum - 1][_header.id], _value);
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const tdArray = Array.from(_row.getElementsByTagName('td'));
+      const pos = tdArray.findIndex((element) => element.id == _cell.id);
+      const upRow = callSibling('pre',_row);
+      if (_.isNull(upRow)) {
+        _cell.insertEditor();
+        console.warn('list Editor event: first line');
+        return;
+      }
+      const upRowTdArray = Array.from(upRow.getElementsByTagName('td'));
+      const upperCell = upRowTdArray[pos];
+      upperCell.insertEditor();
+    },
+    onkeyup_cursorDownCell(_e, _value, _cell, _row,  _header) {
+      if (page.rows[_row.rowNum - 1][_header.id] != _value) console.log('cursorDownCell value', page.rows[_row.rowNum - 1][_header.id], _value);
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const tdArray = Array.from(_row.getElementsByTagName('td'));
+      const pos = tdArray.findIndex((element) => element.id == _cell.id);
+      const downRow = callSibling('next', _row);
+      if (_.isNull(downRow)) {
+        _cell.insertEditor();
+        console.warn('list Editor event: end of line');
+        return;
+      }
+      const downRowTdArray = Array.from(downRow.getElementsByTagName('td'));
+      const downCell = downRowTdArray[pos];
+      downCell.insertEditor();
+    },
+    onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header) {
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const nextCell = callSibling('next', _cell);
+      if (_.isNull(nextCell)) {
+        _cell.insertEditor();
+        console.warn('list Editor event: end of line');
+        return;
+      }
+      nextCell.insertEditor();
+    },
+    onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header) {
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const preCell = callSibling('pre', _cell);
+      if (_.isNull(preCell) || 'TH' == preCell.tagName) {
+        _cell.insertEditor();
+        const inputCell = _cell.getModelByDataClass('input-field')[0];
+        inputCell.selectionStart = 0;
+        console.warn('list Editor event: first line');
+        return;
+      }
+      preCell.insertEditor();
+    },
+    onkeydown_cursorTab(_e, _value, _cell, _row,  _header) {
+      _e.preventDefault();
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const nextCell = callSibling('next', _cell);
+      if (_.isNull(nextCell)) {
+        _cell.insertEditor();
+        console.warn('list Editor event: end of line');
+        return;
+      }
+      nextCell.insertEditor();
+    },
+    onblur_cursor(_e, _element) {
+      // me.remapTable(page);
     }
   }, tableHeader);
   // record index

@@ -28,7 +28,7 @@ const SelectController = function (_handler) {
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   // Object.defineProperties(this, {
-  //   data: {
+  //   eventCarriage: {
   //     get: () => data
   //   },
   // });
@@ -52,18 +52,12 @@ const SelectController = function (_handler) {
     },
     getValue(){
       return select.value;
-    }
+    },
   });
   me = this;
 
 
   //* Event handler /////////////////////////////////////////////////////////////
-  select.onchange = (_e) => {
-    if ('undefined' !== typeof _handler.onchange_input) _handler.onchange_input(_e, select.value);
-  }
-  select.addEventListener("focusout", (_e) => {
-    if ('undefined' !== typeof _handler.onfocusout_input) _handler.onfocusout_input(_e, select.value);
-  });
 
 
   //* Lazy Initialization ///////////////////////////////////////////////////////

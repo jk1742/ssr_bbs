@@ -34,13 +34,6 @@ const RowController   = function (_rowHandler, array, header) {
     return carriage;
   }
 
-  const renderTableRow = (pos, _data, dom) => {
-    // select item
-    if (pos == 0) {
-      if (_data) dom.innerHTML = CHART_ICONS.CHECK;
-      else dom.innerHTML = '';
-    } else dom.textContent = _data;
-  }
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
@@ -72,6 +65,7 @@ const RowController   = function (_rowHandler, array, header) {
       const pos = _seq + 1;
       me.childNodes[pos].textContent = _value;
       me.childNodes[pos].cellValue = _value;
+      me.childNodes[pos].classList.remove('_is-selected');
     },
     select(){
       me.style.backgroundColor = "red";
@@ -101,8 +95,26 @@ const RowController   = function (_rowHandler, array, header) {
       ondblclick_cell(_e, _element, _header) {
         if ('undefined' !== typeof _rowHandler.ondblclick_cell) _rowHandler.ondblclick_cell(_e, _element.id, me.rowNum, _element, _header);
       },
-      onchange_cell(_e, _element, _value, _header) {
-        if ('undefined' !== typeof _rowHandler.onchange_cell) _rowHandler.onchange_cell(_e, _element, me.rowNum, _value, _header);
+      onchange_cell(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onchange_cell) _rowHandler.onchange_cell(_e, _value, me.rowNum, _element, _header);
+      },
+      onkeyup_cursorUpCell(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeyup_cursorUpCell) _rowHandler.onkeyup_cursorUpCell(_e, _value, _element, me, _header);
+      },
+      onkeyup_cursorDownCell(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeyup_cursorDownCell) _rowHandler.onkeyup_cursorDownCell(_e, _value, _element, me, _header);
+      },
+      onkeydown_cursorNextCell(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeydown_cursorNextCell) _rowHandler.onkeydown_cursorNextCell(_e, _value, _element, me, _header);
+      },
+      onkeydown_cursorPreCell(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeydown_cursorPreCell) _rowHandler.onkeydown_cursorPreCell(_e, _value, _element, me, _header);
+      },
+      onkeydown_cursorTab(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeydown_cursorTab) _rowHandler.onkeydown_cursorTab(_e, _value, _element, me, _header);
+      },
+      onblur_cursor(_e, _element){
+        if ('undefined' !== typeof _rowHandler.onblur_cursor) _rowHandler.onblur_cursor(_e, _element);
       }
     }, me.getDataByName(headerCell.id), headerCell, rowJson);
     if ('undefined' !== headerCell.display && 'none' === headerCell.display) tableCell.style.display = 'none';

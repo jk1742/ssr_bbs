@@ -10,7 +10,7 @@ import { Select } from "/layout/components/form/select/Select";
 
 const StaticTableHeader = function() {
   const rule = new Select();
-  rule.classList.add('is-small');
+  rule.classList.remove('select');
   return [
     {
       name: '',

@@ -4,7 +4,7 @@ const Single = function () {
     //* Describe Tags
     return $SR.generateHtml `
     <div class="datetimepicker-dummy-wrapper">
-        <input placeholder="" readonly="readonly" class="datetimepicker-dummy-input" type="text" />
+        <input placeholder="" readonly="readonly" class="datetimepicker-dummy-input" type="text" data-class="input-field" />
     </div>
     `; // HTML end
 }

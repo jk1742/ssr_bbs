@@ -1,35 +1,40 @@
-.list-Editor>div.list-Editor-container {
+.list-Editor {
   float:left;
   width:95%;
 }
-.list-Editor>div.list-Editor-container table tr {
-  height:44px;
+.list-Editor table thead{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #f0f8ff;
 }
-.list-Editor>div.list-Editor-container table tr td,
-.list-Editor>div.list-Editor-container table tr th {
+.list-Editor table thead th {
+  border: 1px solid #dbdbdb;
+}
+.list-Editor table tr {
+  height:40px;
+}
+.list-Editor table tr td,
+.list-Editor table tr th {
   vertical-align: middle;
 }
-.list-Editor>div.list-Editor-recordLine {
-  float: left;
-  width: 5%;
-  position: relative;
+
+.list-Editor td._is-selected {
+  border: solid 2px #1d92f9;
 }
-.list-Editor-recordLine-bar{
-  border-left: 2px solid #dbdbdb;
-  position: absolute;
-  left: 50%;
-  margin-left: -3px;
-  top: 0;
+
+.list-Editor td._is-selected input,
+.list-Editor td._is-selected select{
+  border: 0;
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
 }
-.recordLine-slider {
-  position: absolute;
-  z-index: 9;
-  cursor: ns-resize;
-  /*set the appearance of the slider:*/
-  left: 38%;
-  width: 15px;
-  height: 15px;
-  background-color: #2196F3;
-  opacity: 0.7;
-  border-radius: 50%;
+.list-Editor td._is-selected textarea {
+  border: 0;
+  outline-style: none;
+  box-shadow: none;
+  border-style: none;
+  border-color: Transparent;
+  overflow: auto;
 }

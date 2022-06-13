@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import { Input } from "../formElement/Input";
+import { Textarea } from "../formElement/Textarea";
 import { InputController } from "./InputController";
 
 /**
@@ -94,6 +95,17 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
       const insertField = domObjArray[0];
       insertField.value = me.cellValue;
       insertField.focus();
+      // if (insertField.tagName == 'TEXTAREA'){
+      //   insertField.addEventListener("keyup", (_e) => {
+      //     if (KEY_V == _e.keyCode && me.watchCtrlKey) {
+      //       const str = insertField.value;
+      //       for (let index = 0; index < str.length; index++) {
+      //         const element = str[index];
+      //         console.log(element, str.charCodeAt(index));
+      //       }
+      //     }
+      //   });
+      // }
       if (insertField.tagName == 'INPUT' && insertField.type == 'text'){
         insertField.addEventListener("keyup", (_e) => {
           // Ctrl
@@ -103,19 +115,28 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
           // Down
           if (DOWN_ARROW == _e.keyCode) _cellHandler.onkeyup_cursorDownCell(_e, insertField.value, me, header);
           // Paste
-          if (KEY_V == _e.keyCode && me.watchCtrlKey) {
-            // const pastedArray = pasteProcess(insertField.value); //str.split(/\r?\n/);
-            // console.log('pastedArray', pastedArray);
-            const str = insertField.value;
-            for (let index = 0; index < str.length; index++) {
-              const element = str[index];
-              console.log(element,str.charCodeAt(index));
-            }
-          }
+          // if (KEY_V == _e.keyCode && me.watchCtrlKey) {
+          //   // const pastedArray = pasteProcess(insertField.value); //str.split(/\r?\n/);
+          //   // console.log('pastedArray', pastedArray);
+          //   const str = insertField.value;
+          //   for (let index = 0; index < str.length; index++) {
+          //     const element = str[index];
+          //     console.log(element, str.charCodeAt(index));
+          //   }
+          // }
         });
         insertField.addEventListener("keydown", (_e) => {
           // Ctrl
-          if (CTRL == _e.keyCode) me.watchCtrlKey = true;
+          if (CTRL == _e.keyCode) { 
+            me.watchCtrlKey = true;
+            const textarea = document.createElement("textarea");
+            textarea.addEventListener("keyup", (_e) => {
+              if(KEY_V == _e.key && me.watchCtrlKey){
+                console.log('test',textarea.value );
+              }
+            });
+            textarea.focus();
+          }
           // Esc
           if (ESC == _e.keyCode) _cellHandler.onblur_cursor(_e, me);
           // Tab
