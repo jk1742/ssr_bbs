@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { Input } from "../formElement/Input";
+import { Textarea } from "../formElement/Textarea";
 import { InputController } from "./InputController";
 
 /**
@@ -26,14 +26,17 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
   let   me            = this;
   const _private      = {
     cellValue   : _cellValue,
+    headerId    : header.id,
     watchCtrlKey: false
   };
 
+
   //* Privilege Static Functions ////////////////////////////////////////////////
   const onchange_input = (_e, _value) => {
-    _cellHandler.onchange_cell(_e, _value, me, header); //(_e, _value, _element, _header)
+    _cellHandler.onchange_cell(_e, _value, me, header);
   }
   const onfocusout_input = (_e, _value) => {
+    console.log('onfocusout_input');
     if(me.cellValue != _value) {
       _cellHandler.onchange_cell(_e, _value, me, header);
     } else {
@@ -42,17 +45,14 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
   }
   /**
    * pasteProcess
-   * @param {*} str 
+   * @param {*} str
    * @returns 2d Array
    */
   const pasteProcess = (str)=>{
-    console.log('pasteProcess', str, str.includes('\t'), str.includes('\n'), str.includes('\r'));
     if (!(str.includes('\t') || str.includes('\n') || str.includes('\r')) ) return false;
-    // if (str.includes('\r')) str.replace('\r', '\n');
     let lines = [];
     let carriage = [];
     lines = str.split(/\r?\n/);
-    console.log('pasteProcess lines', lines);
     for (const iter of lines) {
       const cell = iter.split('\t');
       carriage.push(cell);
@@ -60,30 +60,39 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
     return carriage;
   }
 
+
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     cellValue: {
       get: () => _private.cellValue,
       set: (o) => { _private.cellValue = o }
     },
-    watchCtrlKey: {
-      get: () => _private.watchCtrlKey,
-      set: (o) => { _private.watchCtrlKey = o }
-    }
+    headerId:{
+      get: () => _private.headerId
+    },
   });
 
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
+    paintUsedCell() {
+      me.classList.add('painted-used-one');
+    },
+    paintSelectedCell() {
+      me.classList.add('painted-selected-one');
+    },
+    truncateClass(){
+      me.className = '';
+    },
     insertEditor(){
-      me.classList.add('_is-selected');
+      me.classList.add('is-editing');
       me.innerHTML = '';
       if (header.editor) {
         let _dom = header.editor.dom.cloneNode(true);
         this.append(_dom);
         _dom = $SR.registerModel(_dom).inject(header.editor.controller, { onchange_input, onfocusout_input }, header, rowJson);
       } else {
-        const input = new Input();
+        const input = new Textarea();
         this.append(input);
         $SR.registerModel(input).inject(InputController, {
           onchange_input, onfocusout_input
@@ -94,47 +103,38 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
       const insertField = domObjArray[0];
       insertField.value = me.cellValue;
       insertField.focus();
-      if (insertField.tagName == 'INPUT' && insertField.type == 'text'){
+      if (insertField.tagName == 'TEXTAREA') {
         insertField.addEventListener("keyup", (_e) => {
-          // Ctrl
-          if (CTRL == _e.keyCode) me.watchCtrlKey = false;
           // Up
           if (UP_ARROW == _e.keyCode) _cellHandler.onkeyup_cursorUpCell(_e, insertField.value, me, header);
           // Down
           if (DOWN_ARROW == _e.keyCode) _cellHandler.onkeyup_cursorDownCell(_e, insertField.value, me, header);
-          // Paste
-          if (KEY_V == _e.keyCode && me.watchCtrlKey) {
-            // const pastedArray = pasteProcess(insertField.value); //str.split(/\r?\n/);
-            // console.log('pastedArray', pastedArray);
-            const str = insertField.value;
-            for (let index = 0; index < str.length; index++) {
-              const element = str[index];
-              console.log(element,str.charCodeAt(index));
-            }
-          }
+          // Paste => send to blur event when ctrl + v key combination
+          if (KEY_V == _e.keyCode && _e.ctrlKey) insertField.blur();
         });
         insertField.addEventListener("keydown", (_e) => {
-          // Ctrl
-          if (CTRL == _e.keyCode) me.watchCtrlKey = true;
           // Esc
-          if (ESC == _e.keyCode) _cellHandler.onblur_cursor(_e, me);
+          if (ESC == _e.keyCode) _cellHandler.onblur_cursor(_e, insertField.value, me, header);
+          // Enter
+          if (ENTER == _e.keyCode) _cellHandler.onkeydown_cellEnter(_e, insertField.value, me, header);
           // Tab
           if (TAB == _e.keyCode) _cellHandler.onkeydown_cursorTab(_e, insertField.value, me, header);
+          // Shift Tab shiftKey
+          if (TAB == _e.keyCode && _e.shiftKey) _cellHandler.onkeydown_reverseTab(_e, insertField.value, me, header);
           // Left
           if (LEFT_ARROW == _e.keyCode && 0 == _e.target.selectionStart) _cellHandler.onkeydown_cursorPreCell(_e, insertField.value, me, header);
           // Right
           if (RIGHT_ARROW == _e.keyCode && _e.target.value.length == _e.target.selectionStart) _cellHandler.onkeydown_cursorNextCell(_e, insertField.value, me, header);
         });
-        insertField.addEventListener("blur", (_e) => {
-          _cellHandler.onblur_cursor(_e, me);
-        });
       } else if (insertField.tagName == 'SELECT'){
-        // tab key down
+        // SELECT document object event
         insertField.addEventListener("keydown", (_e) => {
           // Esc
-          if (ESC == _e.keyCode) _cellHandler.onblur_cursor(_e, me);
+          if (ESC == _e.keyCode) _cellHandler.onblur_cursor(_e, insertField.value, me, header);
           // Tab
           if (TAB == _e.keyCode) _cellHandler.onkeydown_cursorTab(_e, insertField.value, me, header);
+          // Shift + Tab shiftKey
+          if (TAB == _e.keyCode && _e.shiftKey) _cellHandler.onkeydown_reverseTab(_e, insertField.value, me, header);
           // Left
           if (LEFT_ARROW == _e.keyCode) _cellHandler.onkeydown_cursorPreCell(_e, insertField.value, me, header);
           // Right
@@ -145,7 +145,17 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
           if (DOWN_ARROW == _e.keyCode) _cellHandler.onkeyup_cursorDownCell(_e, insertField.value, me, header);
         });
       }
-
+      insertField.addEventListener("blur", (_e) => {
+        const pastedArray = pasteProcess(insertField.value);
+        // send event to listEditor
+        if (pastedArray) _cellHandler.onkeyup_paste(_e, pastedArray, me, header);
+        else _cellHandler.onblur_cursor(_e, insertField.value, me, header);
+      });
+      insertField.addEventListener("dblclick", (_e) => {
+        // double click in textarea
+        _e.preventDefault();
+        _e.stopPropagation();
+      });
     }
   });
   me = this;
@@ -160,9 +170,19 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
     if ('undefined' === typeof _cellHandler.ondblclick_cell) return;
     if ('undefined' !== typeof _cellHandler.ondblclick_cell) _cellHandler.ondblclick_cell(_e, me, header);
   }
+  this.addEventListener("mousedown", (_e) => {
+    if ('undefined' !== typeof _cellHandler.onmousedown_cell) _cellHandler.onmousedown_cell(_e, me, header);
+  });
+  this.addEventListener("mouseup", (_e) => {
+    if ('undefined' !== typeof _cellHandler.onmouseup_cell) _cellHandler.onmouseup_cell(_e, me, header);
+  });
+  this.addEventListener("mousemove", (_e) => {
+    if ('undefined' !== typeof _cellHandler.onmousemove_cell) _cellHandler.onmousemove_cell(_e, me, header);
+  });
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  // const obj = this.querySelector('input');
+
 
   //* End of Structure //////////////////////////////////////////////////////////
   return this;

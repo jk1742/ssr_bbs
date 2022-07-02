@@ -17,24 +17,35 @@
 .list-Editor table tr td,
 .list-Editor table tr th {
   vertical-align: middle;
+  padding: 0.2em 0.75em;
 }
 
-.list-Editor td._is-selected {
+.list-Editor td.is-editing {
   border: solid 2px #1d92f9;
+  padding: 0;
 }
 
-.list-Editor td._is-selected input,
-.list-Editor td._is-selected select{
+.list-Editor td.is-editing input,
+.list-Editor td.is-editing select{
   border: 0;
   outline-style: none;
   box-shadow: none;
   border-color: transparent;
 }
-.list-Editor td._is-selected textarea {
+.list-Editor td.is-editing textarea {
   border: 0;
   outline-style: none;
   box-shadow: none;
   border-style: none;
   border-color: Transparent;
-  overflow: auto;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+.list-Editor table tr .painted-used-one {
+  background-color: #f5fffa;
+}
+.list-Editor table tr .painted-selected-one {
+  background-color: #ebfff5;
 }

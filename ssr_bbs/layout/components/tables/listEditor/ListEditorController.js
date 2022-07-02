@@ -7,6 +7,7 @@ import { BodyController           } from './body/BodyController';
 import { TableHeaderRow           } from './header/TableHeaderRow';
 import { TableHeaderRowController } from './header/TableHeaderRowController';
 import _ from 'lodash';
+import { CursorController } from './body/CursorController';
 
 
 /**
@@ -43,7 +44,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
 
   //* private variable & mapping //////////////////////////////////////////////
   let     me                = this;
-  const   table             = me.firstChild;
+  let     table             = this.getModelById('list-editor-table');
   let     thead             = table.firstChild;
   let     tbody             = table.lastChild;
   let     indexBar          = me.children[1];
@@ -51,11 +52,26 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
   let     tableHeader       = headerInfo;
   let     page              = new Page();
   let     _private          = {
-            rowHeight   : null,
-            tic         : 5,
-            clickedItems: new Set(),
-            keys        : []
-  }
+            rowHeight     : null,
+            tic           : 5,
+            clickedItems  : new Set(),
+            keys          : [],
+            selectedValTxt: '',
+            cursorCellId  : '',
+            cursorReceiver: null,
+            mouse         : {
+              leftDown: {
+                cellId: '',
+                status: false
+              },
+              leftUp: {
+                cellId: '',
+              },
+              move: {
+                cellId: '',
+              }
+            }
+  };
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
@@ -66,6 +82,52 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       carriage.push(element.id);
     });
     return carriage;
+  }
+  const getParentTableCellId = (_dom) => {
+    return _dom.closest('TD').id;
+  }
+  /**
+   * pasteData_tbody
+   * edit tbody and page Data model
+   */
+  const pasteData_tbody = (_pastingStartCell, _pastedArray) =>{
+    const _row = _pastingStartCell.closest('TR');
+    const array = Array.from(_row.children);
+    let columnCursor = array.findIndex((o) => _pastingStartCell.isSameNode(o));
+    let rowCursor = _row.rowNum - 1;
+    // loop
+    for (let rowIndex = 0; rowIndex < _pastedArray.length; rowIndex++) {
+      const copiedRow = _pastedArray[rowIndex];
+      const currentRow = tbody.rows[rowCursor + rowIndex];
+      // currentCell
+      let currentCell;
+      let sw = false;
+      for (let colIndex = 0; colIndex < copiedRow.length; colIndex++) {
+        const copiedCellData = copiedRow[colIndex];
+        if (!sw) {
+          currentCell = currentRow.children[columnCursor + colIndex];
+          sw = true;
+        } else currentCell = callSibling('next', currentCell);
+        if (_.isNull(currentCell)) continue;
+        // touch page data model
+        page.rows[currentRow.rowNum - 1][currentCell.headerId] = copiedCellData.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+        // paint tbody cell
+        currentCell.truncateClass();
+        currentCell.paintUsedCell();
+      }
+    }
+  }
+  const getTableCellPos = (_dom) => {
+    const _table = _dom.closest('TABLE');
+    if(_.isNull(_table)) return null;
+    const _row = _dom.closest('TR');
+    const array = Array.from(_row.children);
+    const _cell = _dom;
+    let columnCursor = array.findIndex((o) => _cell.isSameNode(o));
+    return {
+      x: columnCursor,
+      y: _row.rowNum
+    }
   }
   const selectMarker = (_rows)=>{
     let tmpArray = _.cloneDeep(_rows);
@@ -162,23 +224,58 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     tbody.generateRows(arrTemp, _p);
   }
   /**
-   * appendTrBefore
-   * @param {Page} _p
+   * paintSelectedCells
+   * time gap 150 mil second
    */
-  const appendTrBefore = function(_p) {
-    _p.rows = selectMarker(_p.rows);
-    // sorting and fabricTableArray
-    let arrTemp = fabricTableArray(_p.rows, tableHeader);
-		tableArrayData = mergeTableArrays(arrTemp, tableArrayData);
-		// generate tbody
-    tbody.generateRvrsRows(arrTemp, _p);
-  };
+  const paintSelectedCells = _.throttle((_event) => {
+    // skip if same id
+    if (_event.target.children.length > 0) return;
+    if (_event.target.id == _private.mouse.move.cellId || _event.target.tagName != 'TD') return;
+    // get object and paint
+    const _startPos = getTableCellPos(document.getElementById(_private.mouse.leftDown.cellId));
+    const _cursorPos = getTableCellPos(_event.target);
+    const START = 0;
+    const END = 1;
+    const x_arr = [_startPos.x, _cursorPos.x].sort(function (a, b) { return a - b; });
+    const y_arr = [_startPos.y - 1, _cursorPos.y - 1].sort(function (a, b) { return a - b; });
+    for (let _i = 0; _i < tbody.rows.length; _i++) {
+      const _htmlRow = tbody.rows[_i];
+      const _row = Array.from(_htmlRow.children);
+      if (y_arr[START] <= _i && _i <= y_arr[END]) {
+        for (let _j = 0; _j < _row.length; _j++) {
+          const _cell = _row[_j];
+          if ('TD' != _cell.tagName) continue;
+          if (x_arr[START] <= _j && _j <= x_arr[END]) _cell.paintSelectedCell();
+          else _cell.truncateClass();
+        }
+      } else {
+        for (const _cell of _row) {
+          if ('TD' == _cell.tagName) _cell.truncateClass();
+        }
+      }
+    }
+    _private.mouse.move.cellId = _event.target.id;
+  }, 150);
   /**
    * updateTable_modify(array)
    *  Modify Table
    * @param {Array} array tableArrayData
    */
   const remapTable_adapt = function (array) {
+    for (let i = 0; i < tbody.rows.length; i++) {
+      const changedRow = array[i + 1]; // 1 header
+      const row = tbody.rows[i];
+      for (let j = 0; j < changedRow.length; j++) {
+        row.changeCleanCells(j, changedRow[j]);
+      }
+    }
+  }
+  /**
+   * updateTable_modify(array)
+   *  Modify Table
+   * @param {Array} array tableArrayData
+   */
+  const remapTable_adaptWithClass = function (array) {
     for (let i = 0; i < tbody.rows.length; i++) {
       const changedRow = array[i + 1]; // 1 header
       const row = tbody.rows[i];
@@ -217,29 +314,6 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     return true;
   }
   /**
-   * Cut Head Rows
-   * @param {Number} size
-   */
-  const cutHeadRows = function(size) {
-    for (let index = 0; index < size; index++) {
-      tbody.removeChild(tbody.firstChild);
-    }
-    tableArrayData.splice(1, size);
-  }
-  /**
-   * Cut Tail Rows
-   * @param {Number} size
-   */
-  const cutTailRows = function(size) {
-    let tbodyLength = tbody.childNodes.length;
-		let cnt = tbodyLength % size;
-		cnt = (0 < cnt) ? cnt:size;
-    for (let index = 0; index < cnt; index++) {
-      tbody.removeChild(tbody.lastChild);
-    }
-    tableArrayData.splice((tableArrayData.length-cnt), cnt);
-  }
-  /**
    * clear Rows
    */
   const clearRows = function() {
@@ -255,6 +329,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     const PRE = 'previousSibling';
     if (sw == 'next') pos = NEXT;
     else pos = PRE;
+    if (_.isNull(el)) return null;
     let _cursor = el[pos];
     if (_.isNull(_cursor)) return null;
     while (_cursor.style.display == 'none') {
@@ -262,6 +337,7 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     }
     return _cursor;
   }
+
 
   //* Access Control: getter & setter /////////////////////////////////////////
   Object.defineProperties(this, {
@@ -298,7 +374,13 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       get: () => getKeys(),
       configurable: true,
       enumerable: true
-    }
+    },
+    selectedValTxt: {
+      get: () => _private.selectedValTxt,
+      set: (o) => { _private.selectedValTxt = o },
+      configurable: true,
+      enumerable: true
+    },
   });
 
 
@@ -347,6 +429,18 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       // updateTable by page array
       remapTable_adapt(tableArrayData);
     },
+    remapTableWithClass(_p) {
+      if (null === _p) {
+        clearRows();
+        return;
+      }
+      // object to array
+      const tempTableArray = fabricTableArray(_p.rows, tableHeader);
+      // sorting
+      tableArrayData = sorting(tempTableArray, tableHeaderRow.selectedId, _p.orderBy, tableHeaderRow.selectedType);
+      // updateTable by page array
+      remapTable_adaptWithClass(tableArrayData);
+    },
     /**
      * Render Next page
      * @param {*} nextPage
@@ -359,27 +453,8 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       page.rows = page.rows.concat(nextPage.rows);
       // cut top items
       page.startNum = page.startNum + nextPage.size;
-      cutHeadRows(nextPage.size);
       page.rows = page.rows.slice(nextPage.size);
       indexBar.scrollNextTic(me.tic, tbody.firstChild.rowNum, page);
-    },
-    renderPre(prePage) {
-      // append rows on top
-      if ((prePage.startNum + 1) == tbody.firstChild.rowNum || page.startNum <= 0) return;
-      page.startNum = page.startNum - prePage.size;
-      appendTrBefore(prePage);
-      // inner structure page for sync
-      // insert loaded rows at front
-      page.rows.splice(0, 0, ...prePage.rows);
-      // measure page size
-      page.endNum = page.endNum - prePage.size;
-      const k = page.rows.length % prePage.size;
-      const r = (k == 0) ? prePage.size : k;
-      // cut page rows from tail
-      page.rows.splice((page.rows.length - r) , r);
-      // cut table rows form tail
-      cutTailRows(prePage.size);
-      indexBar.scrollPreTic(me.tic, tbody.firstChild.rowNum, page);
     },
     markSelectRow(id){
       const row = document.getElementById(id);
@@ -404,6 +479,82 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       _private.clickedItems.clear();
       // renew table
       me.updateTable(me.page);
+    },
+    copyToClipboard(textToCopy) {
+      // navigator clipboard api needs a secure context (https)
+      if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        return navigator.clipboard.writeText(textToCopy);
+      } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+          document.execCommand('copy') ? res() : rej();
+          textArea.remove();
+        });
+      }
+    },
+    setCursorReceiver(){
+      // initialize
+      const array = me.getModelByDataClass('cursor-receiver');
+      if (typeof array !== 'undefined' && array.length > 0) {
+        for (const iterator of array) {
+          iterator.remove();
+        }
+      }
+      // set receiver
+      let textArea = document.createElement("textarea");
+      textArea.setAttribute('data-class', 'cursor-receiver');
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      me.appendChild(textArea);
+      $SR.registerModel(textArea).inject(CursorController,{
+        onkeyup_paste(_e, _pastedArray){
+          let _cell = document.getElementById(_private.mouse.leftDown.cellId);
+          if (_private.mouse.leftUp.cellId != _private.mouse.leftDown.cellId) {
+            const START     = 0;
+            const END       = 1;
+            const _startPos = getTableCellPos(document.getElementById(_private.mouse.leftDown.cellId));
+            const _endPos   = getTableCellPos(document.getElementById(_private.mouse.leftUp.cellId));
+            const x_arr     = [_startPos.x, _endPos.x].sort(function (a, b) { return a - b; });
+            const y_arr     = [_startPos.y - 1, _endPos.y - 1].sort(function (a, b) { return a - b; });
+            _cell           = Array.from(tbody.rows[y_arr[START]].children)[x_arr[START]];
+          }
+          pasteData_tbody(_cell, _pastedArray);
+          me.remapTableWithClass(page);
+        },
+        onkeyup_copy(_e) {
+          me.copyToClipboard(me.selectedValTxt);
+        }
+      });
+      _private.cursorReceiver = textArea;
+    },
+    focusCursorReceiver() {
+      if (_.isNull(_private.cursorReceiver)) {
+        console.warn('Unable to get Focus cursor. CursorReceiver object is empty');
+        return;
+      }
+      _private.cursorReceiver.focus();
+      _private.cursorReceiver.select();
+    },
+    removeCursorReceiver(){
+      _private.mouse.leftDown.cellId  = '';
+      _private.mouse.leftUp.cellId    = '';
+      _private.mouse.leftDown.status  = false;
+      if (!_.isNull(_private.cursorReceiver)) {
+        console.warn('CursorReceiver object is already null');
+        return;
+      }
+      _private.cursorReceiver.remove();
     }
   });
   me = this;
@@ -416,9 +567,11 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
 
 
   //* Inject controller ///////////////////////////////////////////////////////
+  /**
+   * table-header
+   */
   const tableHeaderRow = thead.inject(TableHeaderRowController, {
     onclick_asteriskTh(e, dom){
-      console.log('onclick_asteriskTh/1/',e, dom);
       const key = me.keys[0];
       let sw = false;
       // has any selected rows then change @sw to true
@@ -447,6 +600,10 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       if('undefined' !== typeof _listEditorHandler.onheaderclick_sorting) _listEditorHandler.onheaderclick_sorting(page);
     }
   }, tableHeader);
+
+  /**
+   * table-body
+   */
   tbody = $SR.registerModel(tbody).inject(BodyController, {
     onclick_row(_e, _id, _rowNum, _element, _data) {
       if ('undefined' !== typeof _listEditorHandler.onclick_tableRow) _listEditorHandler.onclick_tableRow(_e, _id, _rowNum, _element, _data);
@@ -458,19 +615,20 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       if ('undefined' !== typeof _listEditorHandler.onclick_cell) _listEditorHandler.onclick_cell(_e, _id, _rowNum, _element, _header);
     },
     ondblclick_cell(_e, _id, _rowNum, _element, _header) {
+      me.removeCursorReceiver();
+      me.remapTable(page);
+      _e.target.insertEditor();
+      _private.cursorCellId = getParentTableCellId(_e.target);
       if ('undefined' !== typeof _listEditorHandler.ondblclick_cell) _listEditorHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
     },
     onchange_cell(_e, _value, _rowNum,  _element,  _header) {
+      me.removeCursorReceiver();
       page.rows[_rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       _element.insertEditor();
     },
-    ondblclick_tbody(_e){
-      me.remapTable(page);
-      _e.target.insertEditor();
-    },
     onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header) {
-      if (page.rows[_row.rowNum - 1][_header.id] != _value) console.log('cursorUpCell value', page.rows[_row.rowNum - 1][_header.id], _value);
+      me.removeCursorReceiver();
       page.rows[_row.rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       const tdArray = Array.from(_row.getElementsByTagName('td'));
@@ -484,9 +642,10 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       const upRowTdArray = Array.from(upRow.getElementsByTagName('td'));
       const upperCell = upRowTdArray[pos];
       upperCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(upperCell);
     },
     onkeyup_cursorDownCell(_e, _value, _cell, _row,  _header) {
-      if (page.rows[_row.rowNum - 1][_header.id] != _value) console.log('cursorDownCell value', page.rows[_row.rowNum - 1][_header.id], _value);
+      me.removeCursorReceiver();
       page.rows[_row.rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       const tdArray = Array.from(_row.getElementsByTagName('td'));
@@ -500,8 +659,10 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       const downRowTdArray = Array.from(downRow.getElementsByTagName('td'));
       const downCell = downRowTdArray[pos];
       downCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(downCell);
     },
     onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header) {
+      me.removeCursorReceiver();
       page.rows[_row.rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       const nextCell = callSibling('next', _cell);
@@ -511,8 +672,10 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
         return;
       }
       nextCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(nextCell);
     },
     onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header) {
+      me.removeCursorReceiver();
       page.rows[_row.rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       const preCell = callSibling('pre', _cell);
@@ -524,9 +687,11 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
         return;
       }
       preCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(preCell);
     },
     onkeydown_cursorTab(_e, _value, _cell, _row,  _header) {
       _e.preventDefault();
+      me.removeCursorReceiver();
       page.rows[_row.rowNum - 1][_header.id] = _value;
       me.remapTable(page);
       const nextCell = callSibling('next', _cell);
@@ -536,10 +701,102 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
         return;
       }
       nextCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(nextCell);
     },
-    onblur_cursor(_e, _element) {
-      // me.remapTable(page);
-    }
+    onkeydown_reverseTab(_e, _value, _cell, _row, _header){
+      me.removeCursorReceiver();
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      const preCell = callSibling('pre', _cell);
+      if (_.isNull(preCell) || 'TH' == preCell.tagName) {
+        _cell.insertEditor();
+        const inputCell = _cell.getModelByDataClass('input-field')[0];
+        inputCell.selectionStart = 0;
+        console.warn('list Editor event: first line');
+        return;
+      }
+      preCell.insertEditor();
+      _private.cursorCellId = getParentTableCellId(preCell);
+    },
+    onkeydown_cellEnter(_e, _value, _cell, _row, _header) {
+      _e.preventDefault();
+      me.removeCursorReceiver();
+      page.rows[_row.rowNum - 1][_header.id] = _value;
+      me.remapTable(page);
+      _cell.insertEditor();
+    },
+    onkeyup_paste(_e, _pastedArray, _cell, _row, _header) {
+      // get cursor of column
+      // access table body dom and page data model
+      pasteData_tbody(_cell, _pastedArray);
+      me.remapTableWithClass(page);
+    },
+    onblur_cursor(_e, _value, _cell, _row, _header) {
+      page.rows[_row.rowNum - 1][_header.id] = _value.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+      me.remapTable(page);
+    },
+    onmousedown_cell(_e){
+      _e.preventDefault();
+      _private.mouse.leftDown.cellId  = _e.target.id;
+      _private.mouse.leftUp.cellId    = '';
+      _private.mouse.leftDown.status  = true;
+      if(!_.isNull(_private.cursorCellId) && _private.cursorCellId != '') {
+        let inputCursor = null;
+        if (!_.isNull(_private.cursorCellId) && _private.cursorCellId != '') inputCursor = document.getElementById(_private.cursorCellId).getModelByDataClass('input-field');
+        if (!_.isNull(inputCursor) && inputCursor.length > 0) inputCursor[0].blur();
+        _private.cursorCellId = '';
+      }
+      // clear
+      me.remapTable(page);
+    },
+    onmouseup_cell(_e) {
+      _private.mouse.leftUp.cellId = _e.target.id;
+      me.selectedValTxt = '';
+      if (_e.target.tagName != 'TD') return;
+      //? Mouse Click
+      if (_private.mouse.leftDown.cellId === _private.mouse.leftUp.cellId) {
+        // select single
+        let inputCursor = null;
+        if (!_.isNull(_private.cursorCellId) && _private.cursorCellId != '') inputCursor = document.getElementById(_private.cursorCellId).getModelByDataClass('input-field');
+        if (!_.isNull(inputCursor) && inputCursor.length > 0) inputCursor[0].blur();
+        _private.cursorCellId = '';
+        _e.target.paintSelectedCell();
+        me.selectedValTxt = _e.target.cellValue;
+      } else {
+        // select range
+        //? selected row to Array Data
+        const _selectedValuesArray = [];
+        let _row = tbody.rows[0];
+        while (!_.isNull(_row)) {
+          const _rowArray = [];
+          let _cell = _row.querySelector("TD");
+          while (!_.isNull(_cell)) {
+            if (_cell.classList.contains('painted-selected-one')) _rowArray.push(_cell.cellValue);
+            _cell = callSibling('next', _cell);
+          }
+          if (_rowArray.length > 0) _selectedValuesArray.push(_rowArray);
+          _row = callSibling('next', _row);
+        }
+        //? Array Data to Text => Array Data
+        for (let _i = 0; _i < _selectedValuesArray.length; _i++) {
+          const _iterRow = _selectedValuesArray[_i];
+          for (let _j = 0; _j < _iterRow.length; _j++) {
+            const _iterCell = _iterRow[_j];
+            me.selectedValTxt += _iterCell;
+            if (_j < _iterRow.length - 1) me.selectedValTxt += '\t';
+          }
+          if (_i < _selectedValuesArray.length - 1) me.selectedValTxt += '\n';
+        }
+      }
+      //? Initialize
+      _private.mouse.leftDown.status = false;
+      me.setCursorReceiver();
+      me.focusCursorReceiver();
+    },
+    onmousemove_cell(_e){
+      if (!_private.mouse.leftDown.status || _private.mouse.leftDown.cellId.length <= 0) return;
+      paintSelectedCells(_e);
+    },
   }, tableHeader);
   // record index
   this.rowHeight = thead.getBoundingClientRect().height;

@@ -1,6 +1,7 @@
 import { Page                   } from '/layout/components/tables/sortingTable/class/Page';
 import { SortingTableController } from '/layout/components/tables/sortingTable/SortingTableController';
 import { StaticTableHeader as  getTableHeader  } from './StaticTableHeader';
+import { FileInputController } from '/layout/components/form/file/FileInputController';
 
 /***
  * block:  Section_listController
@@ -13,9 +14,11 @@ const Section_listController = function (section_listHandler) {
   let sortingTable      = this.getModelById('sorting-table');
   let selectCancelBtn   = this.getModelById('btn-select-cancel');
   let lineEditorBtn     = this.getModelById('btn-line-editor');
+  let fileInput         = this.getModelByDataClass('file-input')[0];
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
+
 
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -120,7 +123,8 @@ const Section_listController = function (section_listHandler) {
       });
     }
   }, getTableHeader());
-
+  //?
+  fileInput = $SR.registerModel(fileInput).inject(FileInputController, {});
 
   //* Event handler ///////////////////////////////////////////////////////////
   selectCancelBtn.onclick = (e) => {

@@ -25,6 +25,12 @@ const Section_listEditor = function (id) {
               <a class="button is-primary is-inverted" data-id="btn-back-list" style="float:left;">
                   <i class="fa-solid fa-arrow-rotate-left"></i>
               </a>
+              <a class="button is-primary is-inverted" data-id="btn-copy-selected" style="float:left;">
+                <i class="fa-regular fa-copy"></i>
+              </a>
+              <a class="button is-primary is-inverted" data-id="btn-csv-demo" style="float:left;">
+                <i class="fa-solid fa-file-csv"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -35,6 +41,7 @@ const Section_listEditor = function (id) {
               <div class = "column is-narrow">
                 <!-- sample Table -->
                 ${table.outerHTML}
+                <input id="csv" type="file">
               </div>
           </div>
         </div>
@@ -48,4 +55,4 @@ const Section_listEditor = function (id) {
 }
 export {
   Section_listEditor
-};
+}

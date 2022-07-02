@@ -1212,7 +1212,10 @@ module.exports = {
       },
       getModelById(_name) {
         return this.querySelectorAll(`[data-id="${_name}"]`)[0];
-      }
+      },
+      getModelByDataClass(_name) {
+        return this.querySelectorAll(`[data-class="${_name}"]`);
+      },
     });
     return dom;
   },

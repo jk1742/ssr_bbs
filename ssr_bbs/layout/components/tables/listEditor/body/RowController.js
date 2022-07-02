@@ -53,7 +53,7 @@ const RowController   = function (_rowHandler, array, header) {
     },
     changeCells(_seq, _value) {
       // data change
-      this.data[_seq] = _value;
+      me.data[_seq] = _value;
       // html row element align sequence
       if (_seq == 0) {
         const _cell = me.childNodes[_seq];
@@ -63,12 +63,15 @@ const RowController   = function (_rowHandler, array, header) {
       }
       if (1 > _seq) console.error('script trying to change head of fixed parts.');
       const pos = _seq + 1;
-      me.childNodes[pos].textContent = _value;
-      me.childNodes[pos].cellValue = _value;
-      me.childNodes[pos].classList.remove('_is-selected');
+      const thisCell = me.childNodes[pos];
+      thisCell.innerHTML = '';
+      thisCell.innerHTML = _value;
+      thisCell.cellValue = _value;
+      thisCell.classList.remove('is-editing');
     },
-    select(){
-      me.style.backgroundColor = "red";
+    changeCleanCells(_seq, _value) {
+      me.changeCells(_seq, _value);
+      me.childNodes[_seq + 1].className = '';
     },
   });
   me = this;
@@ -89,6 +92,15 @@ const RowController   = function (_rowHandler, array, header) {
     const headerCell = header[index];
     let tableCell = me.children[index + 1];
     tableCell = $SR.registerModel(tableCell, true).inject(CellController,{
+      onmousedown_cell(_e, _element, _header){
+        if ('undefined' !== typeof _rowHandler.onmousedown_cell) _rowHandler.onmousedown_cell(_e, _element.id, me.rowNum, _element, _header);
+      },
+      onmouseup_cell(_e, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onmouseup_cell) _rowHandler.onmouseup_cell(_e, _element.id, me.rowNum, _element, _header);
+      },
+      onmousemove_cell(_e, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onmousemove_cell) _rowHandler.onmousemove_cell(_e, _element.id, me.rowNum, _element, _header);
+      },
       onclick_cell(_e, _element, _header) {
         if ('undefined' !== typeof _rowHandler.onclick_cell) _rowHandler.onclick_cell(_e, _element.id, me.rowNum, _element, _header);
       },
@@ -113,9 +125,18 @@ const RowController   = function (_rowHandler, array, header) {
       onkeydown_cursorTab(_e, _value, _element, _header) {
         if ('undefined' !== typeof _rowHandler.onkeydown_cursorTab) _rowHandler.onkeydown_cursorTab(_e, _value, _element, me, _header);
       },
-      onblur_cursor(_e, _element){
-        if ('undefined' !== typeof _rowHandler.onblur_cursor) _rowHandler.onblur_cursor(_e, _element);
-      }
+      onkeydown_reverseTab(_e, _value, _element, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeydown_reverseTab) _rowHandler.onkeydown_reverseTab(_e, _value, _element, me, _header);
+      },
+      onkeydown_cellEnter(_e, _value, _cell, _header) {
+        if ('undefined' !== typeof _rowHandler.onkeydown_cellEnter) _rowHandler.onkeydown_cellEnter(_e, _value, _cell, me, _header);
+      },
+      onkeyup_paste(_e, _pastedArray, _cell, _header){
+        if ('undefined' !== typeof _rowHandler.onkeyup_paste) _rowHandler.onkeyup_paste(_e, _pastedArray, _cell, me, _header);
+      },
+      onblur_cursor(_e, _value, _cell, _header) {
+        if ('undefined' !== typeof _rowHandler.onblur_cursor) _rowHandler.onblur_cursor(_e, _value, _cell, me, _header);
+      },
     }, me.getDataByName(headerCell.id), headerCell, rowJson);
     if ('undefined' !== headerCell.display && 'none' === headerCell.display) tableCell.style.display = 'none';
   }

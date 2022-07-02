@@ -31,13 +31,14 @@ TODO:
         sub 2: select option                            # 완료 5/31
         sub 3: 체크 박스
         sub 4: 날짜
-        sub 5: focus css
-        sub 6: enter event
-        sub 7: tab event
-        sub 8: arrow event                              # 완료 6/02
-        sub 9: paste event
+        sub 5: focus
+        sub 6: enter event                              
+        sub 7: tab move                                 # 완료 6/03  
+        sub 8: arrow move                               # 완료 6/02
+        sub 9: paste event                              # 완료 6/20
         sub 10: 대량 데이터 구성
-        sub 11: 스크롤                                  # 진행 중
+        sub 11: 스크롤                                  # 완료 6/14
+        sub 12: blur event
         sub 12: 파일 업로드 데이터 컨트롤
       step 4: 데이터 전송 폼
         sub 1: Json 데모                                # 완료 5/4
@@ -95,6 +96,7 @@ code: ~
           });
       }
   });
+  code: https://idlecomputer.tistory.com/226 개발서버 https 적용
   cmd: ~
     cd /home/jin/workspace_js/ssr_bbs/;npx webpack serve
     cd /home/jin/workspace_js/temp_server/;json-server --watch psrSample.json --port 9005

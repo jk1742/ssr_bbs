@@ -6,6 +6,7 @@ import { RowController } from './RowController';
 
 /**
  * Layout:  BodyController
+ * Description: functional process => draw rectangle by mouse click.
  * @constructor
  * @param {[Function]} _bodyHandler
  * @param {*} header
@@ -15,42 +16,63 @@ const BodyController   = function (_bodyHandler, header) {
 
   //* Private variable & mapping ////////////////////////////////////////////////
   const me            = this;
-  let   rows          = [];
-  const rowHandler    = {
-    onclick_row(_e, _id, _rowNum, _element, _data) {
-      if ('undefined' !== typeof _bodyHandler.onclick_row) _bodyHandler.onclick_row(_e, _id, _rowNum, _element, _data);
-    },
-    ondbclick_row(_e, _id, _rowNum, _element, _data) {
-      if ('undefined' !== typeof _bodyHandler.ondbclick_row) _bodyHandler.ondbclick_row(_e, _id, _rowNum, _element, _data);
-    },
-    onclick_cell(_e, _id, _rowNum, _element, _header) {
-      if ('undefined' !== typeof _bodyHandler.onclick_cell) _bodyHandler.onclick_cell(_e, _id, _rowNum, _element, _header);
-    },
-    ondblclick_cell(_e, _id, _rowNum, _element, _header) {
-      if ('undefined' !== typeof _bodyHandler.ondblclick_cell) _bodyHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
-    },
-    onchange_cell(_e, _value, _rowNum,  _element,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onchange_cell) _bodyHandler.onchange_cell(_e, _value, _rowNum,  _element,  _header);
-    },
-    onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onkeyup_cursorUpCell) _bodyHandler.onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header);
-    },
-    onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onkeyup_cursorDownCell) _bodyHandler.onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header);
-    },
-    onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorNextCell) _bodyHandler.onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header);
-    },
-    onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorPreCell) _bodyHandler.onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header);
-    },
-    onkeydown_cursorTab(_e, _value, _cell, _row,  _header) {
-      if ('undefined' !== typeof _bodyHandler.onkeydown_cursorTab) _bodyHandler.onkeydown_cursorTab(_e, _value, _cell, _row,  _header);
-    },
-    onblur_cursor(_e, _element) {
-      if ('undefined' !== typeof _bodyHandler.onblur_cursor) _bodyHandler.onblur_cursor(_e, _element);
+  const _private      = {
+    rows          : [],
+    rowHandler    : {
+      onmousedown_cell(_e, _id, _rowNum, _element, _data){
+        if ('undefined' !== typeof _bodyHandler.onmousedown_cell) _bodyHandler.onmousedown_cell(_e, _id, _rowNum, _element, _data);
+      },
+      onmouseup_cell(_e, _id, _rowNum, _element, _data) {
+        if ('undefined' !== typeof _bodyHandler.onmouseup_cell) _bodyHandler.onmouseup_cell(_e, _id, _rowNum, _element, _data);
+      },
+      onmousemove_cell(_e, _id, _rowNum, _element, _data) {
+        if ('undefined' !== typeof _bodyHandler.onmousemove_cell) _bodyHandler.onmousemove_cell(_e, _id, _rowNum, _element, _data);
+      },
+      onclick_row(_e, _id, _rowNum, _element, _data) {
+        if ('undefined' !== typeof _bodyHandler.onclick_row) _bodyHandler.onclick_row(_e, _id, _rowNum, _element, _data);
+      },
+      ondbclick_row(_e, _id, _rowNum, _element, _data) {
+        if ('undefined' !== typeof _bodyHandler.ondbclick_row) _bodyHandler.ondbclick_row(_e, _id, _rowNum, _element, _data);
+      },
+      onclick_cell(_e, _id, _rowNum, _element, _header) {
+        if ('undefined' !== typeof _bodyHandler.onclick_cell) _bodyHandler.onclick_cell(_e, _id, _rowNum, _element, _header);
+      },
+      ondblclick_cell(_e, _id, _rowNum, _element, _header) {
+        if ('undefined' !== typeof _bodyHandler.ondblclick_cell) _bodyHandler.ondblclick_cell(_e, _id, _rowNum, _element, _header);
+      },
+      onchange_cell(_e, _value, _rowNum,  _element,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onchange_cell) _bodyHandler.onchange_cell(_e, _value, _rowNum,  _element,  _header);
+      },
+      onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeyup_cursorUpCell) _bodyHandler.onkeyup_cursorUpCell(_e, _value, _cell, _row,  _header);
+      },
+      onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeyup_cursorDownCell) _bodyHandler.onkeyup_cursorDownCell(_e,  _value, _element, _row,  _header);
+      },
+      onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeydown_cursorNextCell) _bodyHandler.onkeydown_cursorNextCell(_e, _value, _cell, _row,  _header);
+      },
+      onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeydown_cursorPreCell) _bodyHandler.onkeydown_cursorPreCell(_e, _value, _cell, _row,  _header);
+      },
+      onkeydown_cellEnter(_e, _value, _cell, _row, _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeydown_cellEnter) _bodyHandler.onkeydown_cellEnter(_e, _value, _cell, _row, _header);
+      },
+      onkeydown_cursorTab(_e, _value, _cell, _row,  _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeydown_cursorTab) _bodyHandler.onkeydown_cursorTab(_e, _value, _cell, _row,  _header);
+      },
+      onkeydown_reverseTab(_e, _value, _cell, _row, _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeydown_reverseTab) _bodyHandler.onkeydown_reverseTab(_e, _value, _cell, _row, _header);
+      },
+      onkeyup_paste(_e, _pastedArray, _cell, _row, _header) {
+        if ('undefined' !== typeof _bodyHandler.onkeyup_paste) _bodyHandler.onkeyup_paste(_e, _pastedArray, _cell, _row, _header);
+      },
+      onblur_cursor(_e, _value, _cell, _row, _header) {
+        if ('undefined' !== typeof _bodyHandler.onblur_cursor) _bodyHandler.onblur_cursor(_e, _value, _cell, _row, _header);
+      }
     }
   }
+
 
   //* Privilege Static Functions ////////////////////////////////////////////////
 
@@ -58,7 +80,7 @@ const BodyController   = function (_bodyHandler, header) {
   //* Access Control: getter & setter ///////////////////////////////////////////
   Object.defineProperties(this, {
     rows: {
-      get: ()   => rows,
+      get: ()   => _private.rows,
     },
   });
 
@@ -66,7 +88,7 @@ const BodyController   = function (_bodyHandler, header) {
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
     generateRows (array, page) {
-      rows = [];
+      _private.rows = [];
       const arrTemp = [];
       //* draw row
       let rowNum = page.startNum;
@@ -79,27 +101,9 @@ const BodyController   = function (_bodyHandler, header) {
       //* inject controller
       for (let i = 0; i < arrTemp.length; i++) {
         const posErsHead = i+1;
-        const _row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
+        const _row = $SR.registerModel(arrTemp[i], true).inject(RowController, _private.rowHandler, array[posErsHead], header);
       }
-      rows = me.childNodes;
-    },
-    generateRvrsRows (array, page) {
-      rows = [];
-      const arrTemp = [];
-      //* draw row 
-      let rowNum = page.startNum;
-      for (let i = 1; i < array.length; i++) {
-        rowNum = rowNum + 1;
-        const row = new Row(me.id, rowNum, 'row','data', array[i]);
-        arrTemp.push(row);
-        me.insertBefore(row, me.childNodes[i-1]);
-      }
-      //* inject controller
-      for (let i = 0; i < arrTemp.length; i++) {
-        const posErsHead = i+1;
-        const _row = $SR.registerModel(arrTemp[i], true).inject(RowController, rowHandler, array[posErsHead], header);
-      }
-      rows = me.childNodes;
+      _private.rows = me.childNodes;
     }
   });
 
@@ -109,13 +113,8 @@ const BodyController   = function (_bodyHandler, header) {
   this.onwheel =(e)=>{
     if ('undefined' !== typeof _bodyHandler.onmousewheel_tbody) _bodyHandler.onmousewheel_tbody(e);
   }
-  this.addEventListener("dblclick", (_e) => {
-    if ('undefined' !== typeof _bodyHandler.ondblclick_tbody) _bodyHandler.ondblclick_tbody(_e);
-  });
-  this.addEventListener("keydown", (_e) => {
-    // enter
-    console.log('keydown _e.keyCode', _e.keyCode);
-  });
+
+
   //* Lazy Initialization ///////////////////////////////////////////////////////
 
 

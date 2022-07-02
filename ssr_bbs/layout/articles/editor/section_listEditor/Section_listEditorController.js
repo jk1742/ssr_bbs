@@ -1,6 +1,5 @@
 import { ListEditorController } from '/layout/components/tables/listEditor/ListEditorController';
 import { StaticTableHeader as getTableHeader } from './StaticTableHeader';
-import { Page                   } from '/layout/components/tables/sortingTable/class/Page';
 
 
 /***
@@ -14,7 +13,10 @@ const Section_listEditorController = function (section_listEditorHandler) {
   let listEditor          = this.getModelById('list-editor');
   let btnArrowRotateLeft  = this.getModelById('btn-back-list');
   let btnGetTableData     = this.getModelById('btn-get-data');
-
+  // btn-copy-selected
+  let btnCopy             = this.getModelById('btn-copy-selected');
+  let btnCsv              = this.getModelById('btn-csv-demo');
+  // btn-csv-demo
 
   //* Privilege Static Functions //////////////////////////////////////////////
 
@@ -44,7 +46,7 @@ const Section_listEditorController = function (section_listEditorHandler) {
       listEditor.markSelectRow(_id);
     },
     onclick_cell: (_e, _id, _rowNum, _element, _header) => {
-      // listEditor.update(page)
+      // listEditor.update(page);
       // console.log(_element);
     },
     ondblclick_cell: (_e, _id, _rowNum, _element, _header) => {
@@ -60,11 +62,13 @@ const Section_listEditorController = function (section_listEditorHandler) {
   btnGetTableData.onclick = (_e) => {
     console.log("btnGetTableData/", listEditor.page);
   }
-  // lineEditorBtn.onclick = (e) => {
-  //   const selectedArray = sortingTable.page.rows.filter(e => e.isSelected);
-  //   console.log("lineEditorBtn/", selectedArray);
-  // }
-
+  btnCopy.onclick = (_e) => {
+    const selectedValues = listEditor.selectedValTxt;
+    listEditor.copyToClipboard(selectedValues);
+  }
+  btnCsv.onclick = (_e) => {
+    console.log('btnCsv.onclick', _e);
+  }
 
   //* Lazy Initialization /////////////////////////////////////////////////////
 

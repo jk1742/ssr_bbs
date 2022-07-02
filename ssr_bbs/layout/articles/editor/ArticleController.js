@@ -47,6 +47,9 @@ const ArticleController   = function(_articleHandler) {
   $SR.registerModel(toolTip).inject(ToolTipController, {});
   let section_list = $SR.registerFrameById(this.id + '-Section_list').inject(Section_listController, {
     onclick_lineEditor: (e, selectedArray) => {
+      selectedArray.forEach(el => {
+        el.isSelected = false;
+      });
       section_listEditor.renderTable(selectedArray);
       section_listEditor.activate();
     }

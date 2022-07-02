@@ -66,6 +66,7 @@ const TableHeaderRowController   = function (tableHeaderRowHandler, header) {
       onclick_th(e, id){
         me.selectedId    = h.id;
         me.selectedType  = h.type;
+        console.log('TableHeaderRowController: ',me.selectedId, me.selectedType);
         if ('undefined' !== typeof tableHeaderRowHandler.stortingTable_sort) tableHeaderRowHandler.stortingTable_sort(e, me.selectedId, me.selectedType);
       }
     });

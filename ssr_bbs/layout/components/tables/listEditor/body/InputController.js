@@ -34,23 +34,25 @@ const InputController = function (_inputHandler) {
 
   //* Access Control: public functions //////////////////////////////////////////
   Object.assign(this, {
-    onchange_this(_e, _value){
-      if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onchange_input(_e, _value);
-    },
-    onfocusout_this(_e, _value) {
-      if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onfocusout_input(_e, _value);
-    },
+    // onchange_this(_e, _value){
+    //   if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onchange_input(_e, _value);
+    // },
+    // onfocusout_this(_e, _value) {
+    //   if ('undefined' !== typeof _inputHandler.onchange_input) _inputHandler.onfocusout_input(_e, _value);
+    // },
   });
   me = this;
 
 
   //* Event handler /////////////////////////////////////////////////////////////
-  this.onchange = (_e) => {
-    if ('undefined' !== typeof me.onchange_this) me.onchange_this(_e, me.value);
-  }
-  this.onfocusout = (_e) => {
-    if ('undefined' !== typeof me.onfocusout_this) me.onfocusout_this(_e, me.value);
-  }
+  // normal mouse active mouse left button down
+  this.addEventListener("mousedown", (_e) => {
+    _e.stopPropagation();
+  });
+  // normal mouse active mouse left button up
+  this.addEventListener("mouseup", (_e) => {
+    _e.stopPropagation();
+  });
 
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
@@ -61,4 +63,4 @@ const InputController = function (_inputHandler) {
 }
 export {
   InputController
-};
+}

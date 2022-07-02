@@ -53,6 +53,15 @@ const SelectController = function (_handler, _header, _json) {
   select.addEventListener("click", (_e) => {
     console.log('select.addEventListener.click');
   });
+  // normal mouse active mouse left button down
+  select.addEventListener("mousedown", (_e) => {
+    _e.stopPropagation();
+  });
+  // normal mouse active mouse left button up
+  select.addEventListener("mouseup", (_e) => {
+    _e.stopPropagation();
+  });
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
   // get axios values by networks
@@ -70,4 +79,4 @@ const SelectController = function (_handler, _header, _json) {
 }
 export {
   SelectController
-};
+}

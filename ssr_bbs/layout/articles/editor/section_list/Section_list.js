@@ -1,11 +1,13 @@
 /* eslint-disable no-undef */
 // import view block with controller
+import { FileInput         } from '/layout/components/form/file/FileInput';
 import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
 
 const Section_list = function (id) {
 
   //* View Register
-  const table = new SortingTable('sorting-table','67vh','width:80vw');
+  const table = new SortingTable('sorting-table', '67vh', 'width:80vw');
+  const file = new FileInput('is-small is-info').setIcon('fa-solid fa-bolt').setLabel('파일을 선택하세용').setName('test');
 
   //* Describe Tags
   return $SR.generateHtml `
@@ -35,6 +37,12 @@ const Section_list = function (id) {
               <div class = "column is-narrow">
                 <!-- sample Table -->
                 ${table.outerHTML}
+              </div>
+          </div>
+          <div class = "columns is-centered">
+              <div class = "column is-narrow">
+                <!-- file -->
+                ${file.outerHTML}
               </div>
           </div>
         </div>

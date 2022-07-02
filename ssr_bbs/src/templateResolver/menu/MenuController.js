@@ -90,4 +90,4 @@ const MenuController   = function(menuHandler, menuList) {
 }
 export {
   MenuController
-};
+}

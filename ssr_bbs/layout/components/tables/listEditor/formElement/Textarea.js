@@ -1,6 +1,7 @@
 const Textarea = function () {
     const textarea = document.createElement("textarea");
-    textarea.style.width = '100%';
+    textarea.className = 'textarea has-fixed-size is-small';
+    textarea.rows = 1;
     textarea.setAttribute('data-class','input-field');
     return textarea;
 }
