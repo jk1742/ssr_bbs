@@ -4,75 +4,109 @@
  * FileInputController
  * @constructor
  * @param {[Function]} _handler
- * @param {[Array]} array
- * @param {*} header
+ * @public name
+ * @public label
+ * @public icon
+ * @public files
  * @returns
- * * logic
- * https://curryyou.tistory.com/252
- * http://jsfiddle.net/thzytf1w/2/
- * 
- * const fileInput = document.querySelector('#file-js-example input[type=file]');
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      const fileName = document.querySelector('#file-js-example .file-name');
-      fileName.textContent = fileInput.files[0].name;
-    }
-  }
  */
 const FileInputController = function (_handler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   let   me            = this;
-  const $input = this.querySelector('input[type=file]');
-  console.log($input);
+  const $input        = this.querySelector('input[type=file]');
+
 
   //* Privilege Static Functions ////////////////////////////////////////////////
-  // const setIdList = function(){
-  //   let carriage = [];
-  //   for (const element of header) {
-  //     carriage.push(element.id);
-  //   }
-  //   return carriage;
-  // }
+  const onChangeHasFileName = function(_e){
+    if ($input.files.length > 0) {
+      const fileName = me.querySelector('span.file-name');
+      fileName.textContent = $input.files[0].name;
+    }
+    commonOnChange(_e);
+  }
+  const onChangeDefault = function (_e) {
+    commonOnChange(_e);
+  }
+  const commonOnChange = function(_e){
+    if ('undefined' !== typeof _handler.onchange_fileInput) _handler.onchange_fileInput();
+  }
 
 
   //* Access Control: getter & setter ///////////////////////////////////////////
-  // Object.defineProperties(this, {
-  //   eventCarriage: {
-  //     get: () => data
-  //   },
-  // });
+  Object.defineProperties(this, {
+    name: {
+      get: () => {
+        const carriage = me.querySelector('span.file-name');
+        if (!_.isNull(carriage)) return carriage.textContent;
+      },
+      set: (o) => {
+        const carriage = me.querySelector('span.file-name');
+        if (!_.isNull(carriage)) {
+          carriage.innerHTML = '';
+          carriage.append(document.createTextNode(o));
+        }
+      }
+    },
+    label: {
+      get: () => {
+        const carriage = me.querySelector('span.file-label');
+        if (!_.isNull(carriage)) return carriage.textContent;
+      },
+      set:(o) => {
+        const carriage = me.querySelector('span.file-label');
+        if (!_.isNull(carriage)){
+          carriage.innerHTML = '';
+          carriage.append(document.createTextNode(o));
+        }
+      }
+    },
+    icon: {
+      get: () => {
+        return me.querySelector('span.file-icon').children[0].className;
+      },
+      set: (o) => {
+        const carriage = me.querySelector('span.file-icon');
+        carriage.innerHTML = '';
+        const fileIcon = document.createElement('I');
+        carriage.append(fileIcon);
+        fileIcon.className = o;
+      }
+    },
+    files:{
+      get: () => $input.files
+    }
+  });
 
 
   //* Access Control: public functions //////////////////////////////////////////
-  // Object.assign(this, {
-  //   appendToOven: (label, value) => {
-  //     oven.push({
-  //       label: label,
-  //       value: value
-  //     });
-  //   },
-  // });
-  // me = this;
+  Object.assign(this, {
+    csvToJSON: (csv_string, newline, cell) => {
+      const rows = csv_string.split(newline);
+      const jsonArray = [];
+      const header = rows[0].split(cell);
+      for (let i = 1; i < rows.length; i++) {
+        let obj = {};
+        let row = rows[i].split(cell);
+        for (let j = 0; j < header.length; j++) {
+          obj[header[j]] = row[j];
+        }
+        jsonArray.push(obj);
+      }
+      return jsonArray;
+    },
+  });
+  me = this;
 
 
   //* Event handler /////////////////////////////////////////////////////////////
-  $input.onchange = () => {
-    if ($input.files.length > 0) {
-      const fileName = this.querySelector('span.file-name');
-      fileName.textContent = $input.files[0].name;
-    }
-  }
+  let changeEvent;
+  changeEvent = onChangeDefault;
+  if (this.classList.contains('has-name')) changeEvent = onChangeHasFileName;
+  $input.addEventListener('change', changeEvent);
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
-  // example
-  // const response = [
-  //   { label: 'BD 40', value: 'BD40' }, { label: 'CTH', value: 'CTH'}
-  // ]
-  // for (const iterator of response) {
-  //   me.appendToOven(iterator.label, iterator.value);
-  // }
-  // me.bake();
 
 
   //* End of Structure //////////////////////////////////////////////////////////

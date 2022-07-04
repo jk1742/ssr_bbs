@@ -123,8 +123,20 @@ const Section_listController = function (section_listHandler) {
       });
     }
   }, getTableHeader());
+
   //?
-  fileInput = $SR.registerModel(fileInput).inject(FileInputController, {});
+  fileInput = $SR.registerModel(fileInput).inject(FileInputController, {
+    onchange_fileInput(_e){
+      var reader = new FileReader();
+      reader.onload = function () {
+        console.log('reader.result:1', reader.result);
+        console.log('reader.result:2', fileInput.csvToJSON(reader.result, '\n', ','));
+      }
+      reader.readAsBinaryString(fileInput.files[0]);
+    }
+  });
+  fileInput.icon = 'fa-brands fa-avianex';
+
 
   //* Event handler ///////////////////////////////////////////////////////////
   selectCancelBtn.onclick = (e) => {
@@ -136,6 +148,8 @@ const Section_listController = function (section_listHandler) {
     console.log("lineEditorBtn/", selectedArray);
     if ('undefined' !== typeof section_listHandler.onclick_lineEditor) section_listHandler.onclick_lineEditor(e, selectedArray);
   }
+
+
   //* Lazy Initialization /////////////////////////////////////////////////////
   // json-server --watch psrSample.json --port 9005
   axios({
