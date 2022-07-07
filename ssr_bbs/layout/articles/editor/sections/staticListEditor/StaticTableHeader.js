@@ -7,7 +7,13 @@
 
 import { SelectController } from "./SelectController";
 import { Select } from "/layout/components/form/select/Select";
-
+/**
+ * type
+ *  number
+ *  string
+ *  boolean
+ * @returns
+ */
 const StaticTableHeader = function() {
   const rule = new Select();
   rule.classList.remove('select');
@@ -45,7 +51,7 @@ const StaticTableHeader = function() {
     {
       name: 'SEQ',
       id: 'RULE_SEQ',
-      type: 'string',
+      type: 'number',
       icon: '',
       width: '2%',
     },

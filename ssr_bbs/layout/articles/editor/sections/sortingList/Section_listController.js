@@ -11,14 +11,13 @@ const Section_listController = function (section_listHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private        = {};
-  let sortingTable      = this.getModelById('sorting-table');
-  let selectCancelBtn   = this.getModelById('btn-select-cancel');
-  let lineEditorBtn     = this.getModelById('btn-line-editor');
+  let sortingTable      = this.getModelByDataId('sorting-table');
+  let selectCancelBtn   = this.getModelByDataId('btn-select-cancel');
+  let lineEditorBtn     = this.getModelByDataId('btn-line-editor');
   let fileInput         = this.getModelByDataClass('file-input')[0];
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
-
 
 
   //* Access Control: getter & setter /////////////////////////////////////////
@@ -124,12 +123,11 @@ const Section_listController = function (section_listHandler) {
     }
   }, getTableHeader());
 
-  //?
+  //? 
   fileInput = $SR.registerModel(fileInput).inject(FileInputController, {
     onchange_fileInput(_e){
       var reader = new FileReader();
       reader.onload = function () {
-        console.log('reader.result:1', reader.result);
         console.log('reader.result:2', fileInput.csvToJSON(reader.result, '\n', ','));
       }
       reader.readAsBinaryString(fileInput.files[0]);
@@ -145,7 +143,7 @@ const Section_listController = function (section_listHandler) {
   }
   lineEditorBtn.onclick = (e) => {
     const selectedArray = sortingTable.page.rows.filter(o => o.isSelected);
-    console.log("lineEditorBtn/", selectedArray);
+    // console.log("lineEditorBtn/", selectedArray);
     if ('undefined' !== typeof section_listHandler.onclick_lineEditor) section_listHandler.onclick_lineEditor(e, selectedArray);
   }
 

@@ -1,6 +1,8 @@
 import { ToolTipController } from '/layout/components/toolTip/ToolTipController';
-import { Section_listController } from './section_list/Section_listController';
-import { Section_listEditorController } from './section_listEditor/Section_listEditorController';
+import { Section_listController } from './sections/sortingList/Section_listController';
+import { Section_staticListEditorController } from './sections/staticListEditor/Section_staticListEditorController';
+import { LocalCsvEditorController } from './sections/localCsvEditor/LocalCsvEditorController';
+
 
 /***
  * block:  ArticleController
@@ -10,7 +12,11 @@ const ArticleController   = function(_articleHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private          = {};
+  let section_list        = this.getModelByDataId('psr-sorting-list');
+  let staticListEditor    = this.getModelByDataId('static-list-editor');
+  let section_localCsvEditor = this.getModelByDataId('local-csv-editor');
   let toolTip             = this.children[0];
+  console.log('staticListEditor',staticListEditor);
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
@@ -45,18 +51,19 @@ const ArticleController   = function(_articleHandler) {
 
   //* inject controller ///////////////////////////////////////////////////////
   $SR.registerModel(toolTip).inject(ToolTipController, {});
-  let section_list = $SR.registerFrameById(this.id + '-Section_list').inject(Section_listController, {
+  section_list = $SR.registerFrame(section_list).inject(Section_listController, {
     onclick_lineEditor: (e, selectedArray) => {
       selectedArray.forEach(el => {
         el.isSelected = false;
       });
-      section_listEditor.renderTable(selectedArray);
-      section_listEditor.activate();
+      staticListEditor.renderTable(selectedArray);
+      staticListEditor.activate();
     }
   });
-  let section_listEditor = $SR.registerFrameById(this.id + '-Section_listEditor').inject(Section_listEditorController,{
+  staticListEditor = $SR.registerFrame(staticListEditor).inject(Section_staticListEditorController,{
     onclick_arrowRotateLeft: (_e) => section_list.activate()
   });
+  section_localCsvEditor = $SR.registerFrame(section_localCsvEditor).inject(LocalCsvEditorController, {});
 
 
   //* Lazy Initialization /////////////////////////////////////////////////////

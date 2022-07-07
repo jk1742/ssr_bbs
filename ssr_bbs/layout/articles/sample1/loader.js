@@ -9,5 +9,5 @@ export default () => {
     let article = new Article(articleId);
     document.body.appendChild(article);
     // insert controller
-    $SR.registerFrameById(articleId).inject(ArticleController, {});
+    $SR.registerFrameByRawId(articleId).inject(ArticleController, {});
 };

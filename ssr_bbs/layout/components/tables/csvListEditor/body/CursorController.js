@@ -58,7 +58,7 @@ const CursorController = function (_handler) {
     if (KEY_V == _e.keyCode && _e.ctrlKey) {
       let pastedArray = pasteProcess(this.value);
       if (!pastedArray) pastedArray = [[this.value]];
-      // send event to listEditor
+      // send event to staticListEditor
       if ('undefined' !== typeof _handler.onkeyup_paste && pastedArray) _handler.onkeyup_paste(_e, pastedArray);
     }
     if (KEY_C == _e.keyCode && _e.ctrlKey) {

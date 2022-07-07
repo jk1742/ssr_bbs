@@ -724,7 +724,7 @@ module.exports = {
    * @function removeClassArticle
    * @function appendClassArticle
    */
-  Article: function(dom) {
+  Article: function (dom, ssr, hasFixedId) {
     const fx = function () {
       let _private= {
         scrollLock: false,
@@ -799,36 +799,50 @@ module.exports = {
       } else {
         this.scrollLock = false;
       }
+      if (!hasFixedId) this.id = 'article-' + ssr.uuidv4() + '-' + this.getAttribute('data-id');
     }
     fx.call(dom);
     return dom;
   },
-  Section: function (dom, me) {
+  Section: function (dom, ssr, hasFixedId) {
     const fx = function () {
       let _private = {
       };
-      let activities = me.Queue.getInstance();
+      const getParentId = function (target, o) {
+        const _fx = function (_target, _o) {
+          const node = _o;
+          if (!node) return '';
+          if (node.tagName == _target) return node.id;
+          return _fx(_target, node.parentNode);
+        }
+        return _fx(target, o);
+      }
+      let activities = ssr.Queue.getInstance();
       Object.assign(this, {
-        activate(){
+        activate() {
           activities.push({
             id: this.id,
             name: 'moveSection',
             detail: `move to section: ${this.id}`,
             timestamp: Date.now(),
-            hash:''
+            hash: ''
           });
-          me.moveScreen(this);
+          ssr.moveScreen(this);
         },
-        checkInteractiveDOM(target){
+        checkInteractiveDOM(target) {
           const _fx = function (_o) {
             const node = _o;
             if (node.isInteractDOM) return node;
-            if (node.tagName == 'SECTION' || node.tagName == 'BODY') return null;
+            if (node.tagName == 'SECTION' || node.tagName == 'ARTICLE' || node.tagName == 'BODY') return null;
             return _fx(node.parentNode);
           }
           return _fx(target);
         },
       });
+      let parentId = getParentId('ARTICLE', this);
+      this.parentArticleId = parentId;
+      if (hasFixedId) this.id = parentId + '_section-' + this.id;
+      else this.id = parentId + '_section-' + ssr.uuidv4() + '-' + this.getAttribute('data-id');
     }
     fx.call(dom);
     return dom;
@@ -1064,7 +1078,7 @@ module.exports = {
         getModelByDataClass(_name) {
           return this.querySelectorAll(`[data-class="${_name}"]`);
         },
-        getModelById(_name) {
+        getModelByDataId(_name) {
           return this.querySelectorAll(`[data-id="${_name}"]`)[0];
         }
       });
@@ -1109,27 +1123,38 @@ module.exports = {
   * dom = model(dom,{});
   ******/
   View: function(id){
-    let dom           = document.getElementById(id);
-    let hasController  = '';
+    let dom = document.getElementById(id);
+    if (typeof dom === 'undefined' || _.isNull(dom)) console.error(`Instance error: ${typeof dom} is not a DOM object`);
+    return this.Model(dom);
+  },
+  /*****
+   * core : Model
+   * return: html object with functions
+   * const model = (dom, handler) => Controller.call(dom, handler);
+   * dom = model(dom,{});
+   ******/
+  Model: function (dom) {
+    if (!isDOM(dom)) console.error(`Instance error: ${typeof dom} is not a DOM object`);
+    let hasController = '';
     Object.defineProperties(dom, {
       hasController: {
-        get: function() {
+        get: function () {
           return hasController;
         },
         configurable: true,
       }
     });
     Object.assign(dom, {
-      inject: function (Controller, Handler){
+      inject: function (Controller, Handler) {
         // double inject check
-        if(dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
+        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject once`);
         // transfer params
-        let args  = Array.from(arguments);
+        let args = Array.from(arguments);
         args.splice(0, 2);
         // marge controller & view
         //  - register Controller
         hasController = Controller.name;
-        return (function (_dom, _Handler, ...Args){
+        return (function (_dom, _Handler, ...Args) {
           return Controller.call(_dom, _Handler, ...Args);
         })(dom, Handler, ...args);
       },
@@ -1137,86 +1162,108 @@ module.exports = {
     return dom;
   },
   /***
-   * core : registerFrameById
-   * return: html object with functions
-   * const model = (dom, handler) => Controller.call(dom, handler);
-   * dom = model(dom,{});
-   ***/
-  registerFrameById: function (id) {
+  * core : registerFrame
+  * return: html object with functions
+  * const model = (dom, handler) => Controller.call(dom, handler);
+  * dom = model(dom,{});
+  ***/
+  registerFrameByRawId: function (id) {
     let dom = document.getElementById(id);
-    let _private = {
-      hasController: '',
-      dataToken: () => null,
-    };
-    Object.defineProperties(dom, {
-      hasController: {
-        get: function () {
-          return _private.hasController;
+    return this.registerFrame(dom, true);
+  },
+  registerFrameByDataId: function (id) {
+    let dom = document.querySelectorAll(`[data-id="${id}"]`)[0];
+    return this.registerFrame(dom, false);
+  },
+  registerFrame: function (documentObject, hasFixedId) {
+    let dom;
+    // DOM check
+    if (isDOM(documentObject)) dom = documentObject;
+    else {
+      console.error(`Instance error: ${typeof documentObject} is not a DOM object`);
+      console.error(`Instance error: `, documentObject);
+      return;
+    }
+    const ssr      = this;
+    const fx = function () {
+      let _private = {
+        hasController: '',
+        dataToken: () => null,
+      };
+      Object.defineProperties(this, {
+        hasController: {
+          get: function () {
+            return _private.hasController;
+          },
+          configurable: true,
         },
-        configurable: true,
-      },
-      dataToken: {
-        get: () => _private.dataToken
+        dataToken: {
+          get: () => _private.dataToken
+        }
+      });
+      const tagName = this.tagName.toLowerCase();
+      if ('article' == tagName) ssr.Article(this, ssr, hasFixedId);
+      else if ('section' == tagName || 'header' == tagName || 'footer' == tagName) ssr.Section(this, ssr, hasFixedId);
+      else {
+        console.log('non-frameTag:',tagName);
       }
-    });
-    const tagName = dom.tagName.toLowerCase();
-    if ('article' == tagName) this.Article(dom);
-    if ('section' == tagName || 'header' == tagName || 'footer' == tagName) this.Section(dom, this);
-    Object.assign(dom, {
-      inject: function (Controller, Handler) {
-        // double inject check
-        if (dom.hasController !== '') console.warn(`Instance inject error: There was already injected ${dom.hasController};Controller is able to inject Frame once`);
-        // transfer params
-        let args = Array.from(arguments);
-        args.splice(0, 2);
-        // marge controller & view
-        //  - register Controller
-        _private.hasController = Controller.name;
-        return (function (_dom, _Handler, ...Args) {
-          return Controller.call(_dom, _Handler, ...Args);
-        })(dom, Handler, ...args);
-      },
-      setData(_fx) {
-        const carriage = {};
-        const _tmp = _fx();
-        const checkDepth = (obj) => {
-          let c = true;
-          for (const key in obj) {
-            if (Object.hasOwnProperty.call(obj, key)) {
-              const element = obj[key];
-              if (Array.isArray(element) || 'object' === typeof element ) {
-                c = false;
-                console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow deep depth');
-              } else if ('function' === typeof element){
-                c = false;
-                console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow function');
+      Object.assign(this, {
+        inject: function (Controller, Handler) {
+          // double inject check
+          if (this.hasController !== '') console.warn(`Instance inject error: There was already injected ${this.hasController};Controller is able to inject Frame once`);
+          // transfer params
+          let args = Array.from(arguments);
+          args.splice(0, 2);
+          // marge controller & view
+          //  - register Controller
+          _private.hasController = Controller.name;
+          return (function (_dom, _Handler, ...Args) {
+            return Controller.call(_dom, _Handler, ...Args);
+          })(this, Handler, ...args);
+        },
+        setData(_fx) {
+          const carriage = {};
+          const _tmp = _fx();
+          const checkDepth = (obj) => {
+            let c = true;
+            for (const key in obj) {
+              if (Object.hasOwnProperty.call(obj, key)) {
+                const element = obj[key];
+                if (Array.isArray(element) || 'object' === typeof element) {
+                  c = false;
+                  console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow deep depth');
+                } else if ('function' === typeof element) {
+                  c = false;
+                  console.warn('Frame(ARTICLE, SECTION) model data transfer object is Not allow function');
+                }
               }
             }
+            return c;
           }
-          return c;
-        }
-        Object.getOwnPropertyNames(_tmp).forEach(
-          (val) => {
-            if ('function' === typeof _tmp[val]) {
-              console.warn('Data transfer object is Not allow function');
-              return;
+          Object.getOwnPropertyNames(_tmp).forEach(
+            (val) => {
+              if ('function' === typeof _tmp[val]) {
+                console.warn('Data transfer object is Not allow function');
+                return;
+              }
+              if (Array.isArray(_tmp[val]) || 'object' === typeof _tmp[val]) {
+                const _obj = _tmp[val];
+                if (!checkDepth(_obj)) return;
+              }
+              carriage[val] = _tmp[val];
             }
-            if (Array.isArray(_tmp[val]) || 'object' === typeof _tmp[val]) {
-              const _obj = _tmp[val];
-              if (!checkDepth(_obj)) return;
-            }
-            carriage[val] = _tmp[val];
-          }
-        );
-        _private.dataToken = carriage;
-      },
-      getModelById(_name) {
-        return this.querySelectorAll(`[data-id="${_name}"]`)[0];
-      },
-      getModelByDataClass(_name) {
-        return this.querySelectorAll(`[data-class="${_name}"]`);
-      },
-    });
+          );
+          _private.dataToken = carriage;
+        },
+        getModelByDataId(_name) {
+          return this.querySelectorAll(`[data-id="${_name}"]`)[0];
+        },
+        getModelByDataClass(_name) {
+          return this.querySelectorAll(`[data-class="${_name}"]`);
+        },
+      });
+    }
+    fx.call(dom);
     return dom;
   },
   moveTo:function(loc){

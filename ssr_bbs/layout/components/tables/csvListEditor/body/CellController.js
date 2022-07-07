@@ -147,7 +147,7 @@ const CellController = function (_cellHandler, _cellValue, header, rowJson) {
       }
       insertField.addEventListener("blur", (_e) => {
         const pastedArray = pasteProcess(insertField.value);
-        // send event to listEditor
+        // send event to staticListEditor
         if (pastedArray) _cellHandler.onkeyup_paste(_e, pastedArray, me, header);
         else _cellHandler.onblur_cursor(_e, insertField.value, me, header);
       });

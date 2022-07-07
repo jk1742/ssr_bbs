@@ -1,17 +1,15 @@
 /* eslint-disable no-undef */
 // import view block with controller
-import { FileInput         } from '/layout/components/form/file/FileInput';
-import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
+import { StaticListEditor } from "/layout/components/tables/staticListEditor/StaticListEditor";
 
-const Section_list = function (id) {
+const Section_staticListEditor = function (id) {
 
   //* View Register
-  const table = new SortingTable('sorting-table', '67vh', 'width:80vw');
-  const file = new FileInput('is-small is-info').setIcon('fa-solid fa-bolt').setLabel('파일을 선택하세용').setName('test');
+  const table = new StaticListEditor('list-editor','67vh','width:80vw');
 
   //* Describe Tags
   return $SR.generateHtml `
-  <section id="${id}">
+  <section data-id = "${id}">
     <div class="cont_main">
       <!-- article Title -->
       <div class="frame-top">
@@ -21,11 +19,14 @@ const Section_list = function (id) {
           </div>
           <div class= "column" style="padding-right:5vw;">
             <div class="is-pulled-right">
-              <a class="button is-primary is-inverted" data-id="btn-line-editor" style="float:left;">
-                  <i class="fa-solid fa-check-to-slot"></i>
+              <a class="button is-primary is-inverted" data-id="btn-get-data" style="float:left;">
+                  <i class="fa-solid fa-info"></i>
               </a>
-              <a class="button is-primary is-inverted" data-id="btn-select-cancel" style="float:left;">
-                  <i class="fa-solid fa-ban"></i>
+              <a class="button is-primary is-inverted" data-id="btn-back-list" style="float:left;">
+                  <i class="fa-solid fa-arrow-rotate-left"></i>
+              </a>
+              <a class="button is-primary is-inverted" data-id="btn-copy-selected" style="float:left;">
+                <i class="fa-regular fa-copy"></i>
               </a>
             </div>
           </div>
@@ -39,12 +40,6 @@ const Section_list = function (id) {
                 ${table.outerHTML}
               </div>
           </div>
-          <div class = "columns is-centered">
-              <div class = "column is-narrow">
-                <!-- file -->
-                ${file.outerHTML}
-              </div>
-          </div>
         </div>
       </div>
       <div class="frame-btm">
@@ -55,5 +50,5 @@ const Section_list = function (id) {
   `; // HTML end
 }
 export {
-  Section_list
-};
+  Section_staticListEditor
+}

@@ -19,12 +19,12 @@ const DatePickerController = function (_datePickerHandler) {
   const localDate       = new LocalDate();
   let   dummy           = this.children[0];
   const wrapper         = this.children[1];
-  let   header          = this.getModelById('datepicker-header');
-  let   datePicker_nav  = this.getModelById('datepicker-nav');
-  let   days            = this.getModelById('datepicker-days');
-  let   months          = this.getModelById('datepicker-months');
-  let   years           = this.getModelById('datepicker-years');
-  const footer          = this.getModelById('datepicker-footer');
+  let   header          = this.getModelByDataId('datepicker-header');
+  let   datePicker_nav  = this.getModelByDataId('datepicker-nav');
+  let   days            = this.getModelByDataId('datepicker-days');
+  let   months          = this.getModelByDataId('datepicker-months');
+  let   years           = this.getModelByDataId('datepicker-years');
+  const footer          = this.getModelByDataId('datepicker-footer');
   const _private        = {
     year    : dateRepository.thisYear,
     month   : dateRepository.thisMonth,

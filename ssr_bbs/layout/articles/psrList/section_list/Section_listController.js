@@ -11,9 +11,9 @@ const Section_listController = function (section_listHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private              = {};
-  let sortingTable            = this.getModelById('sorting-table');
-  let searchBar               = this.getModelById('SearchBar');
-  let selectCancelBtn         = this.getModelById('btn-select-cancel');
+  let sortingTable            = this.getModelByDataId('sorting-table');
+  let searchBar               = this.getModelByDataId('SearchBar');
+  let selectCancelBtn         = this.getModelByDataId('btn-select-cancel');
 
 
   //* Privilege Static Functions //////////////////////////////////////////////

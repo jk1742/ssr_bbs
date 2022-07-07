@@ -5,9 +5,8 @@ console.log(
 );
 export default () => {
     // compose tag figure
-    const articleId = "a-" + $SR.uuidv4();
-    let article = new Article(articleId);
+    let article = new Article('editor');
     document.body.appendChild(article);
     // insert controller
-    $SR.registerFrameById(articleId).inject(ArticleController, {});
+    $SR.registerFrame(article).inject(ArticleController, {});
 };

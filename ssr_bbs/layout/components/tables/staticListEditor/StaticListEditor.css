@@ -1,0 +1,54 @@
+.static-list-editor {
+  float:left;
+  width:95%;
+}
+.static-list-editor table thead{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #f0f8ff;
+}
+.static-list-editor table thead th {
+  border: 1px solid #dbdbdb;
+}
+.static-list-editor table tr {
+  height:40px;
+}
+.static-list-editor table tr td,
+.static-list-editor table tr th {
+  vertical-align: middle;
+  padding: 0.2em 0.75em;
+}
+.static-list-editor table tr td:hover {
+  cursor: crosshair;
+}
+
+.static-list-editor td.is-editing {
+  border: solid 2px #1d92f9;
+  padding: 0;
+}
+
+.static-list-editor td.is-editing input,
+.static-list-editor td.is-editing select{
+  border: 0;
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+.static-list-editor td.is-editing textarea {
+  border: 0;
+  outline-style: none;
+  box-shadow: none;
+  border-style: none;
+  border-color: Transparent;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+.static-list-editor table tr .painted-used-one {
+  background-color: #f5fffa;
+}
+.static-list-editor table tr .painted-selected-one {
+  background-color: #ebfff5;
+}

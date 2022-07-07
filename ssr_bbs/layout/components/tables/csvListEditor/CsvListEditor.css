@@ -1,38 +1,41 @@
-.list-Editor {
+.static-list-editor {
   float:left;
   width:95%;
 }
-.list-Editor table thead{
+.static-list-editor table thead{
   position: sticky;
   top: 0;
   z-index: 1;
   background-color: #f0f8ff;
 }
-.list-Editor table thead th {
+.static-list-editor table thead th {
   border: 1px solid #dbdbdb;
 }
-.list-Editor table tr {
+.static-list-editor table tr {
   height:40px;
 }
-.list-Editor table tr td,
-.list-Editor table tr th {
+.static-list-editor table tr td,
+.static-list-editor table tr th {
   vertical-align: middle;
   padding: 0.2em 0.75em;
 }
+.static-list-editor table tr td:hover {
+  cursor: crosshair;
+}
 
-.list-Editor td.is-editing {
+.static-list-editor td.is-editing {
   border: solid 2px #1d92f9;
   padding: 0;
 }
 
-.list-Editor td.is-editing input,
-.list-Editor td.is-editing select{
+.static-list-editor td.is-editing input,
+.static-list-editor td.is-editing select{
   border: 0;
   outline-style: none;
   box-shadow: none;
   border-color: transparent;
 }
-.list-Editor td.is-editing textarea {
+.static-list-editor td.is-editing textarea {
   border: 0;
   outline-style: none;
   box-shadow: none;
@@ -43,9 +46,9 @@
   width: 100%;
 }
 
-.list-Editor table tr .painted-used-one {
+.static-list-editor table tr .painted-used-one {
   background-color: #f5fffa;
 }
-.list-Editor table tr .painted-selected-one {
+.static-list-editor table tr .painted-selected-one {
   background-color: #ebfff5;
 }

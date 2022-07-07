@@ -14,10 +14,10 @@ const Section_detailController = function (section_detailHandler) {
   const contents      = this.firstChild;
   const frameTop      = contents.children[0];
   let panelNavBtns    = frameTop.firstChild.childNodes[2];
-  let calender        = this.getModelById('SampleCalendar');
-  let dayPick         = this.getModelById('single-datepicker');
-  const textarea      = this.getModelById('input-textarea');
-  let boardCtrl       = this.getModelById('BoardCtrlBox');
+  let calender        = this.getModelByDataId('SampleCalendar');
+  let dayPick         = this.getModelByDataId('single-datepicker');
+  const textarea      = this.getModelByDataId('input-textarea');
+  let boardCtrl       = this.getModelByDataId('BoardCtrlBox');
 
 
   //* Privilege Static Functions //////////////////////////////////////////////

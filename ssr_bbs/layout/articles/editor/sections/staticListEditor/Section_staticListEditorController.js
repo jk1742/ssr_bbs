@@ -1,4 +1,4 @@
-import { ListEditorController } from '/layout/components/tables/listEditor/ListEditorController';
+import { StaticListEditorController } from '/layout/components/tables/staticListEditor/StaticListEditorController';
 import { StaticTableHeader as getTableHeader } from './StaticTableHeader';
 
 
@@ -6,17 +6,15 @@ import { StaticTableHeader as getTableHeader } from './StaticTableHeader';
  * block:  Section_listController
  ***/
 // Describe constant Class below
-const Section_listEditorController = function (section_listEditorHandler) {
+const Section_staticListEditorController = function (section_staticListEditorHandler) {
 
   //* private variable & mapping //////////////////////////////////////////////
   const _private          = {};
-  let listEditor          = this.getModelById('list-editor');
-  let btnArrowRotateLeft  = this.getModelById('btn-back-list');
-  let btnGetTableData     = this.getModelById('btn-get-data');
-  // btn-copy-selected
-  let btnCopy             = this.getModelById('btn-copy-selected');
-  let btnCsv              = this.getModelById('btn-csv-demo');
-  // btn-csv-demo
+  let staticListEditor    = this.getModelByDataId('list-editor');
+  let btnArrowRotateLeft  = this.getModelByDataId('btn-back-list');
+  let btnGetTableData     = this.getModelByDataId('btn-get-data');
+  let btnCopy             = this.getModelByDataId('btn-copy-selected');
+
 
   //* Privilege Static Functions //////////////////////////////////////////////
 
@@ -34,19 +32,19 @@ const Section_listEditorController = function (section_listEditorHandler) {
   //* Access control: Public functions ////////////////////////////////////////
   Object.assign(this, {
     renderTable(array) {
-      const _page = listEditor.getNewPage(array);
-      listEditor.generateTable(_page);
+      const _page = staticListEditor.getNewPage(array);
+      staticListEditor.generateTable(_page);
     }
   });
 
 
   //* inject controller ///////////////////////////////////////////////////////
-  listEditor = $SR.registerModel(listEditor).inject(ListEditorController, {
+  staticListEditor = $SR.registerModel(staticListEditor).inject(StaticListEditorController, {
     onclick_tableRow: (_e, _id, _rowNum, _element, _data) => {
-      listEditor.markSelectRow(_id);
+      staticListEditor.markSelectRow(_id);
     },
     onclick_cell: (_e, _id, _rowNum, _element, _header) => {
-      // listEditor.update(page);
+      // staticListEditor.update(page);
       // console.log(_element);
     },
     ondblclick_cell: (_e, _id, _rowNum, _element, _header) => {
@@ -57,18 +55,16 @@ const Section_listEditorController = function (section_listEditorHandler) {
 
   //* Event handler ///////////////////////////////////////////////////////////
   btnArrowRotateLeft.onclick = (e) => {
-    if ('undefined' !== typeof section_listEditorHandler.onclick_arrowRotateLeft) section_listEditorHandler.onclick_arrowRotateLeft(e);
+    if ('undefined' !== typeof section_staticListEditorHandler.onclick_arrowRotateLeft) section_staticListEditorHandler.onclick_arrowRotateLeft(e);
   }
   btnGetTableData.onclick = (_e) => {
-    console.log("btnGetTableData/", listEditor.page);
+    console.log("btnGetTableData/", staticListEditor.page);
   }
   btnCopy.onclick = (_e) => {
-    const selectedValues = listEditor.selectedValTxt;
-    listEditor.copyToClipboard(selectedValues);
+    const selectedValues = staticListEditor.selectedValTxt;
+    staticListEditor.copyToClipboard(selectedValues);
   }
-  btnCsv.onclick = (_e) => {
-    console.log('btnCsv.onclick', _e);
-  }
+
 
   //* Lazy Initialization /////////////////////////////////////////////////////
 
@@ -77,5 +73,5 @@ const Section_listEditorController = function (section_listEditorHandler) {
   return this;
 }
 export {
-  Section_listEditorController
+  Section_staticListEditorController
 }

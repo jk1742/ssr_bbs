@@ -8,8 +8,8 @@ const FilterBarController = function (_filterBarHandler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const _private              = {};
-  const searchBtn             = this.getModelById('search-btn');
-  const searchPanel           = this.getModelById('search-panel');
+  const searchBtn             = this.getModelByDataId('search-btn');
+  const searchPanel           = this.getModelByDataId('search-panel');
 
 
   //* Privilege Static Functions ////////////////////////////////////////////////

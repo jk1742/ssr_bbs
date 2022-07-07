@@ -11,7 +11,7 @@ import { CursorController } from './body/CursorController';
 
 
 /**
- * Layout:  ListEditorController
+ * Layout:  StaticListEditorController
  * @constructor
  * @param {Function} _listEditorHandler
  * public functions below
@@ -40,11 +40,11 @@ import { CursorController } from './body/CursorController';
  * ]
  * @returns
  */
-const ListEditorController   = function (_listEditorHandler, headerInfo) {
+const StaticListEditorController   = function (_listEditorHandler, headerInfo) {
 
   //* private variable & mapping //////////////////////////////////////////////
   let     me                = this;
-  let     table             = this.getModelById('list-editor-table');
+  let     table             = this.getModelByDataId('list-editor-table');
   let     thead             = table.firstChild;
   let     tbody             = table.lastChild;
   let     indexBar          = me.children[1];
@@ -158,8 +158,10 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
     const header = _.cloneDeep(array.splice(0,1));
     if ('string' === selectedHeadType) {
       array.sort(function(a, b) {
-        let nameA = a[pos].toUpperCase();
-        let nameB = b[pos].toUpperCase();
+        let nameA = '';
+        if (typeof a[pos]  !== 'undefined' && !_.isNull(a[pos])) nameA = String(a[pos]).toUpperCase();
+        let nameB = '';
+        if (typeof b[pos] !== 'undefined' && !_.isNull(b[pos])) nameB = String(b[pos]).toUpperCase();
         if (nameA < nameB) return ('asc' === direction) ? -1: 1;
         if (nameA > nameB) return ('asc' === direction) ?  1:-1;
         return 0;
@@ -592,12 +594,11 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
       }
       me.updateTable(page);
     },
-    listEditor_sort(_e, selectedId, _selectedType){
+    staticListEditor_sort(_e, selectedId, _selectedType){
       // order by
       page.orderBy = page.toggleOrderBy();
       page.orderId = selectedId;
-      // page update call
-      if('undefined' !== typeof _listEditorHandler.onheaderclick_sorting) _listEditorHandler.onheaderclick_sorting(page);
+      me.updateTable(page);
     }
   }, tableHeader);
 
@@ -809,5 +810,5 @@ const ListEditorController   = function (_listEditorHandler, headerInfo) {
   return this;
 }
 export {
-  ListEditorController
+  StaticListEditorController
 }
