@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 //* import view block with controller /////////////////////////////////////////
-import { ToolTip } from '/layout/components/toolTip/ToolTip';
-import { Section_list } from './sections/sortingList/Section_list';
+import { ToolTip                  } from '/layout/components/toolTip/ToolTip';
+import { Section_list             } from './sections/sortingList/Section_list';
 import { Section_staticListEditor } from './sections/staticListEditor/Section_staticListEditor';
-import { LocalCsvEditor } from './sections/localCsvEditor/LocalCsvEditor';
+import { LocalCsvEditor           } from './sections/localCsvEditor/LocalCsvEditor';
 
 
 /**

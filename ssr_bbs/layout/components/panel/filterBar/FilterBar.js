@@ -1,10 +1,6 @@
 /***
  * layout:  SearchBar
  ***/
-import { Footer } from "./Footer"
-import { ActionBlock } from "./ActionBlock";
-import { Header } from "./Header";
-import { NameBlock } from "./NameBlock";
 
 // Describe SearchBar layout below
 const FilterBar = function (id, icon, align, style) {

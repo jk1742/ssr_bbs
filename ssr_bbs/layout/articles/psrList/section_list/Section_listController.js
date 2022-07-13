@@ -1,6 +1,5 @@
 import { Page                   } from '/layout/components/tables/sortingTable/class/Page';
 import { SortingTableController } from '/layout/components/tables/sortingTable/SortingTableController';
-import { TopNavBtnsController   } from './TopNavBtnsController';
 import { StaticTableHeader as  getTableHeader  } from './StaticTableHeader';
 import { SearchBarController    } from './SearchBarController';
 /***

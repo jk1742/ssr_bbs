@@ -1,23 +1,26 @@
 
 import _ from 'lodash';
-import { DynamicBtn } from '/layout/components/panel/dynamicBox/DynamicBtn';
+import { IconBtn } from '/layout/components/panel/iconBox/IconBtn';
 
 /***
  * layout:  ActiveBarController control buttons
  ***/
 //* Describe ActiveBarController layout below
-const DynamicBoxController = function (_dynamicBoxHandler) {
+const IconBoxController = function (_handler) {
 
   //* private variable & mapping ////////////////////////////////////////////////
   const me    = this;
   let   oven  = [];
 
+
   //* Privilege Static Functions ////////////////////////////////////////////////
+
 
   //* Access Control: getter & setter ///////////////////////////////////////////
   // Object.defineProperties(this, {
   //   list  :{ get: () => list }
   // });
+
 
   //* Access control: public functions //////////////////////////////////////////
   Object.assign(this, {
@@ -26,7 +29,7 @@ const DynamicBoxController = function (_dynamicBoxHandler) {
     },
     bake:() => {
       oven.forEach(element => {
-        me.append(new DynamicBtn(element));
+        me.append(new IconBtn(element));
       });
       const tagArray = Array.from(me.children);
       for (const iterator of tagArray) {
@@ -53,10 +56,12 @@ const DynamicBoxController = function (_dynamicBoxHandler) {
     }
   }
 
+
   //* Event handler /////////////////////////////////////////////////////////////
   // upside.onclick = (e) => {
   //   if('undefined' !== typeof panelNavHandler.onclick_upside) panelNavHandler.onclick_upside(e);
   // }
+
 
   //* Lazy Initialization ///////////////////////////////////////////////////////
   // how to set items
@@ -64,9 +69,10 @@ const DynamicBoxController = function (_dynamicBoxHandler) {
   // activeBar.appendToOven("fa-solid fa-briefcase");
   // activeBar.bake();
 
+
   //* End of Structure //////////////////////////////////////////////////////////
   return this;
 }
 export {
-  DynamicBoxController
+  IconBoxController
 }

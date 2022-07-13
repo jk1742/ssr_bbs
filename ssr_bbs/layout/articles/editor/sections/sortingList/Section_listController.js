@@ -2,6 +2,9 @@ import { Page                   } from '/layout/components/tables/sortingTable/c
 import { SortingTableController } from '/layout/components/tables/sortingTable/SortingTableController';
 import { StaticTableHeader as  getTableHeader  } from './StaticTableHeader';
 import { FileInputController } from '/layout/components/form/file/FileInputController';
+import { CsvLoaderController } from './CsvLoaderController';
+//LightPopupPanel
+
 
 /***
  * block:  Section_listController
@@ -13,8 +16,10 @@ const Section_listController = function (section_listHandler) {
   const _private        = {};
   let sortingTable      = this.getModelByDataId('sorting-table');
   let selectCancelBtn   = this.getModelByDataId('btn-select-cancel');
-  let lineEditorBtn     = this.getModelByDataId('btn-line-editor');
+  let lineEditorBtn     = this.getModelByDataId('btn-line-editor');// btn-local-csv
+  let btnLocalCsv       = this.getModelByDataId('btn-local-csv');
   let fileInput         = this.getModelByDataClass('file-input')[0];
+  let lightPopup        = this.getModelByDataClass('light-popup-panel')[0];
 
 
   //* Privilege Static Functions //////////////////////////////////////////////
@@ -122,18 +127,25 @@ const Section_listController = function (section_listHandler) {
       });
     }
   }, getTableHeader());
+  
 
-  //? 
-  fileInput = $SR.registerModel(fileInput).inject(FileInputController, {
-    onchange_fileInput(_e){
-      var reader = new FileReader();
-      reader.onload = function () {
-        console.log('reader.result:2', fileInput.csvToJSON(reader.result, '\n', ','));
-      }
-      reader.readAsBinaryString(fileInput.files[0]);
+  lightPopup = $SR.registerModel(lightPopup).inject(CsvLoaderController,{
+    onclick_transferData(_e, carriage){
+      // console.log('onclick_transferData', carriage);
+      if ('undefined' !== typeof section_listHandler.onclick_localCsv) section_listHandler.onclick_localCsv(_e, carriage);
     }
   });
-  fileInput.icon = 'fa-brands fa-avianex';
+  //?
+  // fileInput = $SR.registerModel(fileInput).inject(FileInputController, {
+  //   onchange_fileInput(_e){
+  //     var reader = new FileReader();
+  //     reader.onload = function () {
+  //       console.log('reader.result:2', fileInput.csvToJSON(reader.result, '\n', ','));
+  //     }
+  //     reader.readAsBinaryString(fileInput.files[0]);
+  //   }
+  // });
+  // fileInput.icon = 'fa-brands fa-avianex';
 
 
   //* Event handler ///////////////////////////////////////////////////////////
@@ -146,7 +158,9 @@ const Section_listController = function (section_listHandler) {
     // console.log("lineEditorBtn/", selectedArray);
     if ('undefined' !== typeof section_listHandler.onclick_lineEditor) section_listHandler.onclick_lineEditor(e, selectedArray);
   }
-
+  // btnLocalCsv.onclick = (e) => {
+  //   if ('undefined' !== typeof section_listHandler.onclick_localCsv) section_listHandler.onclick_localCsv(e);
+  // }
 
   //* Lazy Initialization /////////////////////////////////////////////////////
   // json-server --watch psrSample.json --port 9005

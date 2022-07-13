@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 //* import view block /////////////////////////////////////////////////////////
-import { PanelNavBtns               } from '/layout/components/panel/navBtns/PanelNavBtns';
-import { DynamicBox as BoardCtrlBox } from '/layout/components/panel/dynamicBox/DynamicBox';
-import { DatePicker                 } from '/layout/components/datePicker/defaultDatePicker/DatePicker';
+import { PanelNavBtns            } from '/layout/components/panel/navBtns/PanelNavBtns';
+import { IconBox as BoardCtrlBox } from '/layout/components/panel/iconBox/IconBox';
+import { DatePicker              } from '/layout/components/datePicker/defaultDatePicker/DatePicker';
 
 const Section_detail = function (id) {
 

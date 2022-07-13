@@ -58,12 +58,18 @@ const ArticleController   = function(_articleHandler) {
       });
       staticListEditor.renderTable(selectedArray);
       staticListEditor.activate();
+    },
+    onclick_localCsv: (_e, carriage) => {
+      console.log('onclick_localCsv', carriage);
+      section_localCsvEditor.activate();
     }
   });
   staticListEditor = $SR.registerFrame(staticListEditor).inject(Section_staticListEditorController,{
     onclick_arrowRotateLeft: (_e) => section_list.activate()
   });
-  section_localCsvEditor = $SR.registerFrame(section_localCsvEditor).inject(LocalCsvEditorController, {});
+  section_localCsvEditor = $SR.registerFrame(section_localCsvEditor).inject(LocalCsvEditorController, {
+    
+  });
 
 
   //* Lazy Initialization /////////////////////////////////////////////////////
@@ -74,4 +80,4 @@ const ArticleController   = function(_articleHandler) {
 }
 export {
   ArticleController
-};
+}

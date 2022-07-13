@@ -3,7 +3,7 @@
  ***/
 // Describe PanelNavBtns layout below
 // has-text-right
-const DynamicBtn   = function(icon) {
+const IconBtn   = function(icon) {
   return $SR.generateHtml `
   <a class="button">
     <i class="${icon}"></i>
@@ -11,5 +11,5 @@ const DynamicBtn   = function(icon) {
   `; // HTML end
 }
 export {
-  DynamicBtn
-};
+  IconBtn
+}

@@ -1,13 +1,15 @@
 /* eslint-disable no-undef */
 // import view block with controller
-import { FileInput         } from '/layout/components/form/file/FileInput';
-import { SortingTable } from '/layout/components/tables/sortingTable/SortingTable';
+import { LightPopupPanel  } from '/layout/components/panel/lightPopupPanel/LightPopupPanel';
+import { FileInput        } from '/layout/components/form/file/FileInput';
+import { SortingTable     } from '/layout/components/tables/sortingTable/SortingTable';
 
 const Section_list = function (id) {
 
   //* View Register
   const table = new SortingTable('sorting-table', '67vh', 'width:80vw');
   const file = new FileInput('is-small is-info').setIcon('fa-solid fa-bolt').setLabel('파일을 선택하세용').setName('test');
+  const lightPopupPanel = new LightPopupPanel().setIcon('fa-solid fa-paw').setStyle('right:4vw;width:30vw;background-color:white;z-index:15;');
 
   //* Describe Tags
   return $SR.generateHtml `
@@ -27,6 +29,11 @@ const Section_list = function (id) {
               <a class="button is-primary is-inverted" data-id="btn-select-cancel" style="float:left;">
                   <i class="fa-solid fa-ban"></i>
               </a>
+              <a class="button is-primary is-inverted" data-id="btn-local-csv" style="float:left;">
+                  <i class="fa-solid fa-table-cells"></i>
+              </a>
+              <!-- light-popup-panel -->
+              ${lightPopupPanel.outerHTML}
             </div>
           </div>
         </div>

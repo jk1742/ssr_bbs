@@ -1,4 +1,4 @@
-import { DynamicBoxController as Super} from "/layout/components/panel/dynamicBox/DynamicBoxController";
+import { IconBoxController as Super} from "/layout/components/panel/iconBox/IconBoxController";
 
 /***
  * layout:  PanelNavBtnsController control buttons

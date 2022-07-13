@@ -17,7 +17,7 @@ const Section_detailController = function (section_detailHandler) {
   let calender        = this.getModelByDataId('SampleCalendar');
   let dayPick         = this.getModelByDataId('single-datepicker');
   const textarea      = this.getModelByDataId('input-textarea');
-  let boardCtrl       = this.getModelByDataId('BoardCtrlBox');
+  let boardCtrl       = this.getModelByDataClass('BoardCtrlBox')[0];
 
 
   //* Privilege Static Functions //////////////////////////////////////////////

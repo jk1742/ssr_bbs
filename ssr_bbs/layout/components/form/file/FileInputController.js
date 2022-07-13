@@ -4,6 +4,7 @@
  * FileInputController
  * @constructor
  * @param {[Function]} _handler
+ *    @function onchange_fileInput
  * @public name
  * @public label
  * @public icon
@@ -29,7 +30,7 @@ const FileInputController = function (_handler) {
     commonOnChange(_e);
   }
   const commonOnChange = function(_e){
-    if ('undefined' !== typeof _handler.onchange_fileInput) _handler.onchange_fileInput();
+    if ('undefined' !== typeof _handler.onchange_fileInput) _handler.onchange_fileInput(_e);
   }
 
 
@@ -95,6 +96,16 @@ const FileInputController = function (_handler) {
       }
       return jsonArray;
     },
+    extenderFilter: (_fileTypes) => {
+      let isSuccess = false;
+      if($input.files.length <= 0) return false;
+      const extension = $input.files[0].name.split('.').pop().toLowerCase();  //file extension from input file
+      isSuccess = _fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
+      return isSuccess;
+    },
+    initFile:() => {
+      $input.value = "";
+    }
   });
   me = this;
 
